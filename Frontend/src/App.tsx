@@ -1,11 +1,15 @@
-import { useState } from "react";
-import { LoginForm } from "./loginTest";
+import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function App() {
-
-  return (
-    <div>
-      <LoginForm/>
-    </div>
-  );
+    const navigate = useNavigate();
+    return (
+      <div>
+        <button onClick={
+          () => {
+            navigate("/register")
+          }
+        }></button>
+      </div>
+    );
 }
