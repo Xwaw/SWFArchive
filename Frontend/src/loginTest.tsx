@@ -7,12 +7,31 @@ export default function LoginUser() {
 
     const navigate = useNavigate();
 
-    const onSubmit = (e : FormEvent<HTMLFormElement>)=>{
+    const onSubmit = async (e : FormEvent<HTMLFormElement>)=>{
       e.preventDefault();
 
-      if(!user) return;
+        if (!user || !password) return;
 
-      navigate("/hello")
+        try {
+            const response = await fetch("http://localhost:5092/user/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username: user, password: password })
+            });
+
+            const data = await response.text();
+            console.log("Status:", response.status);
+            console.log("Response:", data);
+
+            if (response.ok) {
+                localStorage.setItem("username", user);
+                navigate("/dashboard");
+            } else {
+                console.error("Login failed:", data);
+            }
+        } catch (err) {
+            console.error("Fetch failed:", err);
+        }
     }
 
     return (

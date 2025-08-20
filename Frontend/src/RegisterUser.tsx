@@ -14,7 +14,7 @@ export default function RegisterUser() {
       if(!user || !password) return;
 
       try {
-        const response = await fetch("http://localhost:5092/User/register", {
+        const response = await fetch("http://localhost:5092/user/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ Username: user, Password: password })
