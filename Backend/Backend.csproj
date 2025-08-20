@@ -7,12 +7,101 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="BlazorApp1\appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\appsettings.json" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\obj\BlazorApp1.csproj.nuget.dgspec.json" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\obj\project.assets.json" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Properties\launchSettings.json" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\AccessDenied.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\ConfirmEmail.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\ConfirmEmailChange.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\ExternalLogin.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\ForgotPassword.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\ForgotPasswordConfirmation.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\InvalidPasswordReset.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\InvalidUser.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Lockout.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Login.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\LoginWith2fa.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\LoginWithRecoveryCode.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\ChangePassword.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\DeletePersonalData.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\Disable2fa.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\Email.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\EnableAuthenticator.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\ExternalLogins.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\GenerateRecoveryCodes.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\Index.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\PersonalData.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\ResetAuthenticator.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\SetPassword.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\TwoFactorAuthentication.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Manage\_Imports.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\Register.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\RegisterConfirmation.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\ResendEmailConfirmation.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\ResetPassword.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\ResetPasswordConfirmation.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Pages\_Imports.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Shared\ExternalLoginPicker.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Shared\ManageLayout.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Shared\ManageNavMenu.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Shared\RedirectToLogin.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Shared\ShowRecoveryCodes.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Account\Shared\StatusMessage.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\App.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Layout\MainLayout.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Layout\NavMenu.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Pages\Auth.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Pages\Counter.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Pages\Error.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Pages\Home.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Pages\Weather.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\Routes.razor" />
+    <_ContentIncludedByDefault Remove="BlazorApp1\Components\_Imports.razor" />
+    <_ContentIncludedByDefault Remove="WebApplication1\appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="WebApplication1\appsettings.json" />
+    <_ContentIncludedByDefault Remove="WebApplication1\obj\project.assets.json" />
+    <_ContentIncludedByDefault Remove="WebApplication1\obj\WebApplication1.csproj.nuget.dgspec.json" />
+    <_ContentIncludedByDefault Remove="WebApplication1\Properties\launchSettings.json" />
+    <_ContentIncludedByDefault Remove="WebApplication1\Areas\Identity\Pages\_ViewStart.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApplication1\Views\Home\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApplication1\Views\Home\Privacy.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApplication1\Views\Shared\Error.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApplication1\Views\Shared\_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApplication1\Views\Shared\_LoginPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApplication1\Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApplication1\Views\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApplication1\Views\_ViewStart.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApp1\appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="WebApp1\appsettings.json" />
+    <_ContentIncludedByDefault Remove="WebApp1\obj\project.assets.json" />
+    <_ContentIncludedByDefault Remove="WebApp1\obj\WebApp1.csproj.nuget.dgspec.json" />
+    <_ContentIncludedByDefault Remove="WebApp1\Properties\launchSettings.json" />
+    <_ContentIncludedByDefault Remove="WebApp1\Areas\Identity\Pages\_ViewStart.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApp1\Pages\Error.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApp1\Pages\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApp1\Pages\Privacy.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApp1\Pages\Shared\_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApp1\Pages\Shared\_LoginPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApp1\Pages\Shared\_ValidationScriptsPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApp1\Pages\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="WebApp1\Pages\_ViewStart.cshtml" />
   </ItemGroup>
 
 </Project>

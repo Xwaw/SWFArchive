@@ -1,4 +1,9 @@
+using Backend;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=app.db"));
 
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
@@ -9,6 +14,8 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
+
+
 
 var app = builder.Build();
 
