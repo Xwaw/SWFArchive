@@ -1,8 +1,9 @@
 import { stringify } from "postcss";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function RegisterUser() {
+    const [currentUsername, setCurrentUsername] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -22,18 +23,30 @@ export default function RegisterUser() {
         else console.error("Register failed");
     }
 
+    useEffect(() => {
+        fetch("http://localhost:5092/account/info", { credentials: "include" })
+            .then(res => res.json())
+            .then(data => setCurrentUsername(data.username))
+            .catch(() => setCurrentUsername("The user has logged out"));
+    }, []);
+
     return (
       <div>
-        <header className="fixed top-0 left-0 w-full flex justify-between items-center p-4 bg-gray-800 text-white">
+        <header className="fixed top-0 left-0 w-full flex justify-between items-center p-4 bg-red-800 text-white">
           <div>
             <p>
               REGISTER
             </p>
           </div>
-          <div className="flex gap-4">
-            <button onClick={() => { navigate("/")}}> Main </button>
-            <button onClick={() => { navigate("/login")}}> Login </button>
-          </div>
+            {currentUsername ? (
+              <div>
+                <a onClick={() => {navigate("/profile")}}>{currentUsername}!</a>
+              </div>
+            ) : (
+              <div className="flex gap-4">
+                <button onClick={() => { navigate("/login") }}>Sign in</button>
+              </div>
+            )}
         </header>
         <p className="text-red-800">Register here </p>
         <div>

@@ -15,7 +15,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
-    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SameSite = SameSiteMode.Lax;
     options.Cookie.SecurePolicy = CookieSecurePolicy.None; 
     options.LoginPath = "/account/login";
     options.LogoutPath = "/account/logout";

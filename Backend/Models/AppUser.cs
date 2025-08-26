@@ -5,5 +5,5 @@ namespace Backend.Models;
 
 public class AppUser : IdentityUser
 {
-    
+    public string? AvatarUrl { get; set; }
 }

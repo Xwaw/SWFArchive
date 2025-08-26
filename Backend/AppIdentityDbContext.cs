@@ -9,6 +9,6 @@ namespace Backend;
 
 public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : IdentityDbContext<AppUser>(options)
 {
-    
+    DbSet<AppUser> AppUsers { get; set; }
 }
     
