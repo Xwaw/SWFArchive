@@ -6,7 +6,7 @@ export default function App() {
     const [user, setUser] = useState<string | null>(null);
 
     return (
-      <div className="bg-gray-900 text-white">
+      <div className="text-white">
         <header className="fixed top-0 left-0 w-full flex justify-between items-center p-4 bg-red-800 text-white">
           <div>
             <p>
@@ -25,6 +25,11 @@ export default function App() {
             )}
           </div>
         </header>
+        <div>
+            <button onClick={() => {window.open("/play-swf", "_blank", "noopener,noreferrer")}} className="font-sans">
+              TEST SWF HERE
+            </button>
+        </div>
       </div>
     ); 
 }
