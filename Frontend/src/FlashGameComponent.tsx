@@ -16,7 +16,7 @@ export default function FlashGame({ src, width = 800, height = 600 }: FlashGameP
       const ruffle = (window as any).RufflePlayer?.newest();
       if (!ruffle) return;
 
-      ruffle.config = { publicPath: "/ruffle/" };
+      ruffle.config = { publicPath: "electricman2.swf", logLeveL: "trace" };
 
       const player = ruffle.createPlayer();
       if (!containerRef.current) return;
