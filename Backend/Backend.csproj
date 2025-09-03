@@ -105,4 +105,8 @@
     <_ContentIncludedByDefault Remove="WebApp1\Pages\_ViewStart.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

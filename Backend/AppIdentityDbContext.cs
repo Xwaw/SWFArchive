@@ -7,8 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend;
 
-public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : IdentityDbContext<AppUser>(options)
+public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : IdentityDbContext<User>(options)
 {
-    DbSet<AppUser> AppUsers { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Game> Games { get; set; }
 }
     

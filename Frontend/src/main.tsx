@@ -6,8 +6,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from './App';
 import SwfPlayerLayout from './SwfPlayerLayout';
 import RegisterUser from './unusedForNow/RegisterUser';
-import LoginUser from './unusedForNow/LoginTest';
+import LoginUser from './unusedForNow/loginTest';
 import Profile from './account/profile';
+import SwfArchiveLibrary from './Library';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/register' element={<RegisterUser/>}></Route>
         <Route path='/login' element={<LoginUser/>}></Route>
         <Route path='/profile' element={<Profile/>}></Route>
+        <Route path='/library' element={<SwfArchiveLibrary/>}></Route>
       </Routes>
     </BrowserRouter>
   </StrictMode>,

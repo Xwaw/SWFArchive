@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function App() {
@@ -25,11 +25,6 @@ export default function App() {
             )}
           </div>
         </header>
-        <div>
-            <button onClick={() => {window.open("/play-swf", "_blank", "noopener,noreferrer")}} className="font-sans">
-              TEST SWF HERE
-            </button>
-        </div>
       </div>
     ); 
 }

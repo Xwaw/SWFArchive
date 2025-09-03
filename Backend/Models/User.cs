@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Backend.Models;
 
-public class AppUser : IdentityUser
+public class User : IdentityUser
 {
-    public string? AvatarUrl { get; set; }
+    public ICollection<Game> Games {get; set;} = new List<Game>();
 }
