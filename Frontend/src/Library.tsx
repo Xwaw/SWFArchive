@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import FlashGameComponent from "./FlashGameComponent";
 export default function SwfArchiveLibrary() {
   const navigate = useNavigate();
   const [user, setUser] = useState<string | null>(null);
@@ -71,7 +72,7 @@ export default function SwfArchiveLibrary() {
 
         <section className="flex-1 flex items-center justify-center bg-neutral-900">
           <div className="bg-neutral-700 w-[800px] h-[600px] flex items-center justify-center rounded-lg shadow-lg">
-            Game preview here
+            <FlashGameComponent src="./public/games/electricman.swf"/>
           </div>
         </section>
       </main>
