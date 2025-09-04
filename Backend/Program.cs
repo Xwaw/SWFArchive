@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+
 builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     options.UseSqlite("Data Source=identityUsers.db"));
 
@@ -47,6 +50,20 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseAuthorization();
+
+app.MapDefaultControllerRoute();
+app.MapRazorPages();
 
 app.UseRouting();
 app.UseCors("AllowReact");  

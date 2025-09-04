@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "src/SwfPlayerLayout.tsx", "src/FlashGameComponent.tsx", "profile.tsx", "src/unusedForNow/LoginTest.tsx", "RegisterUser.tsx", "main.tsx"]
+  "include": ["src", "old/account/unusedForNow/SwfPlayerLayout.tsx", "src/components/layout/FlashGameComponent.tsx", "profile.tsx", "old/account/unusedForNow/LoginTest.tsx", "RegisterUser.tsx", "main.tsx", "old/account/Library.tsx"]
 }
