@@ -1,0 +1,33 @@
+To: {{to}}
+Subject: RESET LINK
+Content-Type: text/html; charset=UTF-8
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Reset Password</title>
+    </head>
+    <body>
+        <h1>Your mail is ready to Confirm</h1>
+        
+        <br>
+        
+        <p>We've received your email confirmation request.</p>
+        
+        <p>Click the link below to confirm.</p>
+        
+        <br>
+        
+        <a href="{{link}}">CONFIRM MAIL</a>
+
+        <br>
+        
+        <p>If you did not send this request, please ignore it or delete this message.</p>
+        
+        <p>
+            This email was sent automatically.
+    
+            Please do not reply to it.
+        </p>
+    </body>
+</html>

@@ -1,0 +1,7 @@
+Welcome to the Admin Panel!
+Here's a list of basic commands to help you use the console:
+
+> help - displays a list of commands
+> help <command> - displays how to use a command
+> hello - displays this message again.
+> clear - clears the console.
