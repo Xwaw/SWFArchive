@@ -4,6 +4,7 @@ using Backend.Models;
 using Backend.Models.Dto;
 using Backend.Models.Dto.User;
 using Backend.Models.User;
+using Backend.Repositories.Files;
 using Microsoft.AspNetCore.Identity;
 
 namespace Backend.Services;
@@ -13,18 +14,38 @@ public class ProfileService
     private readonly UserManager<User> _userManager;
     private readonly FileService _fileService;
     private readonly FileStorageService _fileStorageService;
+    private readonly ProfileRepository _profileRepository;
     private readonly AppIdentityDbContext _context;
-    public ProfileService(UserManager<User> userManager, FileService fileService, FileStorageService fileStorageService, AppIdentityDbContext context)
+    public ProfileService(UserManager<User> userManager, FileService fileService, FileStorageService fileStorageService, AppIdentityDbContext context, ProfileRepository profileRepository)
     {
         _userManager = userManager;
         _fileService = fileService;
         _fileStorageService = fileStorageService;
         _context = context;
+        _profileRepository = profileRepository;
     }
 
-    public async Task<ProfileDto?> GetProfileByUser(ClaimsPrincipal principal)
+    public async Task<ProfileDto?> GetProfileByUser(Guid userId)
     {
-        throw new NotImplementedException();
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if(user == null) return null;
+        
+        var username = user.UserName;
+
+        var avatarUrl = await _profileRepository.GetUserImageUrl(userId, FileUsageType.Avatar);
+        var bannerUrl = await _profileRepository.GetUserImageUrl(userId, FileUsageType.Banner);
+        var backgroundUrl = await _profileRepository.GetUserImageUrl(userId, FileUsageType.Background);
+        var description = _profileRepository.GetProfileDescription(userId);
+
+        return new ProfileDto
+        {
+            UserId = userId.ToString(),
+            UserName = username!,
+            AvatarUrl = avatarUrl,
+            BannerUrl = bannerUrl,
+            BackgroundUrl = backgroundUrl,
+            Description = description,
+        };
     }
 
     public async Task<string?> SaveImage(ClaimsPrincipal principal, IFormFile? file, string type)

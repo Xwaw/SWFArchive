@@ -3,6 +3,7 @@ using Backend.Authorization;
 using Backend.Models;
 using Backend.Models.User;
 using Backend.Repositories.Comments;
+using Backend.Repositories.Files;
 using Backend.Repositories.Roles;
 using Backend.Services;
 using Backend.Services.Archive;
@@ -133,6 +134,7 @@ builder.Services.AddScoped<GmailSender>();
 
 builder.Services.AddScoped<FileService>();
 builder.Services.AddScoped<FileStorageService>();
+builder.Services.AddScoped<ProfileRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

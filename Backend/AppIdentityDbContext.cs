@@ -17,6 +17,8 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
     public DbSet<UserGame> UserGames { get; set; }
     
     public DbSet<UserComment> UserComments { get; set; }
+    
+    public DbSet<UserProfile> UserProfiles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -35,6 +37,12 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
         builder.Entity<UserGame>()
             .HasIndex(ug => new { ug.UserId, ug.GameId })
             .IsUnique();
+        
+        builder.Entity<User>()
+            .HasOne(u => u.UserProfile)
+            .WithOne(p => p.User)
+            .HasForeignKey<UserProfile>(p => p.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
     

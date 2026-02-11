@@ -14,5 +14,11 @@ public class ProfileController : ControllerBase
         _profileService = profileService;
     }
 
-    
+    [Authorize]
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetProfile(Guid userId)
+    {
+        var result = await _profileService.GetProfileByUser(userId);
+        return Ok(result);
+    }
 }
