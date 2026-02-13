@@ -35,4 +35,17 @@ public class ProfileController : ControllerBase
 
         return Ok(url);
     }
+    
+    [Authorize]
+    [HttpPost("banner/{userId}")]
+    public async Task<IActionResult> UploadAndSaveBanner(string userId, [FromForm] IFormFile file)
+    {
+        var isOwner = await _profileService.IsProfileOwner(User, userId);
+        if(!isOwner)
+            return StatusCode(403);
+
+        var url = await _profileService.ReplaceUserImageAsync(Guid.Parse(userId), file, FileUsageType.Banner);
+
+        return Ok(url);
+    }
 }
