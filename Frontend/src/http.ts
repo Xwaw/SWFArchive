@@ -6,5 +6,6 @@ export const http = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
+    
   },
 });

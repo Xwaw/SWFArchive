@@ -1,4 +1,5 @@
-﻿using Backend.Services;
+﻿using Backend.Enums;
+using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,5 +21,18 @@ public class ProfileController : ControllerBase
     {
         var result = await _profileService.GetProfileByUser(userId);
         return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("avatar/{userId}")]
+    public async Task<IActionResult> UploadAndSaveAvatar(string userId, [FromForm] IFormFile file)
+    {
+        var isOwner = await _profileService.IsProfileOwner(User, userId);
+        if(!isOwner)
+            return StatusCode(403);
+
+        var url = await _profileService.ReplaceUserImageAsync(Guid.Parse(userId), file, FileUsageType.Avatar);
+
+        return Ok(url);
     }
 }
