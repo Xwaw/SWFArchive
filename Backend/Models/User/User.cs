@@ -1,5 +1,4 @@
-﻿using Backend.Models.Dto.User;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Backend.Models.User;
 

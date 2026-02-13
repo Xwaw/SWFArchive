@@ -13,6 +13,4 @@ public class FileTarget
     public required FileOwnerType OwnerType {get; set;}
     public required FileUsageType UsageType {get; set;}
     public required Guid OwnerId {get; set;}
-    
-    public bool IsActive { get; set; } = true;
 }

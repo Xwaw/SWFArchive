@@ -1,25 +1,55 @@
-using System.Diagnostics;
 using Backend.Enums;
-
-namespace Backend.Services;
 
 public class FileStorageService
 {
+    private readonly string _basePath;
+    public string UploadPath { get; }
+
     public FileStorageService(IWebHostEnvironment environment)
     {
         _basePath = environment.WebRootPath;
-        
-        UploadPath = _basePath + "/upload";
+        UploadPath = Path.Combine(_basePath, "upload");
     }
 
-    public string UploadPath { get; }
-
-    private string _basePath { get; }
-    
-    public void EnsureFolderExists(string folder)
+    public async Task<string?> SaveUserFile(
+        Guid userId,
+        IFormFile file,
+        FileUsageType usageType)
     {
-        if(Directory.Exists(folder)) return;
-        Directory.CreateDirectory(folder);
+        var folder = BuildStoragePath(FileOwnerType.User, userId, usageType);
+        EnsureFolderExists(folder);
+
+        var extension = Path.GetExtension(file.FileName);
+        var fileName = $"{Guid.NewGuid():N}{extension}";
+        var fullPhysicalPath = Path.Combine(folder, fileName);
+
+        try
+        {
+            await using var stream = new FileStream(fullPhysicalPath, FileMode.Create);
+            await file.CopyToAsync(stream);
+
+            return BuildPublicUrl(FileOwnerType.User, userId, usageType, fileName);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public void DeletePhysicalFile(string publicUrl)
+    {
+        var physicalPath = Path.Combine(_basePath, publicUrl.TrimStart('/'));
+        if (File.Exists(physicalPath))
+            File.Delete(physicalPath);
+    }
+
+    private string BuildPublicUrl(
+        FileOwnerType ownerType,
+        Guid id,
+        FileUsageType usageType,
+        string fileName)
+    {
+        return $"/upload/{GetOwnerFolder(ownerType)}/{id:N}/{GetUsageFolder(usageType)}/{fileName}";
     }
 
     public string BuildStoragePath(FileOwnerType ownerType, Guid id, FileUsageType usageType)
@@ -31,6 +61,13 @@ public class FileStorageService
             GetUsageFolder(usageType)
         );
     }
+
+    public void EnsureFolderExists(string folder)
+    {
+        if (!Directory.Exists(folder))
+            Directory.CreateDirectory(folder);
+    }
+
     private static string GetOwnerFolder(FileOwnerType ownerType) =>
         ownerType switch
         {
@@ -38,6 +75,7 @@ public class FileStorageService
             FileOwnerType.Game => "games",
             _ => throw new ArgumentOutOfRangeException(nameof(ownerType))
         };
+
     private static string GetUsageFolder(FileUsageType usageType) =>
         usageType switch
         {
@@ -48,12 +86,4 @@ public class FileStorageService
             FileUsageType.Thumbnail  => "thumbnail",
             _ => throw new ArgumentOutOfRangeException(nameof(usageType))
         };
-    
-    public bool EnsureFileExtension(string file, string[] usageType)
-    {
-        var extension = Path.GetExtension(file)
-            .TrimStart('.')
-            .ToLowerInvariant();
-        return usageType.Any(extType => extType.Equals(extension, StringComparison.InvariantCultureIgnoreCase));
-    }
 }

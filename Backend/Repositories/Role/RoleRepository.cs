@@ -1,8 +1,5 @@
-﻿using Backend.Models;
-using Backend.Models.User;
+﻿using Backend.Models.User;
 using Microsoft.AspNetCore.Identity;
-
-namespace Backend.Repositories.Roles;
 
 public class RoleRepository
 {
