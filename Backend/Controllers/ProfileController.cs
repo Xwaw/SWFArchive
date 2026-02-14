@@ -61,4 +61,19 @@ public class ProfileController : ControllerBase
 
         return Ok(url);
     }
+    
+    [Authorize]
+    [HttpPatch("description/{userId}")]
+    public async Task<IActionResult> UpdateDescription(string userId, [FromForm] string description)
+    {
+        var isOwner = await _profileService.IsProfileOwner(User, userId);
+        if(!isOwner)
+            return StatusCode(403);
+
+        var guid = Guid.Parse(userId);
+
+        await _profileService.UpdateDescription(guid, description);
+
+        return Ok(true);
+    }
 }
