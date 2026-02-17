@@ -24,6 +24,14 @@ public class ProfileController : ControllerBase
     }
 
     [Authorize]
+    [HttpGet("owner/{userId}")]
+    public async Task<IActionResult> IsOwner(Guid userId)
+    {
+        var result = await _profileService.IsProfileOwner(User, userId);
+        return Ok(result);
+    }
+
+    [Authorize]
     [HttpPost("upload/avatar/{userId}")]
     public async Task<IActionResult> UploadAndSaveAvatar(Guid userId, [FromForm] IFormFile file)
     {

@@ -22,4 +22,9 @@ public class ProfileRepository
     {
         return await _context.UserProfiles.FirstOrDefaultAsync(u => u.Id == id);
     }
+
+    public async Task<ICollection<UserBadge>?> GetUserBadges(Guid id)
+    {
+        return await _context.UserProfiles.Where(u => u.Id == id).Select(u => u.UserBadges).FirstOrDefaultAsync();
+    }
 }

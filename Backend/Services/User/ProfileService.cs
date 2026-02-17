@@ -41,7 +41,8 @@ public class ProfileService
             AvatarUrl = await _fileRepository.GetUserFileUrlAsync(userId, FileUsageType.Avatar),
             BannerUrl = await _fileRepository.GetUserFileUrlAsync(userId, FileUsageType.Banner),
             BackgroundUrl = await _fileRepository.GetUserFileUrlAsync(userId, FileUsageType.Background),
-            Description = await _profileRepository.GetDescriptionForUser(userId)
+            Description = await _profileRepository.GetDescriptionForUser(userId),
+            Badges = await _profileRepository.GetUserBadges(userId)
         };
     }
     public async Task<bool> IsProfileOwner(ClaimsPrincipal principal, Guid id)

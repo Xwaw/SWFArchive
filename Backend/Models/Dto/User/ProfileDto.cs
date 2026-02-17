@@ -12,5 +12,5 @@ public class ProfileDto
     public string? BackgroundUrl { get; set; }
     public string? Description { get; set; }
 
-    public List<string> BadgesUrl { get; set; } = new List<string>();
+    public ICollection<UserBadge>? Badges { get; set; } = new List<UserBadge>();
 }
