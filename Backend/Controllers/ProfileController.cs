@@ -71,7 +71,7 @@ public class ProfileController : ControllerBase
     }
     
     [Authorize]
-    [HttpPatch("description/{userId}")]
+    [HttpPatch("upload/description/{userId}")]
     public async Task<IActionResult> UpdateDescription(Guid userId, [FromForm] string description)
     {
         var isOwner = await _profileService.IsProfileOwner(User, userId);
