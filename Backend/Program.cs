@@ -131,7 +131,6 @@ builder.Services.AddScoped<EmailTemplateService>();
 builder.Services.AddScoped<EmailConverter>();
 builder.Services.AddScoped<GmailSender>();
 
-builder.Services.AddScoped<FileService>();
 builder.Services.AddScoped<FileStorageService>();
 builder.Services.AddScoped<FileRepository>();
 builder.Services.AddScoped<ProfileRepository>();

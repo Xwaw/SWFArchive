@@ -12,15 +12,13 @@ namespace Backend.Services.Archive;
 public class ArchiveService
 {
     private readonly UserManager<User> _userManager;
-    private readonly FileService _fileService;
     private readonly FileStorageService _fileStorageService;
     private readonly AppIdentityDbContext _context;
 
-    public ArchiveService(UserManager<User> userManager, FileService fileService,
+    public ArchiveService(UserManager<User> userManager,
         AppIdentityDbContext appIdentityDbContext, FileStorageService fileStorageService)
     {
         _userManager = userManager;
-        _fileService = fileService;
         _context = appIdentityDbContext;
         _fileStorageService = fileStorageService;
     }

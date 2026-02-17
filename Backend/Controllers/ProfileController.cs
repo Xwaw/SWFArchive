@@ -24,55 +24,53 @@ public class ProfileController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("avatar/{userId}")]
-    public async Task<IActionResult> UploadAndSaveAvatar(string userId, [FromForm] IFormFile file)
+    [HttpPost("upload/avatar/{userId}")]
+    public async Task<IActionResult> UploadAndSaveAvatar(Guid userId, [FromForm] IFormFile file)
     {
         var isOwner = await _profileService.IsProfileOwner(User, userId);
         if(!isOwner)
-            return StatusCode(403);
+            return Forbid("The user is not the owner of the profile");
 
-        var url = await _profileService.ReplaceUserImageAsync(Guid.Parse(userId), file, FileUsageType.Avatar);
+        var url = await _profileService.ReplaceUserImageAsync(userId, file, FileUsageType.Avatar);
 
         return Ok(url);
     }
     
     [Authorize]
-    [HttpPost("banner/{userId}")]
-    public async Task<IActionResult> UploadAndSaveBanner(string userId, [FromForm] IFormFile file)
+    [HttpPost("upload/banner/{userId}")]
+    public async Task<IActionResult> UploadAndSaveBanner(Guid userId, [FromForm] IFormFile file)
     {
         var isOwner = await _profileService.IsProfileOwner(User, userId);
         if(!isOwner)
-            return StatusCode(403);
+            return Forbid("The user is not the owner of the profile");
 
-        var url = await _profileService.ReplaceUserImageAsync(Guid.Parse(userId), file, FileUsageType.Banner);
+        var url = await _profileService.ReplaceUserImageAsync(userId, file, FileUsageType.Banner);
 
         return Ok(url);
     }
     
     [Authorize]
-    [HttpPost("background/{userId}")]
-    public async Task<IActionResult> UploadAndSaveBackground(string userId, [FromForm] IFormFile file)
+    [HttpPost("upload/background/{userId}")]
+    public async Task<IActionResult> UploadAndSaveBackground(Guid userId, [FromForm] IFormFile file)
     {
         var isOwner = await _profileService.IsProfileOwner(User, userId);
         if(!isOwner)
-            return StatusCode(403);
+            return Forbid("The user is not the owner of the profile");
 
-        var url = await _profileService.ReplaceUserImageAsync(Guid.Parse(userId), file, FileUsageType.Background);
+        var url = await _profileService.ReplaceUserImageAsync(userId, file, FileUsageType.Background);
 
         return Ok(url);
     }
     
     [Authorize]
     [HttpPatch("description/{userId}")]
-    public async Task<IActionResult> UpdateDescription(string userId, [FromForm] string description)
+    public async Task<IActionResult> UpdateDescription(Guid userId, [FromForm] string description)
     {
         var isOwner = await _profileService.IsProfileOwner(User, userId);
         if(!isOwner)
-            return StatusCode(403);
+            return Forbid("The user is not the owner of the profile");
 
-        var guid = Guid.Parse(userId);
-
-        await _profileService.UpdateDescription(guid, description);
+        await _profileService.UpdateDescription(userId, description);
 
         return Ok(true);
     }

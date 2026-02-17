@@ -3,19 +3,23 @@ using Backend.Enums;
 public class FileStorageService
 {
     private readonly string _basePath;
+    private readonly int _fileLenght;
     public string UploadPath { get; }
 
     public FileStorageService(IWebHostEnvironment environment)
     {
         _basePath = environment.WebRootPath;
+        _fileLenght = 2 * 1024 * 1024;
         UploadPath = Path.Combine(_basePath, "upload");
     }
 
     public async Task<string?> SaveUserFile(
         Guid userId,
-        IFormFile file,
+        IFormFile? file,
         FileUsageType usageType)
     {
+        if (file == null || file.Length == 0) return null;
+        
         var folder = BuildStoragePath(FileOwnerType.User, userId, usageType);
         EnsureFolderExists(folder);
 

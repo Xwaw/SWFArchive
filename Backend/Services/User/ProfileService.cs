@@ -12,20 +12,17 @@ namespace Backend.Services;
 public class ProfileService
 {
     private readonly UserManager<User> _userManager;
-    private readonly FileService _fileService;
     private readonly FileStorageService _fileStorageService;
     private readonly FileRepository _fileRepository;
     private readonly ProfileRepository _profileRepository ;
     private readonly AppIdentityDbContext _context;
     public ProfileService(UserManager<User> userManager, 
-        FileService fileService, 
         FileStorageService fileStorageService, 
         AppIdentityDbContext context, 
         FileRepository fileRepository, 
         ProfileRepository profileRepository) 
     {
         _userManager = userManager;
-        _fileService = fileService;
         _fileStorageService = fileStorageService;
         _context = context;
         _fileRepository = fileRepository;
@@ -47,18 +44,20 @@ public class ProfileService
             Description = await _profileRepository.GetDescriptionForUser(userId)
         };
     }
-    public async Task<bool> IsProfileOwner(ClaimsPrincipal principal, string id)
+    public async Task<bool> IsProfileOwner(ClaimsPrincipal principal, Guid id)
     {
         var user = await _userManager.GetUserAsync(principal);
         if(user == null) return false;
-        return id == user.Id;
+        return id.ToString() == user.Id;
     }
 
     public async Task<string?> ReplaceUserImageAsync(
         Guid userId,
-        IFormFile file,
+        IFormFile? file,
         FileUsageType usageType)
     {
+        if(file == null || file.Length == 0 || file.Length > FileSizeLimits.GetMaxFileSizeLimit(usageType)) return null;
+        
         var oldFiles = await _fileRepository
             .GetUserFilesAsync(userId, usageType);
 

@@ -6,6 +6,10 @@ export const http = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
-    
   },
+});
+
+export const httpForm = axios.create({
+  baseURL: Config.API_URL,
+  withCredentials: true
 });
