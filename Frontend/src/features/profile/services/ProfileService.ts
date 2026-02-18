@@ -1,86 +1,99 @@
 import axios from "axios";
 import { http, httpForm } from "../../../http";
+import type { ProfileDto } from "../types/models";
 
 export class ProfileService {
-  async getProfile(userId: string){
+  async getProfile(userId: string): Promise<ProfileDto | undefined>{
     try{
-      const response = await http.post(`profile/${userId}`);
+      const response = await http.get(`profile/${userId}`);
       return response.data;
     } catch( error ){
       if(axios.isAxiosError(error)){
-        if(error.status === 500)
+        if(error.response?.status === 500)
           console.log("server error");
       }
     }
   }
 
-  async ioOwner(userId: string){
+  async ioOwner(userId: string): Promise<boolean | undefined>{
     try{
-      const response = await http.post(`profile/owner/${userId}`);
+      const response = await http.get(`profile/owner/${userId}`);
       return response.data;
     } catch( error ){
       if(axios.isAxiosError(error)){
-        if(error.status === 500)
+        if(error.response?.status === 500)
           console.log("server error");
       }
     }
   }
 
-  async uploadAvatar(userId: string, file: File) {
+  async uploadAvatar(userId: string, file: File): Promise<string | undefined> {
     try{
-      const response = await httpForm.post(`profile/upload/avatar/${userId}`, file);
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await httpForm.post(`profile/upload/avatar/${userId}`, formData);
       return response.data;
     } catch( error ){
       if(axios.isAxiosError(error)){
-        if(error.status === 403)
+        if(error.response?.status === 403)
           console.log("User is not owner of this profile");
 
-        if(error.status === 500)
+        if(error.response?.status === 500)
           console.log("server error");
       }
     }
   }
 
-  async uploadBanner(userId: string, file: File) {
+  async uploadBanner(userId: string, file: File): Promise<string | undefined> {
     try{
-      const response = await httpForm.post(`profile/upload/banner/${userId}`, file);
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await httpForm.post(`profile/upload/banner/${userId}`, formData);
       return response.data;
     } catch( error ){
       if(axios.isAxiosError(error)){
-        if(error.status === 403)
+        if(error.response?.status === 403)
           console.log("User is not owner of this profile");
 
-        if(error.status === 500)
+        if(error.response?.status === 500)
           console.log("server error");
       }
     }
   }
 
-  async uploadBackground(userId: string, file: File) {
+  async uploadBackground(userId: string, file: File): Promise<string | undefined> {
     try{
-      const response = await httpForm.post(`profile/upload/background/${userId}`, file);
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await httpForm.post(`profile/upload/background/${userId}`, formData);
       return response.data;
     } catch( error ){
       if(axios.isAxiosError(error)){
-        if(error.status === 403)
+        if(error.response?.status === 403)
           console.log("User is not owner of this profile");
 
-        if(error.status === 500)
+        if(error.response?.status === 500)
           console.log("server error");
       }
     }
   }
 
-  async updateDescription(userId: string, content: string) {
+  async updateDescription(userId: string, content: string): Promise<string | undefined> {
     try{
-      const response = await httpForm.post(`profile/upload/description/${userId}`, content);
+      const formData = new FormData();
+      formData.append("description", content);
+
+      const response = await httpForm.post(`profile/upload/description/${userId}`, formData);
       return response.data;
     } catch( error ){
       if(axios.isAxiosError(error)){
-        if(error.status === 403)
+        if(error.response?.status === 403)
           console.log("User is not owner of this profile");
 
-        if(error.status === 500)
+        if(error.response?.status === 500)
           console.log("server error");
       }
     }
