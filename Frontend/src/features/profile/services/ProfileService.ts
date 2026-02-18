@@ -15,7 +15,7 @@ export class ProfileService {
     }
   }
 
-  async ioOwner(userId: string): Promise<boolean | undefined>{
+  async isOwner(userId: string): Promise<boolean | undefined>{
     try{
       const response = await http.get(`profile/owner/${userId}`);
       return response.data;
