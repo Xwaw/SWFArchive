@@ -5,15 +5,30 @@ import UserInfo from "../../features/profile/components/UserInfo";
 import BadgesSection from "../../features/profile/components/sections/BadgesSection";
 import ItemsView from "../../features/profile/components/sections/ItemsView";
 import CommentSection from "../../features/comments/components/CommentSection";
+import { useParams } from "react-router-dom";
+import { useProfile } from "../../features/profile/hooks/UseProfile";
+import { useOwner } from "../../features/profile/hooks/useOwner";
 
 export default function ProfileView() {
+  const { userId } = useParams();
+  const { profile, isLoading, error } = useProfile(userId ?? "");
+  const { isOwner } = useOwner(userId ?? "");
+
+  if (isLoading) { // same here
+    return <div className="text-white">Loading...</div>;
+  }
+
+  if (error) { // test if it works, then need to create a separate component
+    return <div className="text-red-600 text-4xl flex justify-center items-center h-screen w-screen">ERROR: {error}</div>;
+  }
+
   return (
     <div className="bg-[#222222] w-screen flex items-center justify-center p-15">
       <div className="w-5/7 min-h-screen p-5 flex">
         {/* Canvas */}
         <div className="flex flex-col w-full h-full">
           <div data-slot="profile-banner" className="w-full flex">
-            <Banner image={undefined}></Banner>
+            <Banner image={profile?.bannerUrl ?? ""}></Banner>
           </div>
 
           <div className="w-full flex h-full">
@@ -29,7 +44,7 @@ export default function ProfileView() {
                 <AboutMeSection
                   children={
                     <div className="flex flex-col gap-2">
-                      <UserStatusSection />
+                      <UserStatusSection userName={profile?.userName ?? "NO USER"} avatarUrl={profile?.avatarUrl ?? ""} isOnline={true} />
 
                       <UserInfo
                         info={[
@@ -77,18 +92,28 @@ export default function ProfileView() {
               className="p-2 w-2/3 h-full bg-amber-600"
             >
               {/* RIGHT SIDE */}
-              <div data-section="description" className="w-full h-full flex flex-col gap-5">
+              <div
+                data-section="description"
+                className="w-full h-full flex flex-col gap-5"
+              >
                 <div>
-                  <ItemsView items={["a", "a", "a", "a", "a", "a", "a", "a", "a", "a",]} name={"LAST PLAYED"} ></ItemsView>
+                  <ItemsView
+                    items={["a", "a", "a", "a", "a", "a", "a", "a", "a", "a"]}
+                    name={"LAST PLAYED"}
+                  ></ItemsView>
                 </div>
                 <div>
-                  <ItemsView items={["a", "a", "a", "a", "a", "a", "a", "a", "a", "a",]} name={"LAST CREATED POPULAR GAMES"} ></ItemsView>
+                  <ItemsView
+                    items={["a", "a", "a", "a", "a", "a", "a", "a", "a", "a"]}
+                    name={"LAST CREATED POPULAR GAMES"}
+                  ></ItemsView>
                 </div>
-                <div>
-
-                </div>
+                <div></div>
                 <div className="w-full h-full">
-                  <CommentSection targetId={"26f44794-dff2-46c6-8026-7e4c4b867dd1"} targetType={1} />
+                  <CommentSection
+                    targetId={"26f44794-dff2-46c6-8026-7e4c4b867dd1"}
+                    targetType={1}
+                  />
                 </div>
               </div>
             </div>

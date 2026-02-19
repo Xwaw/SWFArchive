@@ -1,10 +1,13 @@
+import type { UserStatusDto } from "../../types/models";
 import Avatar from "../Avatar";
 
-export default function UserStatusSection({}) {
+
+
+export default function UserStatusSection({avatarUrl, userName, isOnline}: UserStatusDto) {
   return (
     <div className="flex p-2 w-full h-1/3 bg-red-900">
       <div>
-        <Avatar image={undefined}></Avatar>
+        <Avatar image={avatarUrl}></Avatar>
       </div>
 
       <div className="flex flex-col min-w-0 justify-center p-5">
@@ -12,10 +15,27 @@ export default function UserStatusSection({}) {
         className="truncate font-bold text-white"
         style={{ fontSize: 25 }}
         >
-        Xwaw
+        {userName}
         </span>
         <div className="">
-            [O] ONLINE
+            {
+              isOnline ? <div className="flex">
+                <div className="bg-green-600 rounded-2xl border-2 border-black text-green-600">
+                  O
+                </div>
+                <div>
+                  ONLINE
+                </div>
+              </div> :
+              <div className="flex">
+                <div className="bg-red-600 rounded-2xl border-2 border-black text-red-600">
+                  O
+                </div>
+                <div>
+                  OFFLINE
+                </div>
+              </div>
+            }
         </div>
       </div>
     </div>

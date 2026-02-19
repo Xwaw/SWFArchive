@@ -2,7 +2,7 @@ import { profileService } from "../services/ProfileService";
 import { useEffect, useState } from "react";
 
 export const useOwner = (userId: string) => {
-  const [isOwner, setIsOwner] = useState(false);
+  const [isOwner, setIsOwner] = useState<boolean>(false);
 
   useEffect(() => {
     const check = async () => {
@@ -15,5 +15,5 @@ export const useOwner = (userId: string) => {
     }
   }, [userId]);
 
-  return isOwner;
+  return ({isOwner});
 };

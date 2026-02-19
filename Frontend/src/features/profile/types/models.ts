@@ -6,3 +6,9 @@ export type ProfileDto = {
     backgroundUrl: string,
     description: string
 }
+
+export type UserStatusDto = {
+    userName: string,
+    avatarUrl?: string,
+    isOnline: boolean
+}

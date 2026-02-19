@@ -33,7 +33,7 @@ createRoot(document.getElementById("root")!).render(
         </Route>
 
         <Route path="/profile/me"></Route>
-        <Route path="/profile/:id" element={<ProfileView />}></Route>
+        <Route path="/profile/:userId" element={<ProfileView />}></Route>
 
         {/* ============ */}
 
