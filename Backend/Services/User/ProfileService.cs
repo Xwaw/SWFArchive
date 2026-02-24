@@ -45,13 +45,6 @@ public class ProfileService
             Badges = await _profileRepository.GetUserBadges(userId)
         };
     }
-    public async Task<bool> IsProfileOwner(ClaimsPrincipal principal, Guid id)
-    {
-        var user = await _userManager.GetUserAsync(principal);
-        if(user == null) return false;
-        return id.ToString() == user.Id;
-    }
-
     public async Task<string?> ReplaceUserImageAsync(
         Guid userId,
         IFormFile? file,

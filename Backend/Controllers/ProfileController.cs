@@ -10,9 +10,11 @@ namespace Backend;
 public class ProfileController : ControllerBase
 {
     private readonly ProfileService _profileService;
-    public ProfileController(ProfileService profileService)
+    private readonly AccountService _accountService;
+    public ProfileController(ProfileService profileService, AccountService accountService)
     {
         _profileService = profileService;
+        _accountService = accountService;
     }
 
     [Authorize]
@@ -24,18 +26,10 @@ public class ProfileController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("owner/{userId}")]
-    public async Task<IActionResult> IsOwner(Guid userId)
-    {
-        var result = await _profileService.IsProfileOwner(User, userId);
-        return Ok(result);
-    }
-
-    [Authorize]
     [HttpPost("upload/avatar/{userId}")]
     public async Task<IActionResult> UploadAndSaveAvatar(Guid userId, [FromForm] IFormFile file)
     {
-        var isOwner = await _profileService.IsProfileOwner(User, userId);
+        var isOwner = await _accountService.ConfirmUserIsOwner(User, userId);
         if(!isOwner)
             return Forbid("The user is not the owner of the profile");
 
@@ -48,7 +42,7 @@ public class ProfileController : ControllerBase
     [HttpPost("upload/banner/{userId}")]
     public async Task<IActionResult> UploadAndSaveBanner(Guid userId, [FromForm] IFormFile file)
     {
-        var isOwner = await _profileService.IsProfileOwner(User, userId);
+        var isOwner = await _accountService.ConfirmUserIsOwner(User, userId);
         if(!isOwner)
             return Forbid("The user is not the owner of the profile");
 
@@ -61,7 +55,7 @@ public class ProfileController : ControllerBase
     [HttpPost("upload/background/{userId}")]
     public async Task<IActionResult> UploadAndSaveBackground(Guid userId, [FromForm] IFormFile file)
     {
-        var isOwner = await _profileService.IsProfileOwner(User, userId);
+        var isOwner = await _accountService.ConfirmUserIsOwner(User, userId);
         if(!isOwner)
             return Forbid("The user is not the owner of the profile");
 
@@ -74,7 +68,7 @@ public class ProfileController : ControllerBase
     [HttpPatch("upload/description/{userId}")]
     public async Task<IActionResult> UpdateDescription(Guid userId, [FromForm] string description)
     {
-        var isOwner = await _profileService.IsProfileOwner(User, userId);
+        var isOwner = await _accountService.ConfirmUserIsOwner(User, userId);
         if(!isOwner)
             return Forbid("The user is not the owner of the profile");
 

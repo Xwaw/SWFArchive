@@ -1,6 +1,6 @@
 import axios from "axios";
 import { http } from "../../../http";
-import type { AuthResult, UserDto } from "../types/AuthTypes";
+import type { AuthResult } from "../types/AuthTypes";
 
 const controller = "/" + "account";
 
@@ -77,29 +77,6 @@ export class AuthService {
 
         if (status === 403)
           return { success: false, error: "User is already logged out." };
-      }
-
-      return { success: false, error: "Server error" };
-    }
-  }
-
-  async getUser(): Promise<AuthResult<UserDto | null>> {
-    try {
-      var result = await http.get(`${controller}/me`);
-      return { success: true, data: result.data };
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const status = error.response?.status;
-
-        if (status === 400)
-          return { success: false, error: "Error with getting user." };
-
-        if (status === 403 || status === 401)
-          return {
-            success: false,
-            data: null,
-            error: "User is not logging in.",
-          };
       }
 
       return { success: false, error: "Server error" };

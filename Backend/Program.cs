@@ -127,6 +127,7 @@ builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<RoleRepository>();
 
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<EmailTemplateService>();
 builder.Services.AddScoped<EmailConverter>();
 builder.Services.AddScoped<GmailSender>();

@@ -15,18 +15,6 @@ export class ProfileService {
     }
   }
 
-  async isOwner(userId: string): Promise<boolean | undefined>{
-    try{
-      const response = await http.get(`profile/owner/${userId}`);
-      return response.data;
-    } catch( error ){
-      if(axios.isAxiosError(error)){
-        if(error.response?.status === 500)
-          console.log("server error");
-      }
-    }
-  }
-
   async uploadAvatar(userId: string, file: File): Promise<string | undefined> {
     try{
       const formData = new FormData();

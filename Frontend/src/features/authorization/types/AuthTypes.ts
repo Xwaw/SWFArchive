@@ -4,6 +4,12 @@ export type AuthResult<T> = {
     error?: string
 }
 
+export type AccountResult<T> = {
+    success: boolean,
+    data?: T,
+    error?: string
+}
+
 export type UserDto = {
     Id: string,
     UserName: string,

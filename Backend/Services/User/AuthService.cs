@@ -57,22 +57,6 @@ public class AuthService
         return _signInManager.SignOutAsync();
     }
 
-    public async Task<UserDto> GetUserDto(ClaimsPrincipal principal)
-    {
-        var user = await _userManager.GetUserAsync(principal);
-        if (user == null) throw new Exception("User not found");
-        
-        var userDto = new UserDto
-        {
-            Id = user.Id,
-            UserName = await _userManager.GetUserNameAsync(user),
-            Email = await _userManager.GetEmailAsync(user),
-            EmailConfirmed = await _userManager.IsEmailConfirmedAsync(user)
-        };
-        
-        return userDto;
-    }
-
     private string BuildResetLink(string token, string email)
     {
         var encodedToken = WebUtility.UrlEncode(token);

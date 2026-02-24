@@ -16,9 +16,11 @@ namespace Backend;
 public class AccountController : ControllerBase
 {
     private readonly AuthService _authService;
-    public AccountController(AuthService authService)
+    private readonly AccountService _accountService;
+    public AccountController(AuthService authService, AccountService accountService)
     {
         _authService = authService;
+        _accountService = accountService;
     }
     
     [HttpGet("status")]
@@ -26,13 +28,22 @@ public class AccountController : ControllerBase
     {
         return Ok(User.Identity?.IsAuthenticated ?? false);
     }
-    
+   
     [Authorize]
     [HttpGet("me")]
     public async Task <ActionResult<UserDto>> GetUserInfo()
     {
-        var user = await _authService.GetUserDto(User);
+        var user = await _accountService.GetUserDto(User);
         return Ok(user);
+    }
+
+    [Authorize]
+    [HttpGet("is-yours/{userId}")]
+    public async Task <ActionResult<bool>> IsAccountOwner(Guid userId)
+    {
+        var result = await _accountService.ConfirmUserIsOwner(User, userId);
+        
+        return Ok(result);
     }
     
     [HttpPost("login")]

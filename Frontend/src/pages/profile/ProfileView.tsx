@@ -7,12 +7,10 @@ import ItemsView from "../../features/profile/components/sections/ItemsView";
 import CommentSection from "../../features/comments/components/CommentSection";
 import { useParams } from "react-router-dom";
 import { useProfile } from "../../features/profile/hooks/UseProfile";
-import { useOwner } from "../../features/profile/hooks/useOwner";
 
 export default function ProfileView() {
   const { userId } = useParams();
   const { profile, isLoading, error } = useProfile(userId ?? "");
-  const { isOwner } = useOwner(userId ?? "");
 
   if (isLoading) { // same here
     return <div className="text-white">Loading...</div>;
