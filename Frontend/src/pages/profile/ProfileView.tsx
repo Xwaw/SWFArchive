@@ -26,7 +26,7 @@ export default function ProfileView() {
         {/* Canvas */}
         <div className="flex flex-col w-full h-full">
           <div data-slot="profile-banner" className="w-full flex">
-            <Banner image={profile?.bannerUrl ?? ""}></Banner>
+            <Banner image={profile?.bannerUrl ?? ""} />
           </div>
 
           <div className="w-full flex h-full">
@@ -42,7 +42,7 @@ export default function ProfileView() {
                 <AboutMeSection
                   children={
                     <div className="flex flex-col gap-2">
-                      <UserStatusSection userName={profile?.userName ?? "NO USER"} avatarUrl={profile?.avatarUrl ?? ""} isOnline={true} />
+                      <UserStatusSection userName={profile?.userName ?? "NO USER"} avatarUrl={profile?.avatarUrl ?? ""} isOnline={true} userId={userId ?? ""} />
 
                       <UserInfo
                         info={[
@@ -82,7 +82,7 @@ export default function ProfileView() {
                     "/test/Test_Badge.gif",
                     "/test/Test_Badge.gif",
                   ]}
-                ></BadgesSection>
+                />
               </div>
             </div>
             <div
@@ -121,3 +121,4 @@ export default function ProfileView() {
     </div>
   );
 }
+

@@ -1,13 +1,11 @@
 import type { UserStatusDto } from "../../types/models";
-import Avatar from "../Avatar";
+import AvatarButton from "../Avatar";
 
-
-
-export default function UserStatusSection({avatarUrl, userName, isOnline}: UserStatusDto) {
+export default function UserStatusSection({avatarUrl, userName, isOnline, userId}: UserStatusDto) {
   return (
     <div className="flex p-2 w-full h-1/3 bg-red-900">
       <div>
-        <Avatar image={avatarUrl}></Avatar>
+        <AvatarButton userId={userId} avatarUrl={avatarUrl}></AvatarButton>
       </div>
 
       <div className="flex flex-col min-w-0 justify-center p-5">

@@ -11,6 +11,8 @@ public class ProfileDto
     public string? BannerUrl { get; set; } 
     public string? BackgroundUrl { get; set; }
     public string? Description { get; set; }
+    
+    public string? IsOnline { get; set; }
 
     public ICollection<UserBadge>? Badges { get; set; } = new List<UserBadge>();
 }

@@ -8,7 +8,15 @@ export type ProfileDto = {
 }
 
 export type UserStatusDto = {
+    userId: string,
     userName: string,
     avatarUrl?: string,
-    isOnline: boolean
+    isOnline: boolean,
+    onAvatarClick?: () => void
+}
+
+export type AvatarButtonDto = {
+    userId: string,
+    avatarUrl?: string
+    onClick?: () => void;
 }

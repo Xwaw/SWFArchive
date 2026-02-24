@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ScrollableList from "../../components/ScrollableList";
+import ScrollableList from "../../oldComponents/ScrollableList";
 import axios from "axios";
 import LibraryGameView from "./LibraryView";
 

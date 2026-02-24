@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState, type FormEvent } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import NavBar from "../../components/NavBar";
+import NavBar from "../../oldComponents/NavBar";
 import { Config } from "../../Config";
 
 interface GameCard {

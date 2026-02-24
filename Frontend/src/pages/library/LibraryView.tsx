@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ScrollableList from "../../components/ScrollableList";
+import ScrollableList from "../../oldComponents/ScrollableList";
 
 interface GameData {
   hoursPlayed: number;

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../components/NavBar";
+import NavBar from "../../oldComponents/NavBar";
 import Console from "../../features/admin/console/components/Console";
 
 export default function AdminPanel() {
