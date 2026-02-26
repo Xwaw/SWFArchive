@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import defaultAvatar from "../assets/no_avatar.png";
-import DropList from "./DropList";
 import { useNavigate } from "react-router-dom";
 import { Config } from "../Config";
 

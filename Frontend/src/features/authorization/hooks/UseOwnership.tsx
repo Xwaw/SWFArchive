@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { accountService } from "../services/AccountService";
 
 export default function useOwnership(userId: string){
-    const [isOwner, setIsOwner] = useState<boolean>(false);
+    const [isOwner, setIsOwner] = useState<boolean | undefined>(undefined);
 
     const handleOwnership = async () => {
         try{
