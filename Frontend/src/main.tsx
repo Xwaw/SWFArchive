@@ -15,6 +15,7 @@ import AdminPanel from "./pages/admin/AdminPanel";
 import AuthorizationPanel from "./pages/autherization/AuthorizationPanel";
 import ProfileView from "./pages/profile/ProfileView";
 import { AuthOnly, AuthProvider, GuestOnly } from "./features/authorization/hooks/UseAuth";
+import ProfileEdit from "./pages/profile/ProfileEdit";
 
 createRoot(document.getElementById("root")!).render(
   <AuthProvider>
@@ -32,8 +33,8 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/auth/change" element={<AuthorizationPanel mode="change"/>}></Route>
         </Route>
 
-        <Route path="/profile/me"></Route>
         <Route path="/profile/:userId" element={<ProfileView />}></Route>
+        <Route path="/profile/edit/:userId" element={<ProfileEdit />}></Route>
 
         {/* ============ */}
 
