@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Backend.Models.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,18 +12,25 @@ public class ProfileRepository
         _context = context;
     }
 
-    public async Task<string?> GetDescriptionForUser(Guid id)
+    public async Task<string?> GetDescriptionForUser(Guid userId)
     {
-        return await _context.UserProfiles.Where(u => u.Id == id).Select(u => u.Description).FirstOrDefaultAsync();
+        return await _context.UserProfiles
+            .Where(p => p.UserId == userId.ToString())
+            .Select(p => p.Description)
+            .FirstOrDefaultAsync();
     }
 
-    public async Task<UserProfile?> GetUserProfile(Guid id)
+    public async Task<UserProfile?> GetUserProfile(Guid userId)
     {
-        return await _context.UserProfiles.FirstOrDefaultAsync(u => u.Id == id);
+        return await _context.UserProfiles
+            .FirstOrDefaultAsync(p => p.UserId == userId.ToString());
     }
 
-    public async Task<ICollection<UserBadge>?> GetUserBadges(Guid id)
+    public async Task<ICollection<UserBadge>> GetUserBadges(Guid userId)
     {
-        return await _context.UserProfiles.Where(u => u.Id == id).Select(u => u.UserBadges).FirstOrDefaultAsync();
+        return await _context.UserProfiles
+            .Where(p => p.UserId == userId.ToString())
+            .Select(p => p.UserBadges)
+            .FirstOrDefaultAsync() ?? new List<UserBadge>();
     }
 }

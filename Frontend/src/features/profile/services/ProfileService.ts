@@ -74,7 +74,7 @@ export class ProfileService {
       const formData = new FormData();
       formData.append("description", content);
 
-      const response = await httpForm.post(`profile/upload/description/${userId}`, formData);
+      const response = await httpForm.patch(`profile/upload/description/${userId}`, formData);
       return response.data;
     } catch( error ){
       if(axios.isAxiosError(error)){

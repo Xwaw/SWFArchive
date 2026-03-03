@@ -43,6 +43,10 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
             .WithOne(p => p.User)
             .HasForeignKey<UserProfile>(p => p.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Entity<UserProfile>()
+            .HasIndex(p => p.UserId)
+            .IsUnique();
     }
 }
     

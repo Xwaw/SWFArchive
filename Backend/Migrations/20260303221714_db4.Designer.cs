@@ -3,6 +3,7 @@ using System;
 using Backend;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    partial class AppIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260303221714_db4")]
+    partial class db4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
@@ -178,7 +181,7 @@ namespace Backend.Migrations
                     b.Property<string>("UserId1")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserProfileUserId")
+                    b.Property<Guid?>("UserProfileId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -187,14 +190,15 @@ namespace Backend.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.HasIndex("UserProfileUserId");
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("UserBadge");
                 });
 
             modelBuilder.Entity("Backend.Models.User.UserProfile", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
@@ -203,7 +207,11 @@ namespace Backend.Migrations
                     b.Property<bool>("IsOnline")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -240,7 +248,7 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserProfileUserId")
+                    b.Property<Guid?>("UserProfileId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -249,7 +257,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("UserProfileUserId");
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("UserComments");
                 });
@@ -431,7 +439,7 @@ namespace Backend.Migrations
 
                     b.HasOne("Backend.Models.User.UserProfile", null)
                         .WithMany("UserBadges")
-                        .HasForeignKey("UserProfileUserId");
+                        .HasForeignKey("UserProfileId");
 
                     b.Navigation("Image");
 
@@ -463,7 +471,7 @@ namespace Backend.Migrations
 
                     b.HasOne("Backend.Models.User.UserProfile", null)
                         .WithMany("ProfileComments")
-                        .HasForeignKey("UserProfileUserId");
+                        .HasForeignKey("UserProfileId");
 
                     b.Navigation("User");
                 });

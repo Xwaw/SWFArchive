@@ -1,14 +1,13 @@
-import { useNavigate } from "react-router-dom";
-import { http } from "../http";
-import { useState, type FormEvent } from "react";
-import axios from "axios";
+
+import { authService } from "../features/authorization/services/AuthService";
 
 export default function Test() {
-  const navigate = useNavigate();
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      
+      <button className="cursor-pointer bg-amber-600 hover:bg-red-600" onClick={() => authService.logout()}>
+        Sign Out
+      </button>
     </div>
   );
 }

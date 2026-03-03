@@ -7,6 +7,7 @@ import ItemsView from "../../features/profile/components/sections/ItemsView";
 import CommentSection from "../../features/comments/components/CommentSection";
 import { useParams } from "react-router-dom";
 import { useProfile } from "../../features/profile/hooks/UseProfile";
+import DescriptionSection from "../../features/profile/components/sections/DescriptionSection";
 
 const backend = import.meta.env.VITE_API_URL
 
@@ -96,6 +97,9 @@ export default function ProfileView() {
                 data-section="description"
                 className="w-full h-full flex flex-col gap-5"
               >
+                <div>
+                  <DescriptionSection Description={profile?.description}></DescriptionSection>
+                </div>
                 <div>
                   <ItemsView
                     items={["a", "a", "a", "a", "a", "a", "a", "a", "a", "a"]}

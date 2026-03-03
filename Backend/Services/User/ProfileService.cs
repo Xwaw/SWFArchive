@@ -91,6 +91,6 @@ public class ProfileService
         
         profile.Description = description;
 
-        await _userManager.UpdateAsync(user);
+        await _context.SaveChangesAsync();
     }
 }

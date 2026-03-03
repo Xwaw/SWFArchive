@@ -5,14 +5,11 @@ namespace Backend.Models.User;
 
 public class UserProfile
 {
-    [Key]
-    public Guid Id { get; set; }
-    
-    [ForeignKey(nameof(User))]
+    [Key] 
     public required string UserId { get; set; }
-    public required User User{ get; set; }
-    
-    public required bool IsOnline { get; set; }
+    public User User{ get; set; }
+
+    public required bool IsOnline { get; set; } = false;
     
     public ICollection<UserBadge>? UserBadges { get; set; } = new List<UserBadge>();
     public ICollection<UserComment> ProfileComments { get; set; } = new List<UserComment>();

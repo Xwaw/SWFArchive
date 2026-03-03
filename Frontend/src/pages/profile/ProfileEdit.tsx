@@ -1,8 +1,9 @@
 import useOwnership from "../../features/authorization/hooks/UseOwnership";
 import { useParams } from "react-router-dom";
 import { GoBack } from "../../components/GoBack";
-import EditFormCard from "../../features/profile/components/edit/EditFormCard";
+import EditImageFormCard from "../../features/profile/components/edit/EditImageFormCard";
 import { profileService } from "../../features/profile/services/ProfileService";
+import EditDescriptionFormCard from "../../features/profile/components/edit/EditDescriptionFormCard";
 
 export default function ProfileEdit() {
   const { userId } = useParams();
@@ -22,36 +23,45 @@ export default function ProfileEdit() {
         <p style={{ fontSize: 30 }}>Profile edit</p>
       </div>
       <div className="flex justify-center items-center">
-        <div className="w-2/3 bg-amber-400">
-          <div className="flex justify-center items-center w-140 h-60 p-5">
-            <EditFormCard
-              Description={
-                "Choose a new avatar image (max 2MB). Click Save to apply your changes."
-              }
-              OnSave={(file) => {
-                profileService.uploadAvatar(userId ?? "", file);
-              }}
-            ></EditFormCard>
+        <div className="flex w-2/3 bg-amber-400">
+          <div className="w-full flex-col">
+            <div className="flex justify-center items-center w-140 h-60 p-5">
+              <EditImageFormCard
+                Description={
+                  "Choose a new avatar image (max 2MB). Click Save to apply your changes."
+                }
+                OnSave={async (file) => {
+                  await profileService.uploadAvatar(userId ?? "", file);
+                }}
+              ></EditImageFormCard>
+            </div>
+            <div className="flex justify-center items-center w-140 h-60 p-5">
+              <EditImageFormCard
+                Description={
+                  "Choose a new banner image (max 5MB). Click Save to apply your changes."
+                }
+                OnSave={async (file) => {
+                  await profileService.uploadBanner(userId ?? "", file);
+                }}
+              ></EditImageFormCard>
+            </div>
+            <div className="flex justify-center items-center w-140 h-60 p-5">
+              <EditImageFormCard
+                Description={
+                  "Choose a new backgorund image (max 8MB). Click Save to apply your changes."
+                }
+                OnSave={async (file) => {
+                  await profileService.uploadBackground(userId ?? "", file);
+                }}
+              ></EditImageFormCard>
+            </div>
           </div>
-          <div className="flex justify-center items-center w-140 h-60 p-5">
-            <EditFormCard
-              Description={
-                "Choose a new banner image (max 5MB). Click Save to apply your changes."
-              }
-              OnSave={(file) => {
-                profileService.uploadBanner(userId ?? "", file);
+          <div className="w-full h-full p-5">
+            <EditDescriptionFormCard
+              OnSave={async (description) => {
+                await profileService.updateDescription(userId ?? "", description);
               }}
-            ></EditFormCard>
-          </div>
-          <div className="flex justify-center items-center w-140 h-60 p-5">
-            <EditFormCard
-              Description={
-                "Choose a new backgorund image (max 8MB). Click Save to apply your changes."
-              }
-              OnSave={(file) => {
-                profileService.uploadBackground(userId ?? "", file);
-              }}
-            ></EditFormCard>
+            ></EditDescriptionFormCard>
           </div>
         </div>
       </div>

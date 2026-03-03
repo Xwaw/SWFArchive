@@ -19,18 +19,20 @@ public class AuthService
     private readonly EmailTemplateService _emailTemplateService;
 
     private readonly string? _frontendBaseUrl;
+    private readonly AppIdentityDbContext _context;
     
     public AuthService(
         SignInManager<User> signInManager, 
         UserManager<User> userManager, 
         GmailSender gmailSender, 
         IConfiguration config, 
-        EmailTemplateService emailTemplateService)
+        EmailTemplateService emailTemplateService, AppIdentityDbContext context)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _gmailSender = gmailSender;
         _emailTemplateService = emailTemplateService;
+        _context = context;
         _frontendBaseUrl = config["Frontend:BaseUrl"] ?? throw new Exception("Frontend:BaseUrl not configured");
     }
     
@@ -39,7 +41,22 @@ public class AuthService
         var user = new User { UserName = username,  Email = email };
         var result = await _userManager.CreateAsync(user, password);
         if(result.Succeeded)
+        {
             await _userManager.AddToRoleAsync(user, Roles.User);
+
+            var profile = new UserProfile
+            {
+                UserId = user.Id,
+                Description = user.UserName,
+                IsOnline = false
+            };
+            
+            _context.UserProfiles.Add(profile);
+            await _context.SaveChangesAsync();
+        }
+        
+        
+        
         return result;
     }
 

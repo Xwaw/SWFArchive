@@ -119,6 +119,9 @@
     <_ContentIncludedByDefault Remove="wwwroot\Profile\f9da8037-e1a8-4681-9d30-7117e4e88e57\avatar_20251201_004944.png" />
     <_ContentIncludedByDefault Remove="wwwroot\Archive\5f2d4f39-d876-4e65-802a-8f95808e2104\swf_639004937734459639.swf" />
     <_ContentIncludedByDefault Remove="wwwroot\Archive\5f2d4f39-d876-4e65-802a-8f95808e2104\thumbnail_639004937734398092.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\users\1c524396ae7d418ab599e8d76dd1fcd0\avatar\94f17d9b5763477b944fdd19e5d4dde1.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\users\39f0db990fc34d73a2c6bcda641bc42a\avatar\71b47c9e61904eb6a13a063aec84b23b.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\users\6c0a3b894b5843bab9af5ba27e6286bb\avatar\bc81a28f9ba440558dd7fbfc4d898eb4.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { EditFormProps } from "../../types/props";
 
-export default function EditFormCard({
+export default function EditImageFormCard({
   Description,
   ImageUrl,
   OnSave,
