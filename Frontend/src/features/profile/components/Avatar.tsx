@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import useOwnership from "../../authorization/hooks/UseOwnership";
 import type { AvatarButtonDto } from "../types/models";
-
+const backend = import.meta.env.VITE_API_URL
 
 export default function AvatarButton({ userId, avatarUrl }: AvatarButtonDto) {
   const { isOwner } = useOwnership(userId ?? "");
@@ -11,7 +11,7 @@ export default function AvatarButton({ userId, avatarUrl }: AvatarButtonDto) {
     <div
       className={`aspect-square group h-25 bg-[#444444] bg-center bg-cover cursor-pointer`}
       style={{
-        backgroundImage: `url(${avatarUrl})`,
+        backgroundImage: `url(${backend + avatarUrl})`,
       }}
     >
       {isOwner ? (

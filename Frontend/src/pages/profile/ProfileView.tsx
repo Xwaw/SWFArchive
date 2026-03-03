@@ -8,6 +8,8 @@ import CommentSection from "../../features/comments/components/CommentSection";
 import { useParams } from "react-router-dom";
 import { useProfile } from "../../features/profile/hooks/UseProfile";
 
+const backend = import.meta.env.VITE_API_URL
+
 export default function ProfileView() {
   const { userId } = useParams();
   const { profile, isLoading, error } = useProfile(userId ?? "");
@@ -21,7 +23,7 @@ export default function ProfileView() {
   }
 
   return (
-    <div className="bg-[#222222] w-screen flex items-center justify-center p-15">
+    <div className="w-screen flex items-center justify-center p-15" style={{backgroundImage: `url(${backend + profile?.backgroundUrl})`}}>
       <div className="w-5/7 min-h-screen p-5 flex">
         {/* Canvas */}
         <div className="flex flex-col w-full h-full">

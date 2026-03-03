@@ -37,6 +37,7 @@ export default function EditFormCard({
       >
         <input
           type="file"
+          accept="image/*"
           className="w-full h-full opacity-0 cursor-pointer"
           onChange={(e) => {
             const selected = e.currentTarget.files?.[0];
@@ -54,9 +55,13 @@ export default function EditFormCard({
 
         <div className="h-1/3 flex">
           <button
-            className="w-1/2 h-full flex justify-center items-center p-2 bg-zinc-700 hover:bg-zinc-600"
-            type="submit"
             disabled={!file}
+            className={`w-1/2 h-full p-2 transition${
+              !file
+                ? "bg-zinc-600 cursor-not-allowed opacity-50"
+                : "bg-zinc-700 hover:bg-zinc-600 cursor-pointer"
+            }
+            `}
           >
             Save
           </button>

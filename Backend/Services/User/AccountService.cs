@@ -13,7 +13,6 @@ public class AccountService
     {
         _userManager = userManager;
     }
-
     public async Task<UserDto> GetUserDto(ClaimsPrincipal principal)
     {
         var user = await _userManager.GetUserAsync(principal);
@@ -29,7 +28,6 @@ public class AccountService
         
         return userDto;
     }
-
     public async Task<bool> ConfirmUserIsOwner(ClaimsPrincipal principal, Guid userId)
     {
         var user = await _userManager.GetUserAsync(principal);
