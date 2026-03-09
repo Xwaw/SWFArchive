@@ -47,14 +47,7 @@ export default function ProfileView() {
                     <div className="flex flex-col gap-2">
                       <UserStatusSection userName={profile?.userName ?? "NO USER"} avatarUrl={profile?.avatarUrl ?? ""} isOnline={true} userId={userId ?? ""} />
 
-                      <UserInfo
-                        info={[
-                          "JOINED: 00-00-0000 00:00",
-                          "HOURS TOTAL: 0",
-                          "FOLLOWERS: 0",
-                          "UPLOADED: 0",
-                        ]}
-                      ></UserInfo>
+                      <UserInfo createdAt={profile?.createdAt ?? "NO USER"}></UserInfo>
 
                       <div className="flex justify-center items-center gap-20">
                         <div className="bg-red-900 hover:bg-red-600 w-25 h-10 flex justify-center items-center">

@@ -48,14 +48,13 @@ public class AuthService
             {
                 UserId = user.Id,
                 Description = user.UserName,
-                IsOnline = false
+                IsOnline = false,
+                CreatedAt = DateTime.Now,
             };
             
             _context.UserProfiles.Add(profile);
             await _context.SaveChangesAsync();
         }
-        
-        
         
         return result;
     }

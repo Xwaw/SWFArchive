@@ -20,6 +20,11 @@ public class ProfileRepository
             .FirstOrDefaultAsync();
     }
 
+    public async Task<DateTime?> GetCreatedAtDate(Guid userId)
+    {
+        return await _context.UserProfiles.Where(p => p.UserId == userId.ToString()).Select(p => p.CreatedAt).FirstOrDefaultAsync();
+    }
+
     public async Task<UserProfile?> GetUserProfile(Guid userId)
     {
         return await _context.UserProfiles

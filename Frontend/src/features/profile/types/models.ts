@@ -4,7 +4,8 @@ export type ProfileDto = {
     avatarUrl?: string,
     bannerUrl?: string,
     backgroundUrl: string,
-    description: string
+    description: string,
+    createdAt: string
 }
 
 export type UserStatusDto = {

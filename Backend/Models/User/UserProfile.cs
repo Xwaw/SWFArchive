@@ -14,4 +14,6 @@ public class UserProfile
     public ICollection<UserBadge>? UserBadges { get; set; } = new List<UserBadge>();
     public ICollection<UserComment> ProfileComments { get; set; } = new List<UserComment>();
     public string? Description { get; set; }
+    
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 }

@@ -42,7 +42,8 @@ public class ProfileService
             BannerUrl = await _fileRepository.GetUserFileUrlAsync(userId, FileUsageType.Banner),
             BackgroundUrl = await _fileRepository.GetUserFileUrlAsync(userId, FileUsageType.Background),
             Description = await _profileRepository.GetDescriptionForUser(userId),
-            Badges = await _profileRepository.GetUserBadges(userId)
+            Badges = await _profileRepository.GetUserBadges(userId),
+            CreatedAt = await _profileRepository.GetCreatedAtDate(userId)
         };
     }
     public async Task<string?> ReplaceUserImageAsync(

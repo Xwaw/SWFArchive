@@ -1,15 +1,25 @@
-import { useState } from "react";
+interface UserInfoProps{
+    createdAt?: string,
+    hoursTotal?: number,
+    followers?: number,
+    uploaded?: number
+}
 
-export default function UserInfo({info}: {info: string[]}){
+export default function UserInfo({createdAt, hoursTotal, followers, uploaded}: UserInfoProps){
+    const formatedDate = new Date(createdAt ?? "").toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    })
+
     return(
         <div className="w-full h-full">
-            {info.map((value, index) => {
-                return(
-                    <div key={index} className="w-full h-7 flex flex-col justify-center">
-                        {value.toString()}
-                    </div>
-                )
-            })}
+            <div className="flex flex-col p-5">
+                <p>Joined: {formatedDate}</p>
+                <p>{hoursTotal}</p>
+                <p>{followers}</p>
+                <p>{uploaded}</p>
+            </div>
         </div>
     )
 }
