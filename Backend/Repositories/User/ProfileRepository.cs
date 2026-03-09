@@ -14,27 +14,38 @@ public class ProfileRepository
 
     public async Task<string?> GetDescriptionForUser(Guid userId)
     {
+        var cachedUserId = userId.ToString();
+        
         return await _context.UserProfiles
-            .Where(p => p.UserId == userId.ToString())
+            .Where(p => p.UserId == cachedUserId)
             .Select(p => p.Description)
             .FirstOrDefaultAsync();
     }
 
     public async Task<DateTime?> GetCreatedAtDate(Guid userId)
     {
-        return await _context.UserProfiles.Where(p => p.UserId == userId.ToString()).Select(p => p.CreatedAt).FirstOrDefaultAsync();
+        var cachedUserId = userId.ToString();
+        
+        return await _context.UserProfiles
+            .Where(p => p.UserId == cachedUserId)
+            .Select(p => p.CreatedAt)
+            .FirstOrDefaultAsync();
     }
 
     public async Task<UserProfile?> GetUserProfile(Guid userId)
     {
+        var cachedUserId = userId.ToString();
+        
         return await _context.UserProfiles
-            .FirstOrDefaultAsync(p => p.UserId == userId.ToString());
+            .FirstOrDefaultAsync(p => p.UserId == cachedUserId);
     }
 
     public async Task<ICollection<UserBadge>> GetUserBadges(Guid userId)
     {
+        var cachedUserId = userId.ToString();
+        
         return await _context.UserProfiles
-            .Where(p => p.UserId == userId.ToString())
+            .Where(p => p.UserId == cachedUserId)
             .Select(p => p.UserBadges)
             .FirstOrDefaultAsync() ?? new List<UserBadge>();
     }
