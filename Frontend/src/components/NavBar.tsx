@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../features/authorization/hooks/UseAuth";
-import ProfileButton from "./ProfileButton";
+import ProfileButton from "../features/profile/components/ProfileButton";
 
 interface Components{
   children?: React.ReactNode
@@ -35,7 +35,7 @@ export default function NavBar( {children } : Components) {
             <div
               className="bg-red-600 w-20 flex justify-center"
               onClick={() => {
-                navigate("/register");
+                navigate("/auth/register");
               }}
             >
               Register
@@ -44,7 +44,7 @@ export default function NavBar( {children } : Components) {
             <div
               className="bg-red-600 w-20 flex justify-center"
               onClick={() => {
-                navigate("/login");
+                navigate("/auth/login");
               }}
             >
               Login

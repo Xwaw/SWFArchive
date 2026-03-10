@@ -3,6 +3,18 @@ import { http, httpForm } from "../../../http";
 import type { ProfileDto } from "../types/models";
 
 export class ProfileService {
+  async getMyProfile(): Promise<ProfileDto | undefined>{
+    try{
+      const response = await http.get(`profile/me`);
+      return response.data;
+    } catch( error ){
+      if(axios.isAxiosError(error)){
+        if(error.response?.status === 500)
+          console.log("server error");
+      }
+    }
+  }
+
   async getProfile(userId: string): Promise<ProfileDto | undefined>{
     try{
       const response = await http.get(`profile/${userId}`);

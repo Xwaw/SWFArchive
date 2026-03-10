@@ -3,7 +3,7 @@ import type { ProfileDto } from "../types/models";
 import { profileService } from "../services/ProfileService";
 import axios from "axios";
 
-export const useProfile = (userId: string) => {
+export const useProfile = (userId?: string) => {
   const [profile, setProfile] = useState<ProfileDto | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,14 +12,10 @@ export const useProfile = (userId: string) => {
     setIsLoading(true);
     setError(null);
 
-    if (!userId) {
-      setError("invalid user ID");
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const response = await profileService.getProfile(userId);
+      const response = userId
+        ? await profileService.getProfile(userId)
+        : await profileService.getMyProfile();
       if (!response) {
         setError("Profile not found");
         return;

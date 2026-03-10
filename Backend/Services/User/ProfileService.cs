@@ -29,23 +29,56 @@ public class ProfileService
         _profileRepository = profileRepository;
     }
 
-    public async Task<ProfileDto?> GetProfileByUser(Guid userId)
+    public async Task<ProfileDto?> GetProfileByUserId(Guid userId)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
         if(user == null) return null;
     
+        return await BuildProfile(userId, user.UserName!);
+    }
+    public async Task<ProfileDto?> GetProfileByPrincipal(ClaimsPrincipal principal)
+    {
+        var user = await _userManager.GetUserAsync(principal);
+        if(user == null) return null;
+        
+        if(!Guid.TryParse(user.Id, out var guid))
+            return null;
+
+        return await BuildProfile(guid, user.UserName!);
+    }
+
+    private async Task<ProfileDto?> BuildProfile(Guid userId, string username)
+    {
+        var avatarTask = _fileRepository.GetUserFileUrlAsync(userId, FileUsageType.Avatar);
+        var bannerTask = _fileRepository.GetUserFileUrlAsync(userId, FileUsageType.Banner);
+        var backgroundTask = _fileRepository.GetUserFileUrlAsync(userId, FileUsageType.Background);
+
+        var descriptionTask = _profileRepository.GetDescriptionForUser(userId);
+        var badgesTask = _profileRepository.GetUserBadges(userId);
+        var createdAtTask = _profileRepository.GetCreatedAtDate(userId);
+
+        await Task.WhenAll(
+            avatarTask,
+            bannerTask,
+            backgroundTask,
+            descriptionTask,
+            badgesTask,
+            createdAtTask
+        );
+
         return new ProfileDto
         {
+            AvatarUrl = avatarTask.Result,
+            BannerUrl = bannerTask.Result,
+            BackgroundUrl = backgroundTask.Result,
+            Description = descriptionTask.Result,
+            Badges = badgesTask.Result,
+            CreatedAt = createdAtTask.Result,
             UserId = userId.ToString(),
-            UserName = user.UserName!,
-            AvatarUrl = await _fileRepository.GetUserFileUrlAsync(userId, FileUsageType.Avatar),
-            BannerUrl = await _fileRepository.GetUserFileUrlAsync(userId, FileUsageType.Banner),
-            BackgroundUrl = await _fileRepository.GetUserFileUrlAsync(userId, FileUsageType.Background),
-            Description = await _profileRepository.GetDescriptionForUser(userId),
-            Badges = await _profileRepository.GetUserBadges(userId),
-            CreatedAt = await _profileRepository.GetCreatedAtDate(userId)
+            UserName = username
         };
     }
+    
     public async Task<string?> ReplaceUserImageAsync(
         Guid userId,
         IFormFile? file,

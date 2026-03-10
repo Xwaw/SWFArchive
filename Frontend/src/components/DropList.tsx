@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 
 interface ItemProps {
   text: string;
-  onClick: () => void;
+  onClick: () => Promise<void> | void;
 }
 
 interface DropListProps {

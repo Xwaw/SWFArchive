@@ -1,9 +1,4 @@
-interface UserInfoProps{
-    createdAt?: string,
-    hoursTotal?: number,
-    followers?: number,
-    uploaded?: number
-}
+import type { UserInfoProps } from "../types/props"
 
 export default function UserInfo({createdAt, hoursTotal, followers, uploaded}: UserInfoProps){
     const formatedDate = new Date(createdAt ?? "").toLocaleDateString("en-US", {

@@ -53,9 +53,6 @@ export default function ProfileView() {
                         <div className="bg-red-900 hover:bg-red-600 w-25 h-10 flex justify-center items-center">
                           FOLLOW
                         </div>
-                        <div className="bg-red-900 hover:bg-red-600 w-25 h-10 flex justify-center items-center">
-                          MORE
-                        </div>
                       </div>
                     </div>
                   }

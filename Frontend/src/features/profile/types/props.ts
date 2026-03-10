@@ -9,3 +9,10 @@ export interface EditFormProps{
     ImageUrl?: string,
     OnSave: (file: File) => Promise<void> | void;
 }
+
+export interface UserInfoProps{
+    createdAt?: string,
+    hoursTotal?: number,
+    followers?: number,
+    uploaded?: number
+}
