@@ -43,12 +43,6 @@ public class ArchiveService
         };
     }
 
-    public async Task<List<ArchiveCardViewDto>> GetArchiveCards()
-    {
-        var games = await GetAllArchiveGames();
-        return games.Select(MapToArchiveCardDto).ToList();
-    }
-
     public async Task<PagedResultDto<ArchiveCardViewDto>> GetArchive(string? search, int page = 1, int pageSize = 50)
     {
         search = search?.Trim();

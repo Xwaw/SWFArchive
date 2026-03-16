@@ -21,7 +21,7 @@ public class ArchiveController : ControllerBase
         _viewGameService = viewGameService;
     }
 
-    [HttpGet("game/{id}")] // only for others to view, future: add view for developer of game.
+    [HttpGet("game/{id}")]
     public async Task<IActionResult> GetGame(Guid id)
     {
         var result = await _viewGameService.GetGameById(id);

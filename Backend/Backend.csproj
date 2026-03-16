@@ -126,6 +126,7 @@
 
   <ItemGroup>
     <Folder Include="Models\Email\" />
+    <Folder Include="Repositories\Archive\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
