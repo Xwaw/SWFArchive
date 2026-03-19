@@ -102,7 +102,7 @@ public class ProfileService
         if (publicUrl == null)
             return null;
 
-        await _fileRepository.AddAsync(new FileTarget
+        await _fileRepository.AddFileAsync(new FileTarget
         {
             OwnerId = userId,
             OwnerType = FileOwnerType.User,

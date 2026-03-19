@@ -1,5 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ScrollableList from "../../oldComponents/ScrollableList";
 
 export default function Friends() {
@@ -11,7 +10,7 @@ export default function Friends() {
         <div className="w-2/5 bg-amber-500 text-2xl">
           <ScrollableList items={[
             {
-              id: "friend1",
+              id: 1,
               imageSrc: "aaa",
               text: "aaa",
               onClick: () => navigate("aa")
@@ -29,7 +28,7 @@ export default function Friends() {
           <div className="w-full flex justify-center bg-green-900 text-2xl">
             <ScrollableList items={[
               {
-                id: "friend1",
+                id: 1,
                 imageSrc: "aaa",
                 text: "aaa",
                 onClick: () => navigate("aa")

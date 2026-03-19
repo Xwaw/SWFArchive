@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 
 interface PromptInputProps {
   className?: string;
@@ -11,6 +11,10 @@ export default function PromptInput({ className, color = "#00ff00", onSubmit }: 
   const [value, setValue] = useState(prompt);
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+
+  useEffect(() =>{
+    console.log(historyIndex)
+  }, [])
 
   const updatePrompt = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const input = e.target.value;

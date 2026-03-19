@@ -10,7 +10,7 @@ export function useComments(targetId: string, targetType: number){
             setIsSending(true);
             setError(null);
 
-            const resposne = await commentService.add(text, targetType, targetId);
+            await commentService.add(text, targetType, targetId);
         }catch(error){
             setError("Failed to add comment.")
         }finally{
@@ -23,7 +23,7 @@ export function useComments(targetId: string, targetType: number){
             setIsSending(true);
             setError(null);
 
-            const resposne = await commentService.edit(text, commentId);
+            await commentService.edit(text, commentId);
         }catch(error){
             setError("Failed to edit comment.")
         }finally{
@@ -36,7 +36,7 @@ export function useComments(targetId: string, targetType: number){
             setIsSending(true);
             setError(null);
 
-            const resposne = await commentService.delete(commentId);
+            await commentService.delete(commentId);
         }catch(error){
             setError("Failed to delete comment.")
         }finally{

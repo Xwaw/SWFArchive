@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useEffect, useState, type FormEvent } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Config } from "../../Config";
 import CommentSection from "../../features/comments/components/CommentSection";
 

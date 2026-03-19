@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface ItemOfList {
   id: number;
   imageSrc?: string;

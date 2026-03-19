@@ -37,13 +37,13 @@ export default function CommentSection({
 
   const handleEdit = async (id: string, text: string) => {
     await editComment(id, text);
-    const data = await getComments();
+    await getComments();
     refreshComments();
   };
 
   const handleDelete = async (id: string) => {
     await deleteComment(id);
-    const data = await getComments();
+    await getComments();
     refreshComments();
   };
 

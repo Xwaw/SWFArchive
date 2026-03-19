@@ -39,6 +39,30 @@ public class FileStorageService
             return null;
         }
     }
+    
+    public async Task<string?> SaveArchiveFile(Guid userId, IFormFile? file, FileUsageType usageType)
+    {
+        if (file == null || file.Length == 0) return null;
+        
+        var folder = BuildStoragePath(FileOwnerType.Archive, userId, usageType);
+        EnsureFolderExists(folder);
+
+        var extension = Path.GetExtension(file.FileName);
+        var fileName = $"{Guid.NewGuid():N}{extension}";
+        var fullPhysicalPath = Path.Combine(folder, fileName);
+
+        try
+        {
+            await using var stream = new FileStream(fullPhysicalPath, FileMode.Create);
+            await file.CopyToAsync(stream);
+
+            return BuildPublicUrl(FileOwnerType.Archive, userId, usageType, fileName);
+        }
+        catch
+        {
+            return null;
+        }
+    }
 
     public void DeletePhysicalFile(string publicUrl)
     {
@@ -56,7 +80,7 @@ public class FileStorageService
         return $"/upload/{GetOwnerFolder(ownerType)}/{id:N}/{GetUsageFolder(usageType)}/{fileName}";
     }
 
-    public string BuildStoragePath(FileOwnerType ownerType, Guid id, FileUsageType usageType)
+    private string BuildStoragePath(FileOwnerType ownerType, Guid id, FileUsageType usageType)
     {
         return Path.Combine(
             UploadPath,
@@ -76,7 +100,7 @@ public class FileStorageService
         ownerType switch
         {
             FileOwnerType.User => "users",
-            FileOwnerType.Game => "games",
+            FileOwnerType.Archive => "games",
             _ => throw new ArgumentOutOfRangeException(nameof(ownerType))
         };
 

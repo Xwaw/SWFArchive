@@ -11,7 +11,7 @@ export default function ItemsView({
         {name}
       </div>
       <div className="w-full h-30 flex justify-start bg-gray-700 overflow-x-scroll">
-        {items.map((value, index) => {
+        {items.map((index) => {
           return (
             <div key={index} className="h-full aspect-square bg-red-500 group">
               <div

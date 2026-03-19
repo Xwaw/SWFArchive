@@ -1,5 +1,6 @@
 using Backend;
 using Backend.Enums;
+using Backend.Models;
 using Backend.Models.Dto;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,15 +30,21 @@ public class FileRepository
         FileUsageType usageType)
     {
         return await _context.Files
-            .Where(f => f.OwnerId == userId &&
+            .Where(f => f.OwnerId == userId && 
                         f.OwnerType == FileOwnerType.User &&
                         f.UsageType == usageType)
             .ToListAsync();
     }
 
-    public async Task AddAsync(FileTarget file)
+    public async Task AddFileAsync(FileTarget file)
     {
         await _context.Files.AddAsync(file);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task AddArchiveAsync(GameArchive gameArchive)
+    {
+        await _context.ArchiveGames.AddAsync(gameArchive);
         await _context.SaveChangesAsync();
     }
 

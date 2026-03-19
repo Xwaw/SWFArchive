@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Models;
 
@@ -8,20 +7,25 @@ public class GameArchive
     [Key]
     public Guid Id { get; set; }
 
-    public required string Title { get; set; }
-    public required string AuthorName { get; set; }
-    public required string SwfUrl { get; set; }
-    public string? ThumbnailUrl { get; set; }
+    [Required]
+    public string Title { get; set; }
+
+    [Required]
+    public string AuthorName { get; set; }
+
     public string? Description { get; set; }
 
-    public int StarsRated { get; set; } = 0;
-    public int PlaysCount { get; set; } = 0;
+    public string? Version { get; set; }
+
+    public int PlaysCount { get; set; }
+
+    public float RatingAverage { get; set; }
+
+    public int RatingCount { get; set; }
+
+    public DateTime UploadedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
     
-    public DateTime Uploaded { get; set; } = DateTime.Now;
-    public DateTime Modified { get; set; } = DateTime.Now;
-    
-    public List<string> Tags { get; set; } = [];
     public ICollection<UserGame> UserGames { get; set; } = new List<UserGame>();
-    
-    public ICollection<UserComment> GameComments { get; set; } = new List<UserComment>();
 }
