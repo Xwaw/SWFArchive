@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NavBar from "../../components/NavBar";
-import ArchiveList from "../../features/archive/components/ArchiveList";
 import type { GameCardProps } from "../../features/archive/types/ComponentsProps";
+import ArchiveList from "../../features/archive/components/ArchiveList";
 
 export default function Archive() {
   const [games] = useState<GameCardProps[]>([

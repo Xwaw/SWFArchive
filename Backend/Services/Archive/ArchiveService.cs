@@ -63,6 +63,8 @@ public class ArchiveService
             Description = dto.Description,
             UploadedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
+            CreatedAt = dto.CreatedAt,
+            AuthorName = dto.Author,
         });
 
         await _fileRepository.AddFileAsync(new FileTarget

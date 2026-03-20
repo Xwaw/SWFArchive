@@ -21,5 +21,5 @@ public static class FileSizeLimits
     private const int Banner = 5 * MB;
     private const int Background = 8 * MB;
     private const int Thumbnail = 2 * MB;
-    private const int FlashFile = 12 * MB;
+    private const int FlashFile = 20 * MB;
 }

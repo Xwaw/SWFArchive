@@ -36,15 +36,15 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/profile/:userId" element={<ProfileView />}></Route>
         <Route path="/profile/edit/:userId" element={<ProfileEdit />}></Route>
 
+        <Route path="/archive" element={<Archive />}></Route>
+        <Route path="/archive/upload" element={<UploadGameToArchive />}></Route>
+        <Route path="/archive/game/:id" element={<ArchiveGameView />}></Route>
+
         {/* ============ */}
 
         <Route path="/" element={<Home />}></Route>
 
         <Route path="/friends" element={<FriendsSelector />}></Route>
-
-        <Route path="/archive" element={<Archive />}></Route>
-        <Route path="/archive/upload" element={<UploadGameToArchive />}></Route>
-        <Route path="/archive/game/:id" element={<ArchiveGameView />}></Route>
 
         <Route path="/library" element={<Library />}></Route>
 
