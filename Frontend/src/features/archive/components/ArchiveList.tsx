@@ -2,6 +2,8 @@ import type { ArchiveProps } from "../types/ComponentsProps";
 import GameCard from "./GameCard";
 
 export default function ArchiveList({ children }: ArchiveProps) {
+  if(children === null) return <div></div>
+
   return (
     <div className="grid grid-cols-3 gap-5 p-5">
       {children.map((value, index) => {
@@ -13,7 +15,7 @@ export default function ArchiveList({ children }: ArchiveProps) {
               playsCount={value.playsCount}
               starsRated={value.starsRated}
               authorName={value.authorName}
-              uploadedAt={value.uploadedAt}
+              uploaded={value.uploaded}
             ></GameCard>
           </div>
         );

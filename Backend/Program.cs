@@ -2,6 +2,7 @@ using Backend;
 using Backend.Authorization;
 using Backend.Models;
 using Backend.Models.User;
+using Backend.Repositories.Archive;
 using Backend.Repositories.Comments;
 using Backend.Repositories.User;
 using Backend.Services;
@@ -116,8 +117,6 @@ builder.Services.AddSingleton<GmailService>(sp =>
 });
 
 builder.Services.AddScoped<ProfileService>();
-builder.Services.AddScoped<ArchiveService>();
-builder.Services.AddScoped<ViewGameService>();
 builder.Services.AddScoped<LibraryService>();
 
 builder.Services.AddScoped<CommentRepository>();
@@ -135,6 +134,10 @@ builder.Services.AddScoped<GmailSender>();
 builder.Services.AddScoped<FileStorageService>();
 builder.Services.AddScoped<FileRepository>();
 builder.Services.AddScoped<ProfileRepository>();
+
+builder.Services.AddScoped<ArchiveService>();
+builder.Services.AddScoped<ViewGameService>();
+builder.Services.AddScoped<ArchiveRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

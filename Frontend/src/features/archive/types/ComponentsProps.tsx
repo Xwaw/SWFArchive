@@ -5,9 +5,9 @@ export interface GameCardProps{
     thumbnailUrl?: string,
     playsCount: number,
     starsRated: number,
-    uploadedAt: string
+    uploaded: string
 }
 
 export interface ArchiveProps{
-    children: GameCardProps[]
+    children: GameCardProps[] | null
 }

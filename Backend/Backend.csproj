@@ -122,11 +122,16 @@
     <_ContentIncludedByDefault Remove="wwwroot\upload\users\1c524396ae7d418ab599e8d76dd1fcd0\avatar\94f17d9b5763477b944fdd19e5d4dde1.png" />
     <_ContentIncludedByDefault Remove="wwwroot\upload\users\39f0db990fc34d73a2c6bcda641bc42a\avatar\71b47c9e61904eb6a13a063aec84b23b.png" />
     <_ContentIncludedByDefault Remove="wwwroot\upload\users\6c0a3b894b5843bab9af5ba27e6286bb\avatar\bc81a28f9ba440558dd7fbfc4d898eb4.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\217e5ca7e62e4b97a24ab6ad1e94b484\flash\1d27624ac4be45a0b0f93df1350ee697.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\217e5ca7e62e4b97a24ab6ad1e94b484\flash\b87503ad0dc54e4eba59f7edaae3144f.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\217e5ca7e62e4b97a24ab6ad1e94b484\flash\e7c31982452d49e194a23090aafa5b42.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\217e5ca7e62e4b97a24ab6ad1e94b484\thumbnail\0dfb988438814f98817a7cb6a702b54a.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\217e5ca7e62e4b97a24ab6ad1e94b484\thumbnail\3af95292218045d991293657672588b4.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\217e5ca7e62e4b97a24ab6ad1e94b484\thumbnail\d59091bf98e741a08e6a35a07cf80725.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Models\Email\" />
-    <Folder Include="Repositories\Archive\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

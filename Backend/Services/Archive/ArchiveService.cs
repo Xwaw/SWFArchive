@@ -4,6 +4,7 @@ using Backend.Models;
 using Backend.Models.Dto;
 using Backend.Models.Dto.Archive;
 using Backend.Models.User;
+using Backend.Repositories.Archive;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
@@ -16,16 +17,34 @@ public class ArchiveService
     private readonly FileStorageService _fileStorageService;
     private readonly FileRepository _fileRepository;
     private readonly AppIdentityDbContext _context;
+    private readonly ArchiveRepository _archiveRepository;
 
     public ArchiveService(UserManager<User> userManager,
-        AppIdentityDbContext appIdentityDbContext, FileStorageService fileStorageService, FileRepository fileRepository)
+        AppIdentityDbContext appIdentityDbContext, FileStorageService fileStorageService, FileRepository fileRepository, ArchiveRepository archiveRepository)
     {
         _userManager = userManager;
         _context = appIdentityDbContext;
         _fileStorageService = fileStorageService;
         _fileRepository = fileRepository;
+        _archiveRepository = archiveRepository;
     }
 
+    public async Task<List<ArchiveGameCardDto>> GetPagedArchive() // ONLY TEST, NEED:  PAGINATION AND QUERY
+    {
+        
+        var archive =  _archiveRepository.GetArchive().Select(g => new ArchiveGameCardDto
+        {
+            Id = g.Id,
+            Title = g.Title,
+            AuthorName = g.AuthorName,
+            PlaysCount = g.PlaysCount,
+            RatingAvarage = g.RatingAverage,
+            Uploaded = g.CreatedAt,
+            ThumbnailUrl = _context.Files.Where(f => f.OwnerId == g.Id).Select(f => f.Url).FirstOrDefault(),
+        });
+        
+        return archive.ToList();
+    }
     public async Task UploadNewGame(ClaimsPrincipal principal, UploadGameDto dto)
     {
         var user = await _userManager.GetUserAsync(principal);
@@ -43,7 +62,7 @@ public class ArchiveService
 
         var archiveGameId = Guid.NewGuid();
 
-        var urlFlash = await _fileStorageService.SaveArchiveFile(userId, dto.SwfGame, FileUsageType.FlashFile);
+        var urlFlash = await _fileStorageService.SaveArchiveFile(archiveGameId, dto.SwfGame, FileUsageType.FlashFile);
         if (string.IsNullOrWhiteSpace(urlFlash))
             throw new Exception("Failed to save SWF file.");
 
@@ -53,7 +72,7 @@ public class ArchiveService
             dto.Thumbnail.Length > 0 &&
             dto.Thumbnail.Length <= FileSizeLimits.GetMaxFileSizeLimit(FileUsageType.Thumbnail))
         {
-            thumbnailUrl = await _fileStorageService.SaveArchiveFile(userId, dto.Thumbnail, FileUsageType.Thumbnail);
+            thumbnailUrl = await _fileStorageService.SaveArchiveFile(archiveGameId, dto.Thumbnail, FileUsageType.Thumbnail);
         }
 
         await _fileRepository.AddArchiveAsync(new GameArchive

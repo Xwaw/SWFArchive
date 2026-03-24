@@ -8,7 +8,7 @@ export default function GameCard({
   authorName,
   playsCount,
   starsRated,
-  uploadedAt,
+  uploaded,
 }: GameCardProps) {
   const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ export default function GameCard({
         }}
       >
         <div className="absolute bottom-1 left-1 flex bg-black/60 text-white px-2 py-1 rounded text-sm">
-            <div>{uploadedAt}</div>
+            <div>{uploaded}</div>
         </div>
         <div className="absolute bottom-1 right-1 flex flex-col gap-2 bg-black/60 text-white px-2 py-1 rounded text-sm">
           <span>{"*"} {starsRated}</span>

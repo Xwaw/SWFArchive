@@ -23,6 +23,13 @@ public class ArchiveController : ControllerBase
         _accountService = accountService;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetArchive()
+    {
+        var archive = await _archiveService.GetPagedArchive();
+        return Ok(archive);
+    }
+
     [Authorize]
     [HttpPost("upload/game")]
     public async Task<IActionResult> UploadGame([FromForm] UploadGameDto dto)
