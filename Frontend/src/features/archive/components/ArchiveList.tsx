@@ -13,10 +13,11 @@ export default function ArchiveList({ children }: ArchiveProps) {
               id={value.id}
               title={value.title}
               playsCount={value.playsCount}
-              starsRated={value.starsRated}
+              ratingAverage={value.ratingAverage}
               authorName={value.authorName}
               uploaded={value.uploaded}
-            ></GameCard>
+              thumbnailUrl={value.thumbnailUrl}
+            />
           </div>
         );
       })}

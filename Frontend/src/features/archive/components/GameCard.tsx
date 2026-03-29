@@ -7,10 +7,15 @@ export default function GameCard({
   thumbnailUrl,
   authorName,
   playsCount,
-  starsRated,
+  ratingAverage,
   uploaded,
 }: GameCardProps) {
   const navigate = useNavigate();
+  const formatedDate = new Date(uploaded ?? "").toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    })
 
   return (
     <div className="w-full h-75 bg-gray-600 hover:opacity-75">
@@ -26,10 +31,10 @@ export default function GameCard({
         }}
       >
         <div className="absolute bottom-1 left-1 flex bg-black/60 text-white px-2 py-1 rounded text-sm">
-            <div>{uploaded}</div>
+            <div>{formatedDate}</div>
         </div>
         <div className="absolute bottom-1 right-1 flex flex-col gap-2 bg-black/60 text-white px-2 py-1 rounded text-sm">
-          <span>{"*"} {starsRated}</span>
+          <span>{"*"} {ratingAverage}</span>
           <span>{">"} {playsCount}</span>
         </div>
       </div>

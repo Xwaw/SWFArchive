@@ -18,6 +18,8 @@ public class ArchiveService
     private readonly FileRepository _fileRepository;
     private readonly AppIdentityDbContext _context;
     private readonly ArchiveRepository _archiveRepository;
+    
+    private readonly int _pageSize = 10;
 
     public ArchiveService(UserManager<User> userManager,
         AppIdentityDbContext appIdentityDbContext, FileStorageService fileStorageService, FileRepository fileRepository, ArchiveRepository archiveRepository)
@@ -29,21 +31,38 @@ public class ArchiveService
         _archiveRepository = archiveRepository;
     }
 
-    public async Task<List<ArchiveGameCardDto>> GetPagedArchive() // ONLY TEST, NEED:  PAGINATION AND QUERY
+    public async Task<PagedResultDto<ArchiveGameCardDto>?> GetPagedArchive(int currentPage) // ONLY TEST, NEED:  PAGINATION AND QUERY
     {
-        
-        var archive =  _archiveRepository.GetArchive().Select(g => new ArchiveGameCardDto
+        var archive = _context.ArchiveGames;
+        var sorted = _archiveRepository.SortArchive(archive, "title");
+        var query = _archiveRepository.ApplyPaging(sorted, currentPage, _pageSize);
+
+        if (!query.Any())
+        {
+            return null;
+        }
+
+        var archiveGameCardDto = query.Select(g => new ArchiveGameCardDto
         {
             Id = g.Id,
             Title = g.Title,
-            AuthorName = g.AuthorName,
             PlaysCount = g.PlaysCount,
-            RatingAvarage = g.RatingAverage,
-            Uploaded = g.CreatedAt,
-            ThumbnailUrl = _context.Files.Where(f => f.OwnerId == g.Id).Select(f => f.Url).FirstOrDefault(),
+            RatingAverage = g.RatingAverage,
+            Uploaded = g.UploadedAt,
+            AuthorName = g.AuthorName,
+            ThumbnailUrl = _context.Files.Where(f => f.OwnerId == g.Id && f.UsageType == FileUsageType.Thumbnail).Select(f => f.Url).FirstOrDefault()
         });
-        
-        return archive.ToList();
+
+        var pageArchive = await archiveGameCardDto.ToListAsync();
+
+        var page = new PagedResultDto<ArchiveGameCardDto>
+        {
+            Items = pageArchive,
+            Page = currentPage,
+            PageSize = _pageSize,
+            Total = (int)Math.Ceiling(archive.Count() / 10.0),
+        };
+        return page;
     }
     public async Task UploadNewGame(ClaimsPrincipal principal, UploadGameDto dto)
     {

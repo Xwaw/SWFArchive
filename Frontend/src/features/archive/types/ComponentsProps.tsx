@@ -4,8 +4,15 @@ export interface GameCardProps{
     authorName: string,
     thumbnailUrl?: string,
     playsCount: number,
-    starsRated: number,
+    ratingAverage: number,
     uploaded: string
+}
+
+export interface PaginatedArchive{
+    items: GameCardProps[],
+    total: number,
+    page: number,
+    pageSize: number
 }
 
 export interface ArchiveProps{

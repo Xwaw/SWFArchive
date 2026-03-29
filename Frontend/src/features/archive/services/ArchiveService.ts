@@ -1,11 +1,9 @@
 import { http, httpForm } from "../../../http";
 
 export class ArchiveService {
-  async GetArchive(){
+  async GetArchive(currentPage: number){
     try {
-      const response = await http.get(
-        `archive`,
-      );
+      const response = await http.get(`archive/load/${currentPage}`);
       return response.data;
     } catch (error) {
       throw error;
