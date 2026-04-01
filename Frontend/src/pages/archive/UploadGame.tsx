@@ -1,4 +1,4 @@
-import UploadGameForm from "../../features/archive/components/UploadGameForm";
+import UploadGameForm from "../../features/archive/components/Upload/UploadGameForm";
 
 export default function UploadGameToArchive() {
   return( 

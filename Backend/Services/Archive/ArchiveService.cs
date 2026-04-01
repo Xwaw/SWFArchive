@@ -50,7 +50,7 @@ public class ArchiveService
             RatingAverage = g.RatingAverage,
             Uploaded = g.UploadedAt,
             AuthorName = g.AuthorName,
-            ThumbnailUrl = _context.Files.Where(f => f.OwnerId == g.Id && f.UsageType == FileUsageType.Thumbnail).Select(f => f.Url).FirstOrDefault()
+            ThumbnailUrl = _archiveRepository.GetGameThumbnail(g.Id)
         });
 
         var pageArchive = await archiveGameCardDto.ToListAsync();

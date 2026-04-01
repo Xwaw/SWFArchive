@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { archiveService } from "../services/ArchiveService";
-import type { GameCardProps, PaginatedArchive } from "../types/ComponentsProps";
+import type { PaginatedArchive } from "../types/ComponentsProps";
 
 export default function useArchive() {
   const [isLoading, setIsLoading] = useState<boolean>(true);

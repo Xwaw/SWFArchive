@@ -32,9 +32,9 @@ public class ArchiveRepository
         return query.Skip((page - 1) * pageSize).Take(pageSize);
     }
 
-    public async Task<string?> GetGameThumbnail(Guid gameId)
+    public string? GetGameThumbnail(Guid ownerId)
     {
-        var result = await _context.Files.FirstOrDefaultAsync(f => f.Id == gameId && f.UsageType == FileUsageType.Thumbnail);
-        return result?.Url;
+        return _context.Files.Where(f => f.OwnerId == ownerId && f.UsageType == FileUsageType.Thumbnail)
+            .Select(f => f.Url).FirstOrDefault();
     }
 }

@@ -1,3 +1,4 @@
+import { Config } from "../../../Config";
 import type { ArchiveProps } from "../types/ComponentsProps";
 import GameCard from "./GameCard";
 
@@ -16,7 +17,7 @@ export default function ArchiveList({ children }: ArchiveProps) {
               ratingAverage={value.ratingAverage}
               authorName={value.authorName}
               uploaded={value.uploaded}
-              thumbnailUrl={value.thumbnailUrl}
+              thumbnailUrl={Config.API_URL + value.thumbnailUrl}
             />
           </div>
         );
