@@ -146,6 +146,12 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    var db = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+    db.Database.Migrate();
+}
+
+using (var scope = app.Services.CreateScope())
+{
     var roleManager = scope.ServiceProvider
         .GetRequiredService<RoleManager<IdentityRole>>();
 
@@ -158,12 +164,6 @@ using (var scope = app.Services.CreateScope())
             await roleManager.CreateAsync(new IdentityRole(role));
         }
     }
-}
-
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
-    db.Database.Migrate();
 }
 
 using (var scope = app.Services.CreateScope())
