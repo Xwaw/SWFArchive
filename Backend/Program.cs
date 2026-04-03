@@ -162,6 +162,12 @@ using (var scope = app.Services.CreateScope())
 
 using (var scope = app.Services.CreateScope())
 {
+    var db = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+    db.Database.Migrate();
+}
+
+using (var scope = app.Services.CreateScope())
+{
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     const string rootEmail = "root@system.local";
 
