@@ -4,7 +4,7 @@ on:
   push:
     branches:
       github-actions-test
-workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   deploy:
