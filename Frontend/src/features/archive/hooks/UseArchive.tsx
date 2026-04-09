@@ -5,7 +5,7 @@ import type { PaginatedArchive } from "../types/ComponentsProps";
 
 export default function useArchive() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [archive, setArchive] = useState<PaginatedArchive>();
+  const [archive, setArchive] = useState<PaginatedArchive | null>();
   const [error, setError] = useState<string | null>(null);
   const currentPage = useRef<number>(0);
   const totalPages = useRef<number>(0);
@@ -32,6 +32,12 @@ export default function useArchive() {
 
     try {
       const result = await archiveService.GetArchive(currentPage);
+
+      if(!result){
+        setArchive(null)
+        return;
+      }
+
       totalPages.current = result.total;
       setArchive((prev) => ({
         ...result,

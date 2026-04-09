@@ -37,4 +37,10 @@ public class ArchiveRepository
         return _context.Files.Where(f => f.OwnerId == ownerId && f.UsageType == FileUsageType.Thumbnail)
             .Select(f => f.Url).FirstOrDefault();
     }
+    
+    public async Task AddArchiveAsync(GameArchive gameArchive)
+    {
+        await _context.ArchiveGames.AddAsync(gameArchive);
+        await _context.SaveChangesAsync();
+    }
 }

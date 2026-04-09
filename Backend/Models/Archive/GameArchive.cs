@@ -29,5 +29,7 @@ public class GameArchive
     
     public DateTime CreatedAt { get; set; }
     
+    public ICollection<GameTag> GameTags { get; set; } = new HashSet<GameTag>();
+    
     public ICollection<UserGame> UserGames { get; set; } = new List<UserGame>();
 }

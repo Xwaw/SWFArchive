@@ -1,12 +1,19 @@
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { archiveService } from "../../services/ArchiveService";
 import TagInput from "./TagInput";
 
 export default function UploadGameForm() {
+  const [tags, setTags] = useState<string[]>([]);
+
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
+
+    tags.forEach(element => {
+      formData.append("tags", element)
+    })
+
     await archiveService.UploadNewGame(formData)
   };
 
@@ -51,7 +58,7 @@ export default function UploadGameForm() {
 
             <div className="w-full h-min-24 bg-green-800 p-2">
               Tags
-              <TagInput></TagInput>
+              <TagInput tags={tags} setTags={setTags}></TagInput>
             </div>
 
             <div className="w-full h-24 bg-gray-800 p-2 flex items-end justify-end gap-2">

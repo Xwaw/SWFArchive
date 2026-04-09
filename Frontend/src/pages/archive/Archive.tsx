@@ -27,7 +27,13 @@ export default function Archive() {
 
       <div className="w-full h-full flex justify-center bg-blue-300">
         <div className="w-2/3 h-full flex flex-col bg-black">
-          <ArchiveList children={archive?.items!}></ArchiveList>
+          {archive ? (
+            <div>
+              <ArchiveList children={archive?.items!}></ArchiveList>
+            </div>
+          ) : (
+            <div>NO GAMES</div>
+          )}
         </div>
       </div>
     </div>

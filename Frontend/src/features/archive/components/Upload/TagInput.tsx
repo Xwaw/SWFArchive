@@ -1,14 +1,30 @@
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 
-export default function TagInput() {
-  const [tags, setTags] = useState<string[]>([]);
+interface TagInputProps {
+  tags: string[],
+  setTags: Dispatch<SetStateAction<string[]>>
+}
+
+export default function TagInput({tags, setTags}: TagInputProps) {
   const [input, setInput] = useState("");
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" || e.code === "Space") {
+    if (e.key === "Enter") {
       e.preventDefault();
 
-      setTags([...tags, input]);
+      const tagsExist = tags.some((element) => {
+
+        if(element === input)return true;
+
+        return false;
+      })
+
+      if(tagsExist){
+        setInput("")
+        return;
+      };
+
+      setTags(prev => [...prev, input]);
 
       setInput("");
     }
@@ -44,6 +60,7 @@ export default function TagInput() {
           onChange={(e) => setInput(e.target.value)}
           value={input}
           onKeyDown={handleKeyDown}
+          className="border-1 border-white"
         />
       </div>
     </div>

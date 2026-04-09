@@ -8,4 +8,6 @@ public class UploadGameDto
     public IFormFile? Thumbnail { get; set; }
     public required IFormFile SwfGame { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public List<string>? Tags { get; set; } = new();
 }

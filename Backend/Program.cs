@@ -139,6 +139,9 @@ builder.Services.AddScoped<ArchiveService>();
 builder.Services.AddScoped<ViewGameService>();
 builder.Services.AddScoped<ArchiveRepository>();
 
+builder.Services.AddScoped<TagRepository>();
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

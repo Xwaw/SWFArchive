@@ -3,6 +3,7 @@ using System;
 using Backend;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    partial class AppIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260408175900_db17")]
+    partial class db17
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
@@ -88,43 +91,6 @@ namespace Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ArchiveGames");
-                });
-
-            modelBuilder.Entity("Backend.Models.GameTag", b =>
-                {
-                    b.Property<Guid>("GameArchiveId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("TagId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("CreatedById")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("GameArchiveId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("GameTag");
-                });
-
-            modelBuilder.Entity("Backend.Models.Tag", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Backend.Models.User.User", b =>
@@ -450,25 +416,6 @@ namespace Backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Backend.Models.GameTag", b =>
-                {
-                    b.HasOne("Backend.Models.GameArchive", "GameArchive")
-                        .WithMany("GameTags")
-                        .HasForeignKey("GameArchiveId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Backend.Models.Tag", "Tag")
-                        .WithMany("GameTag")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("GameArchive");
-
-                    b.Navigation("Tag");
-                });
-
             modelBuilder.Entity("Backend.Models.User.UserBadge", b =>
                 {
                     b.HasOne("Backend.Models.Dto.FileTarget", "Image")
@@ -588,14 +535,7 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.GameArchive", b =>
                 {
-                    b.Navigation("GameTags");
-
                     b.Navigation("UserGames");
-                });
-
-            modelBuilder.Entity("Backend.Models.Tag", b =>
-                {
-                    b.Navigation("GameTag");
                 });
 
             modelBuilder.Entity("Backend.Models.User.User", b =>

@@ -42,12 +42,6 @@ public class FileRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task AddArchiveAsync(GameArchive gameArchive)
-    {
-        await _context.ArchiveGames.AddAsync(gameArchive);
-        await _context.SaveChangesAsync();
-    }
-
     public async Task RemoveRangeAsync(IEnumerable<FileTarget> files)
     {
         _context.Files.RemoveRange(files);

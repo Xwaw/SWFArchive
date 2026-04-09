@@ -14,7 +14,7 @@ public class GameViewDto
     public DateTime Uploaded { get; set; } = DateTime.Now;
     public DateTime Modified { get; set; } = DateTime.Now;
 
-    public List<string> Tags { get; set; } = [];
+    public ICollection<Tag> Tags { get; set; } = [];
     
     public ICollection<UserComment> Comments { get; set; }
 }

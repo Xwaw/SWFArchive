@@ -19,6 +19,8 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
     public DbSet<UserComment> UserComments { get; set; }
     
     public DbSet<UserProfile> UserProfiles { get; set; }
+    
+    public DbSet<Tag> Tags { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -47,6 +49,21 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
         builder.Entity<UserProfile>()
             .HasIndex(p => p.UserId)
             .IsUnique();
+        
+        
+        
+        builder.Entity<GameTag>()
+            .HasKey(gt => new { gt.GameArchiveId, gt.TagId });
+
+        builder.Entity<GameTag>()
+            .HasOne(gt => gt.GameArchive)
+            .WithMany(g => g.GameTags)
+            .HasForeignKey(gt => gt.GameArchiveId);
+
+        builder.Entity<GameTag>()
+            .HasOne(gt => gt.Tag)
+            .WithMany(t => t.GameTag)
+            .HasForeignKey(gt => gt.TagId);
     }
 }
     
