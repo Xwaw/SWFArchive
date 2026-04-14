@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { archiveService } from "../services/ArchiveService";
 import type { PaginatedArchive } from "../types/ComponentsProps";
+import type { QuerySearch } from "../types/ComponentsDto";
 
 export default function useArchive() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -17,24 +18,24 @@ export default function useArchive() {
       document.documentElement.scrollHeight - 5;
     if (!atBottom) return;
     if (isFetchingRef.current) return;
-    if(currentPage.current >= totalPages.current) return
+    if (currentPage.current >= totalPages.current) return;
 
     isFetchingRef.current = true;
 
     currentPage.current += 1;
-    await fetchArchive(currentPage.current);
+    await fetchArchive({ currentPage: currentPage.current });
     isFetchingRef.current = false;
   };
 
-  const fetchArchive = async (currentPage: number) => {
+  const fetchArchive = async (querySearch: QuerySearch) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const result = await archiveService.GetArchive(currentPage);
+      const result = await archiveService.GetArchive(querySearch);
 
-      if(!result){
-        setArchive(null)
+      if (!result) {
+        setArchive(null);
         return;
       }
 
@@ -60,7 +61,9 @@ export default function useArchive() {
   };
 
   useEffect(() => {
-    fetchArchive(currentPage.current);
+    fetchArchive({
+      currentPage: currentPage.current,
+    });
   }, []);
 
   useEffect(() => {

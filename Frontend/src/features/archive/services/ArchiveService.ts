@@ -2,20 +2,22 @@ import { http, httpForm } from "../../../http";
 import type { QuerySearch } from "../types/ComponentsDto";
 
 export class ArchiveService {
-  async GetArchive(dto: QuerySearch){
+  async GetArchive(queryDto: QuerySearch){
     try {
-      const response = await http.get(`archive?`);
+      const response = await http.get("archive", {
+        params: queryDto
+      });
       return response.data;
     } catch (error) {
       throw error;
     }
   }
 
-  async UploadNewGame(dto: FormData) {
+  async UploadNewGame(formDto: FormData) {
     try {
       const response = await httpForm.post(
         `archive/upload/game`,
-        dto,
+        formDto,
       );
       return response.data;
     } catch (error) {
