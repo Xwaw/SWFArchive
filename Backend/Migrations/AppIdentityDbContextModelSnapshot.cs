@@ -122,6 +122,9 @@ namespace Backend.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("UsageCount")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.ToTable("Tags");

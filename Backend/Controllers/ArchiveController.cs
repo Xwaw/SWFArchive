@@ -23,10 +23,10 @@ public class ArchiveController : ControllerBase
         _accountService = accountService;
     }
 
-    [HttpGet("load/{currentPage}")]
-    public async Task<IActionResult> GetArchive([FromRoute] int currentPage)
+    [HttpGet]
+    public async Task<IActionResult> GetArchive([FromQuery] ArchiveQueryDto query)
     {
-        var archive = await _archiveService.GetPagedArchive(currentPage);
+        var archive = await _archiveService.GetArchive(query);
         return Ok(archive);
     }
 

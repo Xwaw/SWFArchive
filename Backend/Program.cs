@@ -1,5 +1,6 @@
 using Backend;
 using Backend.Authorization;
+using Backend.Controllers;
 using Backend.Models;
 using Backend.Models.User;
 using Backend.Repositories.Archive;
@@ -140,6 +141,8 @@ builder.Services.AddScoped<ViewGameService>();
 builder.Services.AddScoped<ArchiveRepository>();
 
 builder.Services.AddScoped<TagRepository>();
+builder.Services.AddScoped<TagService>();
+builder.Services.AddScoped<TagController>();
 
 
 builder.Services.AddEndpointsApiExplorer();

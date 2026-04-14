@@ -1,9 +1,10 @@
 import { http, httpForm } from "../../../http";
+import type { QuerySearch } from "../types/ComponentsDto";
 
 export class ArchiveService {
-  async GetArchive(currentPage: number){
+  async GetArchive(dto: QuerySearch){
     try {
-      const response = await http.get(`archive/load/${currentPage}`);
+      const response = await http.get(`archive?`);
       return response.data;
     } catch (error) {
       throw error;

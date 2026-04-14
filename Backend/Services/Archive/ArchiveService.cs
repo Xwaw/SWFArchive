@@ -18,55 +18,66 @@ public class ArchiveService
     private readonly FileRepository _fileRepository;
     private readonly AppIdentityDbContext _context;
     private readonly ArchiveRepository _archiveRepository;
-    private readonly TagRepository _tagRepository;
+    private readonly TagService _tagService;
     
     private readonly int _pageSize = 10;
 
     public ArchiveService(UserManager<User> userManager,
-        AppIdentityDbContext appIdentityDbContext, FileStorageService fileStorageService, FileRepository fileRepository, ArchiveRepository archiveRepository, TagRepository tagRepository)
+        AppIdentityDbContext appIdentityDbContext, 
+        FileStorageService fileStorageService, 
+        FileRepository fileRepository, 
+        ArchiveRepository archiveRepository, 
+        TagService tagService)
     {
         _userManager = userManager;
         _context = appIdentityDbContext;
         _fileStorageService = fileStorageService;
         _fileRepository = fileRepository;
         _archiveRepository = archiveRepository;
-        _tagRepository = tagRepository;
+        _tagService = tagService;
     }
 
-    public async Task<PagedResultDto<ArchiveGameCardDto>?> GetPagedArchive(int currentPage)
+    public async Task<PagedResultDto<ArchiveGameCardDto>?> GetArchive(ArchiveQueryDto currentQuery)
     {
-        var archive = _context.ArchiveGames;
-        var sorted = _archiveRepository.SortArchive(archive, "title");
-        var query = _archiveRepository.ApplyPaging(sorted, currentPage, _pageSize);
+        var archive = _context.ArchiveGames.AsQueryable();
 
-        if (! await query.AnyAsync())
+        if (!string.IsNullOrWhiteSpace(currentQuery.Search))
         {
-            return null;
+            var normalized = currentQuery.Search.ToLower();
+            archive = archive.Where(g => g.Title.ToLower().Contains(normalized));
         }
 
-        var archiveGameCardDto = query.Select(g => new ArchiveGameCardDto
+        if (currentQuery.TagsId != null && currentQuery.TagsId.Any())
+            archive = archive.Where(g => g.GameTags.Any(gt => currentQuery.TagsId.Contains(gt.TagId)));
+        
+        var totalCount = await archive.CountAsync();
+        
+        if(totalCount == 0)
+            return null;
+
+        if (currentQuery.SortBy != null) 
+            archive = _archiveRepository.SortArchive(archive, currentQuery.SortBy);
+
+        var pagedArchive = _archiveRepository.ApplyPaging(archive, currentQuery.CurrentPage, _pageSize);
+
+        var items = await pagedArchive.Select(g => new ArchiveGameCardDto
         {
-            Id = g.Id,
             Title = g.Title,
+            Id = g.Id,
+            AuthorName = g.AuthorName,
             PlaysCount = g.PlaysCount,
             RatingAverage = g.RatingAverage,
-            Uploaded = g.UploadedAt,
-            AuthorName = g.AuthorName,
-            ThumbnailUrl = _archiveRepository.GetGameThumbnail(g.Id)
-        });
+            ThumbnailUrl = _archiveRepository.GetGameThumbnail(g.Id),
+            Uploaded = g.CreatedAt
+        }).ToListAsync();
 
-        var pageArchive = await archiveGameCardDto.ToListAsync();
-        
-        var totalCount = await query.CountAsync();
-
-        var page = new PagedResultDto<ArchiveGameCardDto>
+        return new PagedResultDto<ArchiveGameCardDto>()
         {
-            Items = pageArchive,
-            Page = currentPage,
+            Items = items,
+            Page = currentQuery.CurrentPage,
             PageSize = _pageSize,
-            Total = (int) Math.Ceiling(totalCount / (double) _pageSize)
+            Total = (int)Math.Ceiling(totalCount / (double)_pageSize)
         };
-        return page;
     }
     public async Task UploadNewGame(ClaimsPrincipal principal, UploadGameDto dto)
     {
@@ -100,12 +111,13 @@ public class ArchiveService
         
         var listTags = new List<Tag>();
 
-        foreach (var tagName in dto.Tags)
-        {
-            var tag = await GetOrCreateTag(tagName);
-            if (tag != null)
-                listTags.Add(tag);
-        }
+        if (dto.Tags != null)
+            foreach (var tagName in dto.Tags)
+            {
+                var tag = await _tagService.GetOrCreateTag(tagName);
+                if (tag != null)
+                    listTags.Add(tag);
+            }
 
         var game = new GameArchive
         {
@@ -128,7 +140,7 @@ public class ArchiveService
             UsageType = FileUsageType.FlashFile,
         });
         
-        await _tagRepository.AddTagsToGame(game.Id, listTags);
+        await _tagService.AddTagsToGame(game.Id, listTags);
 
         if (thumbnailUrl is not null)
         {
@@ -141,21 +153,4 @@ public class ArchiveService
             });
         }
     }
-
-    public async Task<Tag?> GetOrCreateTag(string name)
-{
-    if (string.IsNullOrWhiteSpace(name)) return null;
-    
-    var normalized = name.Trim().ToLower();
-    
-    var existing = await _tagRepository.GetExistingTag(normalized);
-    
-    if (existing != null) return existing;
-
-    var newTag = new Tag { Name = normalized };
-
-    await _tagRepository.AddTag(newTag);
-    
-    return newTag;
-}
 }

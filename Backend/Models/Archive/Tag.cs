@@ -10,5 +10,7 @@ public class Tag
     [StringLength(50)]
     public string Name { get; set; } = string.Empty;
     
+    public int UsageCount { get; set; }
+    
     public ICollection<GameTag> GameTag { get; set; } = new HashSet<GameTag>();
 }
