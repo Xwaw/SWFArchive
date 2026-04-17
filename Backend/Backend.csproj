@@ -174,11 +174,50 @@
     <_ContentIncludedByDefault Remove="wwwroot\upload\games\f8717a38beaa490ea1379c790efdef01\flash\e91eb65d21204015ac55ce3308ee6d62.swf" />
     <_ContentIncludedByDefault Remove="wwwroot\upload\games\f87bfd7079654c9da4153853c1754c9a\flash\97015e127b864690ba1c8df9efa0f510.swf" />
     <_ContentIncludedByDefault Remove="wwwroot\upload\users\f0650960e1b44cf09d4c72fb0ce987e9\avatar\f9525d6f31e84e07a87d70016ce2e9d8.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\08022851058b4861a04847a60f46171a\flash\d0813028bf304ed9a420652bc68462a0.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\0d64496347db4d8f9f0209eec1e357ea\flash\5806f20bdf5e4f539d227e7b2331bdbb.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\21298266b4b64ea0b1547ed0332b2d7d\flash\2fcd145549b74a42994499e1d9bfa3d8.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\26c3e0772e944d988c66a4cc763684a3\flash\d1dc095a891b48568fc5e6b1fc0a05f8.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\2816651ce2e24a7fb739e3e1a97060ed\flash\56d05d51f2ee485480533a8fbfd19f98.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\293b56458b3a43469bc6e6f6922842da\flash\26723d6eb18240b291285ae771496ff9.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\3a9bed9b5b084b1e911e547b7b5533dd\flash\92aac257dc5b4c31b4d5c839bcc07cd1.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\3c06c7d97da444039bde17f82410071d\flash\5b7df57b5df84589a037f3052f5e59a3.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\3e9b0dbdf7654da9a19dfe782718f67f\flash\903b294f80e542938e581394666159e3.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\3f9dbd72e19c49299076127328b50770\flash\6a0d4e596ea44f5d874b0f6d0cb91461.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\3fd86128b18b42bc80b994671c4095b4\flash\af7c594e5b094a09a99947937801a664.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\4610386875b244f0b20b39d83042c820\flash\15d89599f49d4ade97e47a630682e2fb.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\480617a5e1a2448bbf4daeff0620faf5\flash\13cb560036a04f869b05dbeed44b4f02.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\4b327a2c914245fba763fe5d7ed4d74a\flash\03653854ef1a45eca67aed623f6ac4c8.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\4be91ecb07b14c09bce70ceb7eb66439\flash\aaae5898b35c44baa3abc0e008a99740.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\4be91ecb07b14c09bce70ceb7eb66439\thumbnail\f29b9e8d06914b5eabfa700763a206d6.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\6cae13d0b29b4cecb86697a733c85947\flash\e955385f409b4b6689e9a4ccc9eb4dbd.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\6f0d86c6be1841babfcbdcbe378c47fb\flash\5b953f38798543adaf30999ae1cb23e3.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\75eadaa47f764fd3858fb0caf3bd9390\flash\63a8b54285194f8595c11dbd7e927a31.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\7e0bf791d6e840429564b1f1ed146675\flash\f8b47b19f64e409ab34491aa1c35a278.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\a050ae2d62b348eca2c83cb53edac201\flash\eadb8bdaf96e4ace93f822b9f3d28e2f.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\a9e327dc9bf34b2b97e7bab88b5d6f9b\flash\a5666caa7ba64af38257a425ccccb599.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\c17ad519232d4a66887703b32b3be448\flash\386fec3bcd854444ad8d47f6f4be2937.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\c181d0435f564c629768c375a5657a07\flash\9a593e146ea5422784052432106db77a.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\c2c09e3166034e5f9896dd8fdf70fe7c\flash\45f3efbbca1740b8b84e6975a3c5d125.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\c8eae8843aa549d49213c01e8827bcf4\flash\f69e0a0aae9a44f2a735ddac64a8276e.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\c9f988b97359498fac692d50adff455a\flash\a4e8dfc6fe4e4577a34fafa5871cbe7e.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\ca0d515f1417481c83a4e13cf324526c\flash\632bbad7d297402288a6bb427e4108c3.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\cda2ce0e28a14361be099aec4e4a4729\flash\c3a6e07650ab4fd88b4c6d46fece74dd.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\ce43cf08c09941958bb2d56620768aba\flash\4e4ad71b34ae43988c6d7219ac14b864.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\cf9e9e9db147461c8b0a3d1ca925f8f0\flash\e66e0c73749d4f27b4d5f0715b73cccf.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\d4de10b476bc4202bc52d31844ff29df\flash\ee7bfc44d1614d4c928ae4f60f23b581.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\d732fad02fce4285848e8cff48ab7437\flash\63c62e009fa4458b98f61775d3e0e516.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\de1eeb7ae41c40efbd9ebaf14d556d1f\flash\33c76a0eac4e48ceb2fe729bc3c4fdc3.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\e31a422ed84e4701840756b5defd11d3\flash\32f521d045124001943a2e0b024ac2dc.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\e64d18352b864e51b7edac248e9093a5\flash\e38342946afb45ae991538f291c6bfc4.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\games\f05e22b6db6b4e8698b1780962fa140e\flash\1fad7c80b7df4b28bddbd74cc1fe89d1.swf" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\users\62eca41487f54017a630b9fee6daee48\avatar\869d196d7b83444d8aa565d12e078cd3.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\users\62eca41487f54017a630b9fee6daee48\banner\7ae60508b05640678f6c94e756918d9b.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Models\Email\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\upload\" />
   </ItemGroup>
 
 </Project>

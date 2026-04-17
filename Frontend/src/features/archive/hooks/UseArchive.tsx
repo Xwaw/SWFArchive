@@ -4,10 +4,15 @@ import { archiveService } from "../services/ArchiveService";
 import type { PaginatedArchive } from "../types/ComponentsProps";
 import type { QuerySearch } from "../types/ComponentsDto";
 
-export default function useArchive() {
+export default function useArchive(
+  search?: string,
+  sortBy?: string,
+  tagIds?: string[],
+) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [archive, setArchive] = useState<PaginatedArchive | null>();
   const [error, setError] = useState<string | null>(null);
+
   const currentPage = useRef<number>(0);
   const totalPages = useRef<number>(0);
   const isFetchingRef = useRef(false);
@@ -23,7 +28,12 @@ export default function useArchive() {
     isFetchingRef.current = true;
 
     currentPage.current += 1;
-    await fetchArchive({ currentPage: currentPage.current });
+    await fetchArchive({
+      currentPage: currentPage.current,
+      search: search,
+      tagIds: tagIds,
+      sortBy: sortBy,
+    });
     isFetchingRef.current = false;
   };
 
@@ -61,13 +71,24 @@ export default function useArchive() {
   };
 
   useEffect(() => {
+    currentPage.current = 0;
+    totalPages.current = 0;
+    setArchive(null);
+
     fetchArchive({
       currentPage: currentPage.current,
+      search: search,
+      tagIds: tagIds, 
+      sortBy: sortBy,
     });
-  }, []);
+  }, [search, tagIds, sortBy]);
 
   useEffect(() => {
-    addEventListener("scroll", fetchScrollingArchive);
+    window.addEventListener("scroll", fetchScrollingArchive);
+
+    return () => {
+      window.removeEventListener("scroll", fetchScrollingArchive)
+    }
   }, []);
 
   return { isLoading, archive, error };

@@ -3,7 +3,7 @@ import UploadGameForm from "../../features/archive/components/Upload/UploadGameF
 export default function UploadGameToArchive() {
   return( 
     <div className="w-screen h-screen">
-      <UploadGameForm></UploadGameForm>
+      <UploadGameForm />
     </div>
   )
 }
