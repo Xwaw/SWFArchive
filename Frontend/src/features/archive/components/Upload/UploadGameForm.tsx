@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { archiveService } from "../../services/ArchiveService";
-import TagInput from "./TagInput";
+import TagInput from "../../../tags/components/TagInput";
 
 export default function UploadGameForm() {
   const [tags, setTags] = useState<string[]>([]);

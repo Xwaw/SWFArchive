@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class TagController : ControllerBase
 {
     private TagService _tagService;
@@ -12,10 +14,10 @@ public class TagController : ControllerBase
         _tagService = tagService;
     }
 
-    [HttpGet("{name}")]
-    public IActionResult GetAllTags(string? name)
+    [HttpGet]
+    public async Task<IActionResult> GetAllTags([FromQuery] string? name)
     {
-        var result = _tagService.GetQueryTags(name);
+        var result = await _tagService.GetQueryTags(name);
         
         return Ok(result);
     }

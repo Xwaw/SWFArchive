@@ -9,7 +9,7 @@ import {
   SortOptions,
   type SortGamesOptions,
 } from "../../features/profile/types/types";
-import TagInput from "../../features/archive/components/Upload/TagInput";
+import TagInput from "../../features/tags/components/TagInput";
 
 export default function Archive() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -49,7 +49,7 @@ export default function Archive() {
       <div className="w-full h-full flex justify-center bg-blue-300">
         <div className="w-2/3 h-full flex flex-col bg-black">
           <div className="w-full h-40 bg-amber-700 flex justify-center items-center gap-25">
-            <TagInput tags={[]} setTags={}></TagInput>
+            <TagInput tags={tags} setTags={setTags}></TagInput>
 
             <SearchBar
               value={searchInput}
