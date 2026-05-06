@@ -17,8 +17,6 @@ export default function useRecommendedTags(name: string | null) {
     try {
       const response = await tagService.getTags(name);
 
-      console.log(response);
-
       if (!response) {
         setError("Tags not found error");
         return;

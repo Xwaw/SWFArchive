@@ -10,11 +10,12 @@ import {
   type SortGamesOptions,
 } from "../../features/profile/types/types";
 import TagInput from "../../features/tags/components/TagInput";
+import type { TagType } from "../../features/tags/types/types";
 
 export default function Archive() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<TagType[]>([]);
 
   const [searchInput, setSearchInput] = useState("");
   const search = searchParams.get("search") || "";
@@ -49,7 +50,33 @@ export default function Archive() {
       <div className="w-full h-full flex justify-center bg-blue-300">
         <div className="w-2/3 h-full flex flex-col bg-black">
           <div className="w-full h-40 bg-amber-700 flex justify-center items-center gap-25">
-            <TagInput tags={tags} setTags={setTags}></TagInput>
+            <TagInput
+              tags={tags}
+              onAddTag={(tag) => {
+                setTags((prev) => {
+                  const updated = [...prev, tag];
+
+                  console.log(updated);
+
+                  setSearchParams({
+                    tagIds: updated.map((t) => t.id)
+                  });
+
+                  return updated;
+                });
+              }}
+              onRemoveTag={(id) => {
+                setTags((prev) => {
+                  const updated = prev.filter((t) => t.id !== id);
+
+                  setSearchParams({
+                    tagIds: tags.map((t) => t.id)
+                  });
+
+                  return updated;
+                });
+              }}
+            ></TagInput>
 
             <SearchBar
               value={searchInput}
@@ -60,7 +87,8 @@ export default function Archive() {
                 if (value !== "" && value !== null) {
                   setSearchParams({
                     search: value,
-                    sort: sort
+                    sort: sort,
+                    tagIds: tags.map((t) => t.id)
                   });
                 }
               }}
@@ -75,6 +103,7 @@ export default function Archive() {
                 setSearchParams({
                   search: search,
                   sort: newSort,
+                  tagIds: tags.map((t) => t.id)
                 });
               }}
             >
