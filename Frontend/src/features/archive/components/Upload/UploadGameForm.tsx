@@ -1,20 +1,21 @@
 import { useState, type FormEvent } from "react";
 import { archiveService } from "../../services/ArchiveService";
 import TagInput from "../../../tags/components/TagInput";
+import type { TagType } from "../../../tags/types/types";
 
 export default function UploadGameForm() {
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<TagType[]>([]);
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
 
-    tags.forEach(element => {
-      formData.append("tags", element)
-    })
+    tags.forEach((tag) => {
+      formData.append("tags", tag.name);
+    });
 
-    await archiveService.UploadNewGame(formData)
+    await archiveService.UploadNewGame(formData);
   };
 
   return (
@@ -48,17 +49,37 @@ export default function UploadGameForm() {
           <div className="w-1/2 flex flex-col gap-4 bg-gray-800 p-4">
             <div className="w-full h-24 bg-green-800 p-2">
               Game file
-              <input type="file" name="swfGame" className="block" accept=".swf"/>
+              <input
+                type="file"
+                name="swfGame"
+                className="block"
+                accept=".swf"
+              />
             </div>
 
             <div className="w-full h-24 bg-green-800 p-2">
               Thumbnail
-              <input type="file" name="thumbnail" className="block" accept="image" />
+              <input
+                type="file"
+                name="thumbnail"
+                className="block"
+                accept="image"
+              />
             </div>
 
             <div className="w-full h-min-24 bg-green-800 p-2">
               Tags
-              <TagInput tags={tags} setTags={setTags}></TagInput>
+              <TagInput
+                tags={tags}
+                onAddTag={(tag) => {
+                  setTags((prev) => {
+                    return [...prev, tag];
+                  });
+                }}
+                onRemoveTag={(id) => {
+                  
+                }}
+              ></TagInput>
             </div>
 
             <div className="w-full h-24 bg-gray-800 p-2 flex items-end justify-end gap-2">

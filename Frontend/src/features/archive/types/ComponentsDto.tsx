@@ -10,6 +10,6 @@ export type UploadGameFormState = {
 export type QuerySearch = {
   currentPage: number;
   search?: string;
-  tagIds?: string[];
+  tagIds?: string;
   sortBy?: string;
 }

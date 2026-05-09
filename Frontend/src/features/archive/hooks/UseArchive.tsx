@@ -7,7 +7,7 @@ import type { QuerySearch } from "../types/ComponentsDto";
 export default function useArchive(
   search?: string,
   sortBy?: string,
-  tagIds?: string[],
+  tagIds?: string,
 ) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [archive, setArchive] = useState<PaginatedArchive | null>();
@@ -28,6 +28,7 @@ export default function useArchive(
     isFetchingRef.current = true;
 
     currentPage.current += 1;
+
     await fetchArchive({
       currentPage: currentPage.current,
       search: search,
@@ -78,7 +79,7 @@ export default function useArchive(
     fetchArchive({
       currentPage: currentPage.current,
       search: search,
-      tagIds: tagIds, 
+      tagIds: tagIds,
       sortBy: sortBy,
     });
   }, [search, tagIds, sortBy]);
@@ -87,9 +88,9 @@ export default function useArchive(
     window.addEventListener("scroll", fetchScrollingArchive);
 
     return () => {
-      window.removeEventListener("scroll", fetchScrollingArchive)
-    }
-  }, []);
+      window.removeEventListener("scroll", fetchScrollingArchive);
+    };
+  }, [search, sortBy, tagIds]);
 
   return { isLoading, archive, error };
 }

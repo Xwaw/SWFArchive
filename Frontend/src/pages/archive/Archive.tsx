@@ -1,4 +1,4 @@
-import { useEffect, useState, type SetStateAction } from "react";
+import { useEffect, useState } from "react";
 import NavBar from "../../components/NavBar";
 import SearchBar from "../../components/SearchBar";
 import ArchiveList from "../../features/archive/components/ArchiveList";
@@ -18,16 +18,46 @@ export default function Archive() {
   const [tags, setTags] = useState<TagType[]>([]);
 
   const [searchInput, setSearchInput] = useState("");
+
   const search = searchParams.get("search") || "";
-  const sort = (searchParams.get("sort") as SortGamesOptions) || "title";
+
+  const sort =
+    (searchParams.get("sort") as SortGamesOptions) || "title";
+
+  const tagIds = searchParams.getAll("tagIds").join(",");
 
   useEffect(() => {
     setSearchInput(search);
   }, [search]);
 
-  const { archive, isLoading, error } = useArchive(search, sort);
+  const { archive, isLoading, error } = useArchive(
+    search,
+    sort,
+    tagIds,
+  );
 
-  if (isLoading && !archive) return <div>LOADING...</div>;
+  const updateParams = (
+    currentSearch: string,
+    currentSort: string,
+    currentTags: TagType[],
+  ) => {
+    const params = new URLSearchParams();
+
+    if (currentSearch.trim() !== "") {
+      params.set("search", currentSearch);
+    }
+
+    params.set("sort", currentSort);
+
+    currentTags.forEach((tag) => {
+      params.append("tagIds", tag.id);
+    });
+
+    setSearchParams(params);
+  };
+
+  if (isLoading && !archive)
+    return <div>LOADING...</div>;
 
   if (error)
     return (
@@ -56,27 +86,31 @@ export default function Archive() {
                 setTags((prev) => {
                   const updated = [...prev, tag];
 
-                  console.log(updated);
-
-                  setSearchParams({
-                    tagIds: updated.map((t) => t.id)
-                  });
+                  updateParams(
+                    search,
+                    sort,
+                    updated,
+                  );
 
                   return updated;
                 });
               }}
               onRemoveTag={(id) => {
                 setTags((prev) => {
-                  const updated = prev.filter((t) => t.id !== id);
+                  const updated = prev.filter(
+                    (t) => t.id !== id,
+                  );
 
-                  setSearchParams({
-                    tagIds: tags.map((t) => t.id)
-                  });
+                  updateParams(
+                    search,
+                    sort,
+                    updated,
+                  );
 
                   return updated;
                 });
               }}
-            ></TagInput>
+            />
 
             <SearchBar
               value={searchInput}
@@ -84,13 +118,11 @@ export default function Archive() {
                 setSearchInput(value);
               }}
               onSubmit={(value) => {
-                if (value !== "" && value !== null) {
-                  setSearchParams({
-                    search: value,
-                    sort: sort,
-                    tagIds: tags.map((t) => t.id)
-                  });
-                }
+                updateParams(
+                  value,
+                  sort,
+                  tags,
+                );
               }}
             />
 
@@ -98,21 +130,23 @@ export default function Archive() {
               elements={SortOptions}
               value={sort}
               onChange={(sortSelect) => {
-                const newSort = sortSelect as SortGamesOptions;
+                const newSort =
+                  sortSelect as SortGamesOptions;
 
-                setSearchParams({
-                  search: search,
-                  sort: newSort,
-                  tagIds: tags.map((t) => t.id)
-                });
+                updateParams(
+                  search,
+                  newSort,
+                  tags,
+                );
               }}
             >
               Sort by:
             </Select>
           </div>
+
           {archive ? (
             <div>
-              <ArchiveList children={archive?.items!}></ArchiveList>
+              <ArchiveList children={archive.items} />
             </div>
           ) : (
             <div

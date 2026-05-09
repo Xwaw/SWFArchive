@@ -39,7 +39,9 @@ public class ArchiveService
 
     public async Task<PagedResultDto<ArchiveGameCardDto>?> GetArchive(ArchiveQueryDto currentQuery)
     {
-        var archive = _context.ArchiveGames.AsQueryable();
+        var archive = _context.ArchiveGames
+            .Include(g => g.GameTags)
+            .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(currentQuery.Search))
         {
@@ -47,8 +49,8 @@ public class ArchiveService
             archive = archive.Where(g => g.Title.ToLower().Contains(normalized));
         }
 
-        if (currentQuery.TagsId != null && currentQuery.TagsId.Any())
-            archive = archive.Where(g => g.GameTags.Any(gt => currentQuery.TagsId.Contains(gt.TagId)));
+        if (currentQuery.TagIds != null && currentQuery.TagIds.Any())
+            archive = archive.Where(g => g.GameTags.Any(gt => currentQuery.TagIds.Contains(gt.TagId)));
         
         var totalCount = await archive.CountAsync();
         
