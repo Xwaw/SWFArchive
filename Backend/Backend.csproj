@@ -217,7 +217,7 @@
 
   <ItemGroup>
     <Folder Include="Models\Email\" />
-    <Folder Include="wwwroot\upload\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

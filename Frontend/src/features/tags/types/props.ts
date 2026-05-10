@@ -20,6 +20,6 @@ export interface RecommendedTagsProps {
 export interface TagInputProps{
   tags: TagType[],
   onAddTag: (tag: TagType) => void;
-  onRemoveTag: (index: string) => void;
+  onRemoveTag: (id?: string) => void;
 }
 

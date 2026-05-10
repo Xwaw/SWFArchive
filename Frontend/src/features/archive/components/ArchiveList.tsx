@@ -17,7 +17,7 @@ export default function ArchiveList({ children }: ArchiveProps) {
               ratingAverage={value.ratingAverage}
               authorName={value.authorName}
               uploaded={value.uploaded}
-              thumbnailUrl={Config.API_URL + value.thumbnailUrl}
+              thumbnailUrl={value.thumbnailUrl ? Config.API_URL + value.thumbnailUrl : undefined}
             />
           </div>
         );

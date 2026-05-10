@@ -76,9 +76,7 @@ export default function UploadGameForm() {
                     return [...prev, tag];
                   });
                 }}
-                onRemoveTag={(id) => {
-                  
-                }}
+                onRemoveTag={() => {console.log("not implemented")}}
               ></TagInput>
             </div>
 

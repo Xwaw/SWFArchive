@@ -10,22 +10,20 @@ export default function TagInput({
 }: TagInputProps) {
   const [input, setInput] = useState("");
 
-  const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>,
-  ) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
 
       if (!input.trim()) return;
 
+      const nullTag = { id: undefined, name: input };
+
+      onAddTag(nullTag);
+
       return;
     }
 
-    if (
-      e.key === "Backspace" &&
-      input === "" &&
-      tags.length > 0
-    ) {
+    if (e.key === "Backspace" && input === "" && tags.length > 0) {
       const lastTag = tags[tags.length - 1];
       onRemoveTag(lastTag.id);
     }
@@ -56,9 +54,7 @@ export default function TagInput({
         <RecommendedTags
           query={input}
           onSelectTag={(tag) => {
-            const exists = tags.some(
-              (t) => t.id === tag.id,
-            );
+            const exists = tags.some((t) => t.id === tag.id);
 
             if (exists) return;
 

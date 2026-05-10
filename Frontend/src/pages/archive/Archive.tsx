@@ -50,7 +50,8 @@ export default function Archive() {
     params.set("sort", currentSort);
 
     currentTags.forEach((tag) => {
-      params.append("tagIds", tag.id);
+      if(tag.id)
+        params.append("tagIds", tag.id);
     });
 
     setSearchParams(params);
@@ -83,6 +84,8 @@ export default function Archive() {
             <TagInput
               tags={tags}
               onAddTag={(tag) => {
+                if(!tag.id) return;
+
                 setTags((prev) => {
                   const updated = [...prev, tag];
 

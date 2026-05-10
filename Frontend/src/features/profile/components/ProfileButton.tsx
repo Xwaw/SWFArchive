@@ -47,14 +47,17 @@ export default function ProfileButton() {
             text: "Logout",
             onClick: async () => {
               var response = await authService.logout();
-              if(response)
-                window.location.reload();
+              if (response) window.location.reload();
             },
           },
         ]}
         button={
           <img
-            src={Config.API_URL + profile?.avatarUrl}
+            src={
+              profile?.avatarUrl
+                ? Config.API_URL + profile.avatarUrl
+                : undefined
+            }
             alt={profile?.userName || "Avatar"}
             className="h-12 w-12 object-cover cursor-pointer hover:opacity-80"
           />
