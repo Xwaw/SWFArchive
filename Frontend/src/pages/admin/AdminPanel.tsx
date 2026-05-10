@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../components/NavBar";
 import Console from "../../features/admin/console/components/Console";
 
 export default function AdminPanel() {
@@ -9,7 +8,6 @@ export default function AdminPanel() {
     <div className="w-screen h-screen bg-black flex">
       <div className="w-full h-full flex flex-col">
         <div>
-          <NavBar></NavBar>
         </div>
         <div className="w-full h-full">
             <Console></Console>

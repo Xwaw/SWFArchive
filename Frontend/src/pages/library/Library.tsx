@@ -1,67 +1,35 @@
-import { useEffect, useState } from "react";
-import ScrollableList from "../../oldComponents/ScrollableList";
-import axios from "axios";
-import LibraryGameView from "./LibraryView";
-
-interface GameData {
-  hoursPlayed: number;
-  playingStatus: string;
-  addedAt: string;
-  lastPlayed?: string | null;
-  title: string;
-  authorName: string;
-  swfUrl: string;
-  thumbnailUrl?: string | null;
-  description?: string | null;
-  modified: string;
-}
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { useEffect, useState, type ReactNode } from "react";
+import ListItems from "../../components/ListItems";
+import LibraryGameItem from "../../features/library/components/LibraryGameItem";
 
 export default function Library() {
-  const [library, setLibrary] = useState<GameData[] | null>();
-  const [selectedGame, setSelectedGame] = useState<GameData | null>(null);
+  const [items, setItems] = useState<ReactNode[] | null>(null)
 
-  const loadLibrary = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/library/all`, {
-        withCredentials: true,
-      });
-      const data = response.data;
-      setLibrary(data);
-
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-      setLibrary(null);
-    }
-  };
+  
 
   useEffect(() => {
-    loadLibrary();
+    setItems([<div>
+      <LibraryGameItem id={""} title={"Super Crazy maniac Deluxe 3"} />
+    </div>])
   }, [])
 
   return (
-    <div className="w-screen h-screen flex overflow-hidden">
-      {/* === LEFT PANEL: Game library list === */}{" "}
-      {/* layout for games for not user own games */}
-      <div className="w-1/7 bg-gray-800 overflow-y-scroll">
-        <div className="flex flex-col">
-          {/* Example game in the list */}
-          <ScrollableList
-            items={(library ?? []).map((value, index) => ({
-              id: index,
-              imageSrc: value.thumbnailUrl ? `${API_URL}${value.thumbnailUrl}` : undefined,
-              text: value.title,
-              onClick: () => {setSelectedGame(value)},
-            }))}
-            isRightAligned={false}
-            elementsSize={10}
-          ></ScrollableList>
+    <div className="w-screen h-screen flex overflow-hidden bg-gradient-to-br from-[#2e2e2e] to-[#1b1b1b]">
+      <div className="w-1/6">
+        <div className="w-full bg-gradient-to-t from-[#391e1e] to-[#691414]">
+          <p className="w-full bg-red-600 flex items-center justify-center font-bold"> LIBRARY </p>
+          <div className="flex flex-col">
+            <div className="h-screen">
+              <ListItems noItemsMessage={"No games in library"}>
+                {items}
+              </ListItems>
+            </div>
+          </div>
         </div>
       </div>
-
-      <LibraryGameView selectedGame={selectedGame}></LibraryGameView>
+      <div className="w-5/6 flex justify-center items-center">
+        <p>NO GAME SELECTED</p>
+      </div>
     </div>
   );
 }
