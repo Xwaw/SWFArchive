@@ -43,4 +43,11 @@ public class ArchiveRepository
         await _context.ArchiveGames.AddAsync(gameArchive);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<GameArchive?> GetArchiveGame(Guid guid)
+    {
+        return await _context.ArchiveGames
+            .Where(g => g.Id == guid)
+            .FirstOrDefaultAsync();
+    }
 }

@@ -5,6 +5,7 @@ using Backend.Models.Dto;
 using Backend.Models.Dto.Archive;
 using Backend.Models.User;
 using Backend.Repositories.Archive;
+using Backend.Services.Comment;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
@@ -19,6 +20,7 @@ public class ArchiveService
     private readonly AppIdentityDbContext _context;
     private readonly ArchiveRepository _archiveRepository;
     private readonly TagService _tagService;
+    private readonly CommentService _commentService;
     
     private readonly int _pageSize = 10;
 
@@ -27,7 +29,7 @@ public class ArchiveService
         FileStorageService fileStorageService, 
         FileRepository fileRepository, 
         ArchiveRepository archiveRepository, 
-        TagService tagService)
+        TagService tagService, CommentService commentService)
     {
         _userManager = userManager;
         _context = appIdentityDbContext;
@@ -35,6 +37,7 @@ public class ArchiveService
         _fileRepository = fileRepository;
         _archiveRepository = archiveRepository;
         _tagService = tagService;
+        _commentService = commentService;
     }
 
     public async Task<PagedResultDto<ArchiveGameCardDto>?> GetArchive(ArchiveQueryDto currentQuery)
@@ -154,5 +157,26 @@ public class ArchiveService
                 UsageType = FileUsageType.Thumbnail,
             });
         }
+    }
+
+    public async Task<GameInfoDto?> LoadGameInformation(Guid gameGuid)
+    {
+        var gameArchive = await _archiveRepository.GetArchiveGame(gameGuid);
+        var thumbnail = _archiveRepository.GetGameThumbnail(gameGuid);
+        if (gameArchive == null)
+            return null;
+
+        return new GameInfoDto
+        {
+            Title = gameArchive.Title,
+            AuthorName = gameArchive.AuthorName,
+            Description = gameArchive.Description,
+            ThumbnailUrl = thumbnail,
+            StarsRated = gameArchive.RatingAverage,
+            PlaysCount = gameArchive.PlaysCount,
+            Uploaded = gameArchive.CreatedAt,
+            Modified = gameArchive.UpdatedAt,
+            Tags = gameArchive.GameTags,
+        };
     }
 }

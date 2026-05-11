@@ -38,4 +38,15 @@ public class ArchiveController : ControllerBase
 
         return Ok();
     }
+
+    [Authorize]
+    [HttpPost("info/{id}")]
+    public async Task<ActionResult<GameInfoDto>> ViewGame([FromRoute] Guid id)
+    {
+        var result = await _archiveService.LoadGameInformation(id);
+        if (result == null)
+            return NotFound("Game not found");
+        
+        return Ok(result);
+    }
 }
