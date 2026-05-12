@@ -18,3 +18,7 @@ export interface PaginatedArchive{
 export interface ArchiveProps{
     children: GameCardProps[] | null
 }
+
+export interface GameViewProps{
+    gameId?: string;
+}

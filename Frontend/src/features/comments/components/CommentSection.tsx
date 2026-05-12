@@ -8,11 +8,19 @@ export default function CommentSection({
   targetId,
   targetType,
 }: {
-  targetId: string;
+  targetId?: string;
   targetType: number;
 }) {
+  if(!targetId){
+    return(
+      <div>
+        
+      </div>
+    )
+  }
+
   const { addComment, editComment, deleteComment, isSending, getComments } =
-    useComments(targetId, targetType);
+    useComments(targetId!, targetType);
 
   const [comments, setComments] = useState<CommentDto[]>([]);
 
@@ -28,12 +36,12 @@ export default function CommentSection({
   const refreshComments = async () => {
     const data = await getComments();
     setComments(data);
-  }
+  };
 
   const handleAdd = async (text: string) => {
     await addComment(text);
     refreshComments();
-  }
+  };
 
   const handleEdit = async (id: string, text: string) => {
     await editComment(id, text);
