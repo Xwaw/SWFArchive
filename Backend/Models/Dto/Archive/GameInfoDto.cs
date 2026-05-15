@@ -13,5 +13,5 @@ public class GameInfoDto
     public DateTime Uploaded { get; set; } = DateTime.Now;
     public DateTime Modified { get; set; } = DateTime.Now;
 
-    public ICollection<GameTag> Tags { get; set; } = [];
+    public List<string> Tags { get; set; } = [];
 }

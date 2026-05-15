@@ -16,4 +16,11 @@ public class LibraryController : ControllerBase
     {
         _libraryService = libraryService;
     }
+
+    [HttpPut("add/${id}")]
+    public async Task<IActionResult> AddGameToLibrary()
+    {
+
+        return Ok();
+    }
 }

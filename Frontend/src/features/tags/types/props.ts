@@ -3,7 +3,7 @@ import type { TagType } from "./types";
 
 export interface TagItemProps{
     children: ReactNode;
-    onRemove: () => void;
+    onRemove?: () => void;
 }
 
 export interface RecommendedTag {

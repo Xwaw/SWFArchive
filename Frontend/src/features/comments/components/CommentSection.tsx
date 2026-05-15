@@ -14,7 +14,7 @@ export default function CommentSection({
   if(!targetId){
     return(
       <div>
-        
+        No Comments
       </div>
     )
   }

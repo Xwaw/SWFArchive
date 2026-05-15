@@ -36,6 +36,15 @@ export class ArchiveService {
       throw error;
     }
   }
+
+  async GetGameData(id: string){
+    try{
+      const response = await http.get(`archive/data/${id}`);
+      return response.data;
+    }catch(error){
+      throw error;
+    }
+  }
 }
 
 export const archiveService = new ArchiveService();

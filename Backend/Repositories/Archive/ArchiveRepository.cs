@@ -48,6 +48,14 @@ public class ArchiveRepository
     {
         return await _context.ArchiveGames
             .Where(g => g.Id == guid)
+            .Include(g => g.GameTags)
+            .ThenInclude(t => t.Tag)
             .FirstOrDefaultAsync();
+    }
+
+    public async Task<List<string>> GetGameTags(Guid guid)
+    {
+        var game = await GetArchiveGame(guid);
+        return game!.GameTags.Select(t => t.Tag.Name).ToList();
     }
 }

@@ -20,7 +20,6 @@ public class ArchiveService
     private readonly AppIdentityDbContext _context;
     private readonly ArchiveRepository _archiveRepository;
     private readonly TagService _tagService;
-    private readonly CommentService _commentService;
     
     private readonly int _pageSize = 10;
 
@@ -29,7 +28,7 @@ public class ArchiveService
         FileStorageService fileStorageService, 
         FileRepository fileRepository, 
         ArchiveRepository archiveRepository, 
-        TagService tagService, CommentService commentService)
+        TagService tagService)
     {
         _userManager = userManager;
         _context = appIdentityDbContext;
@@ -37,7 +36,6 @@ public class ArchiveService
         _fileRepository = fileRepository;
         _archiveRepository = archiveRepository;
         _tagService = tagService;
-        _commentService = commentService;
     }
 
     public async Task<PagedResultDto<ArchiveGameCardDto>?> GetArchive(ArchiveQueryDto currentQuery)
@@ -159,12 +157,15 @@ public class ArchiveService
         }
     }
 
-    public async Task<GameInfoDto?> LoadGameInformation(Guid gameGuid)
+    public async Task<GameInfoDto?> GetGameInfo(Guid gameGuid)
     {
         var gameArchive = await _archiveRepository.GetArchiveGame(gameGuid);
-        var thumbnail = _archiveRepository.GetGameThumbnail(gameGuid);
         if (gameArchive == null)
             return null;
+        
+        var tags = await _archiveRepository.GetGameTags(gameGuid);
+        
+        var thumbnail = _archiveRepository.GetGameThumbnail(gameGuid);
 
         return new GameInfoDto
         {
@@ -176,7 +177,7 @@ public class ArchiveService
             PlaysCount = gameArchive.PlaysCount,
             Uploaded = gameArchive.CreatedAt,
             Modified = gameArchive.UpdatedAt,
-            Tags = gameArchive.GameTags,
+            Tags = tags,
         };
     }
 }
