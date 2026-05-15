@@ -25,4 +25,6 @@ export interface GameView {
   uploaded: string;
   modified: string;
   tags: string[];
+  isOwner: boolean,
+  isInLibrary: boolean
 }

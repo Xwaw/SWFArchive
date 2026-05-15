@@ -22,7 +22,6 @@ public class CommentController : ControllerBase
         _commentService = commentService;
     }
 
-    [Authorize]
     [HttpGet("all/{targetType}/{targetId:guid}")]
     public async Task<ActionResult<List<CommentCardDto>>> GetComments(CommentTargetType targetType, Guid targetId)
     {
