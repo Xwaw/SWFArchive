@@ -30,6 +30,8 @@ public class GameArchive
     
     public DateTime CreatedAt { get; set; }
     
+    public required string OwnerId { get; set; }
+    
     public ICollection<GameTag> GameTags { get; set; } = new HashSet<GameTag>();
     
     public ICollection<UserGame> UserGames { get; set; } = new List<UserGame>();

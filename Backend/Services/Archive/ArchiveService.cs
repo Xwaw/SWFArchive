@@ -130,7 +130,8 @@ public class ArchiveService
             UploadedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             CreatedAt = dto.CreatedAt,
-            AuthorName = dto.Author
+            AuthorName = dto.Author,
+            OwnerId = user.Id
         };
 
         await _archiveRepository.AddArchiveAsync(game);
@@ -157,15 +158,29 @@ public class ArchiveService
         }
     }
 
-    public async Task<GameInfoDto?> GetGameInfo(Guid gameGuid)
+    public async Task<GameInfoDto?> GetGameInfo(Guid gameGuid, ClaimsPrincipal principal)
     {
         var gameArchive = await _archiveRepository.GetArchiveGame(gameGuid);
         if (gameArchive == null)
             return null;
         
         var tags = await _archiveRepository.GetGameTags(gameGuid);
-        
         var thumbnail = _archiveRepository.GetGameThumbnail(gameGuid);
+
+        bool isOwner;
+        bool isInLibrary;
+        
+        var user = await _userManager.GetUserAsync(principal);
+        if (user == null)
+        {
+            isOwner = false;
+            isInLibrary = false;
+        }
+        else
+        {
+            isOwner = gameArchive.OwnerId == user.Id;
+            isInLibrary = gameArchive.UserGames.Any(g => g.UserId == user.Id);
+        }
 
         return new GameInfoDto
         {
@@ -178,6 +193,8 @@ public class ArchiveService
             Uploaded = gameArchive.CreatedAt,
             Modified = gameArchive.UpdatedAt,
             Tags = tags,
+            IsOwner = isOwner,
+            IsInLibrary = isInLibrary
         };
     }
 }

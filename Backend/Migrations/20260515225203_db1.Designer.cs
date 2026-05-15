@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20260509192859_db25")]
-    partial class db25
+    [Migration("20260515225203_db1")]
+    partial class db1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,6 +64,10 @@ namespace Backend.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PlaysCount")
@@ -233,6 +237,41 @@ namespace Backend.Migrations
                     b.ToTable("UserBadge");
                 });
 
+            modelBuilder.Entity("Backend.Models.User.UserGame", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("AddedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("HoursPlayed")
+                        .HasColumnType("REAL");
+
+                    b.Property<DateTime?>("LastPlayed")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PlayingStatus")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.HasIndex("UserId", "GameId")
+                        .IsUnique();
+
+                    b.ToTable("UserGames");
+                });
+
             modelBuilder.Entity("Backend.Models.User.UserProfile", b =>
                 {
                     b.Property<string>("UserId")
@@ -291,41 +330,6 @@ namespace Backend.Migrations
                     b.HasIndex("UserProfileUserId");
 
                     b.ToTable("UserComments");
-                });
-
-            modelBuilder.Entity("Backend.Models.UserGame", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("AddedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("GameId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double>("HoursPlayed")
-                        .HasColumnType("REAL");
-
-                    b.Property<DateTime?>("LastPlayed")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("PlayingStatus")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.HasIndex("UserId", "GameId")
-                        .IsUnique();
-
-                    b.ToTable("UserGames");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -496,6 +500,25 @@ namespace Backend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Backend.Models.User.UserGame", b =>
+                {
+                    b.HasOne("Backend.Models.GameArchive", "Game")
+                        .WithMany("UserGames")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend.Models.User.User", "User")
+                        .WithMany("UserGames")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Backend.Models.User.UserProfile", b =>
                 {
                     b.HasOne("Backend.Models.User.User", "User")
@@ -518,25 +541,6 @@ namespace Backend.Migrations
                     b.HasOne("Backend.Models.User.UserProfile", null)
                         .WithMany("ProfileComments")
                         .HasForeignKey("UserProfileUserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Backend.Models.UserGame", b =>
-                {
-                    b.HasOne("Backend.Models.GameArchive", "Game")
-                        .WithMany("UserGames")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Backend.Models.User.User", "User")
-                        .WithMany("UserGames")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
 
                     b.Navigation("User");
                 });

@@ -42,7 +42,7 @@ public class ArchiveController : ControllerBase
     [HttpGet("data/{id}")]
     public async Task<ActionResult<GameInfoDto>> ViewGame([FromRoute] Guid id)
     {
-        var result = await _archiveService.GetGameInfo(id);
+        var result = await _archiveService.GetGameInfo(id, User);
         if (result == null)
             return NotFound("Game not found");
         

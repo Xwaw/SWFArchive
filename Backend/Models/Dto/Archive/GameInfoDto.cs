@@ -14,4 +14,7 @@ public class GameInfoDto
     public DateTime Modified { get; set; } = DateTime.Now;
 
     public List<string> Tags { get; set; } = [];
+    
+    public required bool IsOwner { get; set; }
+    public required bool IsInLibrary { get; set; }
 }
