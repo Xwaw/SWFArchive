@@ -5,6 +5,7 @@ using Backend.Models;
 using Backend.Models.User;
 using Backend.Repositories.Archive;
 using Backend.Repositories.Comments;
+using Backend.Repositories.Library;
 using Backend.Repositories.User;
 using Backend.Services;
 using Backend.Services.Archive;
@@ -143,6 +144,8 @@ builder.Services.AddScoped<ArchiveRepository>();
 builder.Services.AddScoped<TagRepository>();
 builder.Services.AddScoped<TagService>();
 builder.Services.AddScoped<TagController>();
+
+builder.Services.AddScoped<LibraryRepository>();
 
 
 builder.Services.AddEndpointsApiExplorer();

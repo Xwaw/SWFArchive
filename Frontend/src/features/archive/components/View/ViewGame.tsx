@@ -20,7 +20,7 @@ export default function ViewGame({ gameId }: GameViewProps) {
             "isLoading"
           ) : (
             <div
-              className="w-full h-full"
+              className="w-full h-full border-2 border-black"
               style={{
                 backgroundImage: `url(${Config.API_URL + data?.thumbnailUrl})`,
                 backgroundSize: "cover",

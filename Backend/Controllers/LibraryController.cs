@@ -17,10 +17,15 @@ public class LibraryController : ControllerBase
         _libraryService = libraryService;
     }
 
-    [HttpPut("add/${id}")]
-    public async Task<IActionResult> AddGameToLibrary()
+    [Authorize]
+    [HttpPut("add/{id}")]
+    public async Task<IActionResult> AddGameToLibrary([FromRoute] Guid id)
     {
-
-        return Ok();
+        var result = await _libraryService.AddGameToLibrary(User, id);
+        
+        if(!result)
+            return BadRequest("Failed to add game to library");
+        
+        return Ok("Successfully added game to library");
     }
 }
