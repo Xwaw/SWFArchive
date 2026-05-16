@@ -1,13 +1,13 @@
 import { Config } from "../../../../Config";
 import { useAuth } from "../../../authorization/hooks/UseAuth";
-import useLibrary from "../../../library/hooks/UseLibrary";
+import useAddGameToLibrary from "../../../library/hooks/UseAddGameToLibrary";
 import TagItem from "../../../tags/components/TagItem";
 import useGameInfo from "../../hooks/UseGameInfo";
 import type { GameViewProps } from "../../types/ComponentsProps";
 
 export default function ViewGame({ gameId }: GameViewProps) {
   const { data, error, isLoading } = useGameInfo(gameId ?? "");
-  const { addGameToLibrary, message } = useLibrary(gameId ?? "");
+  const { addGameToLibrary } = useAddGameToLibrary(gameId ?? "");
   const { isLogged } = useAuth();
 
   if (error) {
@@ -67,7 +67,7 @@ export default function ViewGame({ gameId }: GameViewProps) {
           <div className="flex justify-end mt-4">
             {isLogged ? (
               <button
-                className="bg-green-800 text-white font-bold py-2 px-6 hover:bg-green-600 cursor-pointer"
+                className="text-white font-bold py-2 px-6 cursor-pointer"
                 onClick={() => {
                   addGameToLibrary();
                 }}

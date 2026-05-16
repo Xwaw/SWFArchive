@@ -40,13 +40,13 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/archive/upload" element={<UploadGameToArchive />}></Route>
         <Route path="/archive/game/:id" element={<ArchiveGameView />}></Route>
 
+        <Route path="/library/:userId" element={<Library />}></Route>
+
         {/* ============ */}
 
         <Route path="/" element={<Home />}></Route>
 
         <Route path="/friends" element={<FriendsSelector />}></Route>
-
-        <Route path="/library" element={<Library />}></Route>
 
         <Route path="/play" element={<GamePlayer />}></Route>
         <Route path="/mobile-play/:id" element={<MobileGamePlayer />}></Route>

@@ -22,7 +22,7 @@ export default function ProfileButton() {
           {
             text: "Library",
             onClick: () => {
-              navigate("/library");
+              navigate(`/library/${profile?.userId}`);
             },
           },
           {

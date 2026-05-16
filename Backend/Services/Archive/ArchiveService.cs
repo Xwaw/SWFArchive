@@ -38,7 +38,7 @@ public class ArchiveService
         _tagService = tagService;
     }
 
-    public async Task<PagedResultDto<ArchiveGameCardDto>?> GetArchive(ArchiveQueryDto currentQuery)
+    public async Task<PaginationResultDto<ArchiveGameCardDto>?> GetArchive(ArchiveQueryDto currentQuery)
     {
         var archive = _context.ArchiveGames
             .Include(g => g.GameTags)
@@ -74,7 +74,7 @@ public class ArchiveService
             Uploaded = g.CreatedAt
         }).ToListAsync();
 
-        return new PagedResultDto<ArchiveGameCardDto>()
+        return new PaginationResultDto<ArchiveGameCardDto>()
         {
             Items = items,
             Page = currentQuery.CurrentPage,

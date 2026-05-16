@@ -1,26 +1,26 @@
+import { Config } from "../../../Config";
 import type { LibraryItemProps } from "../types/props";
 
 export default function LibraryGameItem({
   id,
   title,
-  iconUrl,
-  backgroundUrl,
+  thumbnail,
 }: LibraryItemProps) {
   return (
     <div
-      className="w-full h-full flex pl-2 hover:brightness-80 cursor-pointer"
+      className="w-full h-full flex p-1 hover:brightness-80 cursor-pointer"
       onClick={() => {
         console.log("ID: " + id);
       }}
       style={{
-        backgroundImage: `url(${backgroundUrl ?? "/test/Sample_banner.png"})`,
+        backgroundImage: `url(${thumbnail ?? "/test/Sample_banner.png"})`,
         color: "black"
       }}
     >
       <div
-        className="h-full aspect-square flex"
+        className="w-6 h-full aspect-square flex"
         style={{
-          backgroundImage: `url(${iconUrl ?? "/test/Test_Badge.gif"})`,
+          backgroundImage: `url(${Config.API_URL + thumbnail})`,
           backgroundPosition: "center",
           backgroundSize: "cover"
         }}

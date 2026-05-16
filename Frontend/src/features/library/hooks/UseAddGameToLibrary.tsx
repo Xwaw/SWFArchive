@@ -2,21 +2,16 @@ import { isAxiosError } from "axios";
 import { useState } from "react";
 import { libraryService } from "../services/LibraryService";
 
-export default function useLibrary(gameId: string) {
+export default function useAddGameToLibrary(gameId: string) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
 
   const addGameToLibrary = async () => {
     try {
       setIsLoading(true);
-
       setError(null);
-      setMessage(null);
 
-      const response = await libraryService.AddToLibrary(gameId);
-
-      setMessage(response);
+      await libraryService.AddToLibrary(gameId);
     } catch (error) {
       if (isAxiosError(error)) {
         const errorCode = error.response?.status;
@@ -40,7 +35,6 @@ export default function useLibrary(gameId: string) {
 
   return {
     isLoading,
-    message,
     error,
     addGameToLibrary,
   };

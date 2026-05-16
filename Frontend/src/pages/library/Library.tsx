@@ -1,28 +1,46 @@
-import { useEffect, useState, type ReactNode } from "react";
 import ListItems from "../../components/ListItems";
 import LibraryGameItem from "../../features/library/components/LibraryGameItem";
+import useUserLibrary from "../../features/library/hooks/UseUserLibrary";
+import { useParams } from "react-router-dom";
 
 export default function Library() {
-  const [items, setItems] = useState<ReactNode[] | null>(null)
+  const { userId } = useParams();
+  const { isLoading, error, library } = useUserLibrary(userId ?? "");
 
-  
-
-  useEffect(() => {
-    setItems([<div>
-      <LibraryGameItem id={""} title={"Super Crazy maniac Deluxe 3"} />
-    </div>])
-  }, [])
+  console.log(library)
 
   return (
     <div className="w-screen h-screen flex overflow-hidden bg-gradient-to-br from-[#2e2e2e] to-[#1b1b1b]">
       <div className="w-1/6">
         <div className="w-full bg-gradient-to-t from-[#391e1e] to-[#691414]">
-          <p className="w-full bg-red-600 flex items-center justify-center font-bold"> LIBRARY </p>
+          <p className="w-full bg-red-600 flex items-center justify-center font-bold">
+            LIBRARY
+          </p>
           <div className="flex flex-col">
             <div className="h-screen">
-              <ListItems noItemsMessage={"No games in library"}>
-                {items}
-              </ListItems>
+              {isLoading ? (
+                <div>
+                  <div>{isLoading}</div>
+                </div>
+              ) : error ? (
+                <div>
+                  {error}
+                </div>
+              ) : (
+                <ListItems noItemsMessage={"No games in library"}>
+                  {library?.items.map((value, index) => {
+                    return (
+                      <div key={index} className="w-full h-full">
+                        <LibraryGameItem
+                          id={value.id}
+                          title={value.title}
+                          thumbnail={value.thumbnail ?? ""}
+                        />
+                      </div>
+                    );
+                  })}
+                </ListItems>
+              )}
             </div>
           </div>
         </div>

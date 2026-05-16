@@ -1,6 +1,6 @@
 namespace Backend.Models.Dto.Archive;
 
-public class PagedResultDto<T>
+public class PaginationResultDto<T>
 {
     public required List<T> Items { get; set; } = [];
     public int Total { get; set; }
