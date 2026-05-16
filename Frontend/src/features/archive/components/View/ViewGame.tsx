@@ -1,12 +1,14 @@
 import { Config } from "../../../../Config";
 import { useAuth } from "../../../authorization/hooks/UseAuth";
+import useLibrary from "../../../library/hooks/UseLibrary";
 import TagItem from "../../../tags/components/TagItem";
 import useGameInfo from "../../hooks/UseGameInfo";
 import type { GameViewProps } from "../../types/ComponentsProps";
 
 export default function ViewGame({ gameId }: GameViewProps) {
   const { data, error, isLoading } = useGameInfo(gameId ?? "");
-  const {isLogged} = useAuth();
+  const { addGameToLibrary, message } = useLibrary(gameId ?? "");
+  const { isLogged } = useAuth();
 
   if (error) {
     return <div>{error}</div>;
@@ -63,17 +65,18 @@ export default function ViewGame({ gameId }: GameViewProps) {
           </div>
 
           <div className="flex justify-end mt-4">
-            
-            {isLogged ? <button
-              className="bg-green-600 text-white font-bold py-2 px-6"
-              onClick={() => {
-                console.log("NOT IMPLEMENTED: Add game");
-              }}
-            >
-              {data?.isOwner ? "Its yours stupid Baka" : "Add"}
-            </button> : <div>
-                U shoud log in
-              </div>}
+            {isLogged ? (
+              <button
+                className="bg-green-800 text-white font-bold py-2 px-6 hover:bg-green-600 cursor-pointer"
+                onClick={() => {
+                  addGameToLibrary();
+                }}
+              >
+                {data?.isOwner || data?.isInLibrary ? "Its yours" : "Add"}
+              </button>
+            ) : (
+              <div>U shoud log in</div>
+            )}
           </div>
         </div>
       </div>

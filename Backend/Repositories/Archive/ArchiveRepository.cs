@@ -50,6 +50,7 @@ public class ArchiveRepository
             .Where(g => g.Id == guid)
             .Include(g => g.GameTags)
             .ThenInclude(t => t.Tag)
+            .Include(g => g.UserGames)
             .FirstOrDefaultAsync();
     }
 
