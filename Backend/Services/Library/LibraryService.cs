@@ -49,7 +49,7 @@ public class LibraryService
         return true;
     }
 
-    public async Task<PaginationResultDto<LibraryGameDto>> GetUserLibrary(ClaimsPrincipal principal, string userId)
+    public async Task<PaginationResultDto<LibraryGameDto>> GetLibraryGames(ClaimsPrincipal principal, string userId)
     {
         var user = await _userManager.GetUserAsync(principal);
         if (user == null)
@@ -66,7 +66,7 @@ public class LibraryService
         if (!isOwner)
             throw new UnauthorizedAccessException();
 
-        var userGames = await _libraryRepository.GetUserGameLibrary(user.Id);
+        var userGames = await _libraryRepository.GetLibraryGames(user.Id);
 
         var libraryGames = userGames.Select(g => new LibraryGameDto
         {
@@ -81,5 +81,27 @@ public class LibraryService
             Total = 10,
             Page = 1,
         };
+    }
+
+    public async Task<ViewLibraryGameDto?> GetLibraryGame(ClaimsPrincipal principal, Guid gameId)
+    {
+        var user = await _userManager.GetUserAsync(principal);
+        if (user == null)
+            return null;
+
+        return await _libraryRepository.GetLibraryViewGame(user.Id, gameId);
+    }
+
+    public async Task<PlayLibraryGameDto?> GetPlayLibraryGame(ClaimsPrincipal principal, Guid gameId)
+    {
+        var user = await _userManager.GetUserAsync(principal);
+        if (user == null)
+            return null;
+
+        var isGameOwner = await _libraryRepository.CheckGameOwnership(user.Id, gameId);
+        if (!isGameOwner) 
+            return null;
+
+        return await _libraryRepository.GetGameToPlay(user.Id, gameId);
     }
 }

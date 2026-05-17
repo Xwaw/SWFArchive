@@ -18,6 +18,20 @@ class LibraryService{
             throw error;
         }
     }
+
+    async ViewGameInLibrary(gameId: string){
+        try{
+            const response = await http.get(`library/view/${gameId}`)
+            return response.data;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    async PlayGame(gameId: string){
+        const response = await http.get(`library/play/${gameId}`)
+        return response.data;
+    }
 }
 
 export const libraryService = new LibraryService;

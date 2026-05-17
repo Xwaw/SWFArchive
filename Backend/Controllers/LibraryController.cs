@@ -34,10 +34,40 @@ public class LibraryController : ControllerBase
 
     [Authorize]
     [HttpGet("{userId}")]
-    public async Task<ActionResult<PaginationResultDto<LibraryGameDto>>> GetUserLibrary([FromRoute] string userId)
+    public async Task<ActionResult<PaginationResultDto<LibraryGameDto>>> GetLibraryGames([FromRoute] string userId)
     {
-        var result = await _libraryService.GetUserLibrary(User, userId);
+        try
+        {
+            var result = await _libraryService.GetLibraryGames(User, userId);
+            return Ok(result);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Forbid();
+        }
+    }
 
+    [Authorize]
+    [HttpGet("view/{gameId}")]
+    public async Task<ActionResult<LibraryGameDto>> GetLibraryGame([FromRoute] Guid gameId)
+    {
+        var result = await _libraryService.GetLibraryGame(User, gameId);
+
+        if (result == null)
+            return NotFound("Game not found");
+        
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("play/{gameId}")]
+    public async Task<ActionResult<PlayLibraryGameDto>> CreateGameSession([FromRoute] Guid gameId)
+    {
+        var result = await _libraryService.GetPlayLibraryGame(User, gameId);
+        
+        if(result == null)
+            return NotFound("Game not found");
+        
         return Ok(result);
     }
 }

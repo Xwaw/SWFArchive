@@ -5,12 +5,13 @@ export default function LibraryGameItem({
   id,
   title,
   thumbnail,
+  onSelect
 }: LibraryItemProps) {
   return (
     <div
       className="w-full h-full flex p-1 hover:brightness-80 cursor-pointer"
       onClick={() => {
-        console.log("ID: " + id);
+        onSelect(id);
       }}
       style={{
         backgroundImage: `url(${thumbnail ?? "/test/Sample_banner.png"})`,
