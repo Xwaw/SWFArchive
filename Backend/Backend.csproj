@@ -217,6 +217,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Models\Dto\Player\" />
     <Folder Include="Models\Email\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>

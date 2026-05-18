@@ -6,12 +6,14 @@ using Backend.Models.User;
 using Backend.Repositories.Archive;
 using Backend.Repositories.Comments;
 using Backend.Repositories.Library;
+using Backend.Repositories.Player;
 using Backend.Repositories.User;
 using Backend.Services;
 using Backend.Services.Archive;
 using Backend.Services.Comment;
 using Backend.Services.Email;
 using Backend.Services.Library;
+using Backend.Services.Player;
 using Backend.Services.Role;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
@@ -119,7 +121,6 @@ builder.Services.AddSingleton<GmailService>(sp =>
 });
 
 builder.Services.AddScoped<ProfileService>();
-builder.Services.AddScoped<LibraryService>();
 
 builder.Services.AddScoped<CommentRepository>();
 builder.Services.AddScoped<CommentService>();
@@ -146,6 +147,11 @@ builder.Services.AddScoped<TagService>();
 builder.Services.AddScoped<TagController>();
 
 builder.Services.AddScoped<LibraryRepository>();
+builder.Services.AddScoped<LibraryService>();
+
+builder.Services.AddScoped<PlayerController>();
+builder.Services.AddScoped<PlayerRepository>();
+builder.Services.AddScoped<PlayerService>();
 
 
 builder.Services.AddEndpointsApiExplorer();

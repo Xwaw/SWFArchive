@@ -3,7 +3,7 @@ export type ViewGame = {
   title: string,
   description: string,
   thumbnailUrl?: string,
-  lastPlayed: Date
+  lastPlayed: string
 }
 
 export type GameSession = {

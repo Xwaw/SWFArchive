@@ -15,6 +15,14 @@ export default function LibraryGameView({ gameId }: ViewGameLibraryProps) {
     )
   }
 
+  if(error){
+    return(
+      <div>
+        {error}
+      </div>
+    )
+  }
+
   return (
     <div className="w-full h-full">
       <div className="relative">
@@ -31,10 +39,11 @@ export default function LibraryGameView({ gameId }: ViewGameLibraryProps) {
             <PlayButton gameId={viewGame?.id ?? ""}></PlayButton>
         </div>
 
-        <div className="w-full h-1 bg-[#a3a3a3]" />
+        <div className="w-full h-1 bg-[#a3a3a3]"/>
 
-        <div className="w-full h-full bg-amber-400">
-
+        <div className="w-full h-20 bg-gradient-to-l from-red-800 to-red-950 flex gap-20 items-center justify-center">
+          <p className="bg-black/20 p-2" style={{fontSize: 20}}>{viewGame?.title}</p>
+          <p className="bg-black/20 p-2" style={{fontSize: 20}}>{viewGame?.lastPlayed}</p>
         </div>
       </div>
     </div>

@@ -48,7 +48,7 @@ createRoot(document.getElementById("root")!).render(
 
         <Route path="/friends" element={<FriendsSelector />}></Route>
 
-        <Route path="/play/:id" element={<GamePlayer />}></Route>
+        <Route path="/play/:gameId" element={<GamePlayer />}></Route>
         <Route path="/mobile-play/:id" element={<MobileGamePlayer />}></Route>
 
         <Route path="/sandbox" element={<Test />}></Route>
