@@ -1,7 +1,11 @@
+import { HubConnectionBuilder } from "@microsoft/signalr";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Config } from "../Config";
 
 export default function Home() {
   const navigate = useNavigate();
+    
 
   return (
     <div className="w-screen h-screen bg-gray-500 flex items-center">
@@ -12,6 +16,7 @@ export default function Home() {
         <div className="bg-green-400 w-80 h-30 flex justify-center items-center text-4xl" onClick={()=>{navigate("/archive")}}>
           Archive
         </div>
+
       </div>
     </div>
   );

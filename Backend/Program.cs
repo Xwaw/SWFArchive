@@ -1,6 +1,7 @@
 using Backend;
 using Backend.Authorization;
 using Backend.Controllers;
+using Backend.Hubs.Game;
 using Backend.Models;
 using Backend.Models.User;
 using Backend.Repositories.Archive;
@@ -153,7 +154,7 @@ builder.Services.AddScoped<PlayerController>();
 builder.Services.AddScoped<PlayerRepository>();
 builder.Services.AddScoped<PlayerService>();
 
-
+builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -228,5 +229,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapRazorPages();
 app.MapDefaultControllerRoute();
+
+app.MapHub<SessionHub>("/session");
 
 app.Run();

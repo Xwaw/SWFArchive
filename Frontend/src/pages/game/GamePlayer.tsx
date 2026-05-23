@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import GameScreen from "../../features/player/components/GameScreen";
 import { Config } from "../../Config";
 import usePlayerLoad from "../../features/player/hooks/usePlayerLoad";
+import { useEffect } from "react";
+import { HubConnectionBuilder } from "@microsoft/signalr";
 
 export default function GamePlayer() {
   const {gameId} = useParams();
