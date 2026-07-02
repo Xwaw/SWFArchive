@@ -7,4 +7,6 @@ public class ViewLibraryGameDto
     public string? Description { get; set; }
     public string? ThumbnailUrl { get; set; }
     public DateTime? LastPlayed { get; set; }
+    
+    public double HoursPlayed { get; set; }
 }

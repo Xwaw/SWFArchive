@@ -1,5 +1,6 @@
 ﻿using Backend.Models;
 using Backend.Models.Dto;
+using Backend.Models.Game;
 using Backend.Models.User;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
@@ -12,16 +13,13 @@ namespace Backend;
 public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : IdentityDbContext<User>(options)
 {
     public DbSet<GameArchive> ArchiveGames { get; set; }
-    
     public DbSet<FileTarget> Files { get; set; }
     public DbSet<UserGame> UserGames { get; set; }
-    
     public DbSet<UserComment> UserComments { get; set; }
-    
     public DbSet<UserProfile> UserProfiles { get; set; }
-    
     public DbSet<Tag> Tags { get; set; }
-
+    
+    public DbSet<SessionRoom> SessionRooms { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder); 

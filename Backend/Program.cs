@@ -230,6 +230,6 @@ app.MapControllers();
 app.MapRazorPages();
 app.MapDefaultControllerRoute();
 
-app.MapHub<SessionHub>("/session");
+app.MapHub<SessionHub>("/sessionHub");
 
 app.Run();

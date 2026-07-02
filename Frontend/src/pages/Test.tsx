@@ -8,11 +8,7 @@ export default function Test() {
   const [connection, setConnection] = useState<any>(null);
 
    const test = async() => {
-      const connection = new HubConnectionBuilder().withUrl(Config.API_URL + "/session").build();
-
-      connection.on("ReceiveMessage", message => {
-        console.log(message);
-      })
+      const connection = new HubConnectionBuilder().withUrl(Config.API_URL + "/game-session").build();
 
       await connection.start();
 

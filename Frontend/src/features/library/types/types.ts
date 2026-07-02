@@ -3,6 +3,7 @@ export type ViewGame = {
   title: string,
   description: string,
   thumbnailUrl?: string,
+  hoursPlayed: number,
   lastPlayed: string
 }
 

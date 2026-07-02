@@ -49,7 +49,7 @@ public class LibraryController : ControllerBase
 
     [Authorize]
     [HttpGet("view/{gameId}")]
-    public async Task<ActionResult<LibraryGameDto>> GetLibraryGame([FromRoute] Guid gameId)
+    public async Task<ActionResult<ViewLibraryGameDto>> GetLibraryGame([FromRoute] Guid gameId)
     {
         var result = await _libraryService.GetLibraryGame(User, gameId);
 

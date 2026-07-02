@@ -42,8 +42,8 @@ export default function LibraryGameView({ gameId }: ViewGameLibraryProps) {
         <div className="w-full h-1 bg-[#a3a3a3]"/>
 
         <div className="w-full h-20 bg-gradient-to-l from-red-800 to-red-950 flex gap-20 items-center justify-center">
-          <p className="bg-black/20 p-2" style={{fontSize: 20}}>{viewGame?.title}</p>
-          <p className="bg-black/20 p-2" style={{fontSize: 20}}>{viewGame?.lastPlayed}</p>
+          <p className="bg-black/20 p-2" style={{fontSize: 20}}>Title: {viewGame?.title}</p>
+          <p className="bg-black/20 p-2" style={{fontSize: 20}}>Hours: {Math.round(viewGame?.hoursPlayed ?? 0.0) / 60}</p>
         </div>
       </div>
     </div>

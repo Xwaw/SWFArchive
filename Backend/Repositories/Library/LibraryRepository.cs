@@ -33,7 +33,8 @@ public class LibraryRepository
                 .Where(f => f.OwnerId == ug.GameId && f.UsageType == FileUsageType.Thumbnail)
                 .Select(f => f.Url)
                 .FirstOrDefault(),
-            LastPlayed = ug.LastPlayed
+            LastPlayed = ug.LastPlayed,
+            HoursPlayed = ug.HoursPlayed
         }).FirstOrDefaultAsync();
     }
 
