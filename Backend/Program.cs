@@ -13,6 +13,7 @@ using Backend.Services;
 using Backend.Services.Archive;
 using Backend.Services.Comment;
 using Backend.Services.Email;
+using Backend.Services.Friends;
 using Backend.Services.Library;
 using Backend.Services.Player;
 using Backend.Services.Role;
@@ -153,6 +154,9 @@ builder.Services.AddScoped<LibraryService>();
 builder.Services.AddScoped<PlayerController>();
 builder.Services.AddScoped<PlayerRepository>();
 builder.Services.AddScoped<PlayerService>();
+
+builder.Services.AddScoped<FriendsController>();
+builder.Services.AddScoped<FriendsService>();
 
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();

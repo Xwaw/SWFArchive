@@ -19,6 +19,8 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
     public DbSet<UserProfile> UserProfiles { get; set; }
     public DbSet<Tag> Tags { get; set; }
     
+    public DbSet<Friendship> FriendShips {get; set;}
+    
     public DbSet<SessionRoom> SessionRooms { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -49,7 +51,6 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
             .IsUnique();
         
         
-        
         builder.Entity<GameTag>()
             .HasKey(gt => new { gt.GameArchiveId, gt.TagId });
 
@@ -62,6 +63,19 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
             .HasOne(gt => gt.Tag)
             .WithMany(t => t.GameTag)
             .HasForeignKey(gt => gt.TagId);
+        
+        
+        builder.Entity<FriendRequest>()
+            .HasOne(fr => fr.Sender)
+            .WithMany(u => u.SentFriendRequests)
+            .HasForeignKey(fr => fr.SenderId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<FriendRequest>()
+            .HasOne(fr => fr.Receiver)
+            .WithMany(u => u.ReceivedFriendRequests)
+            .HasForeignKey(fr => fr.ReceiverId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
     

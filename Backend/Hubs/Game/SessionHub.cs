@@ -48,12 +48,10 @@ public class SessionHub : Hub
             u.UserId == user.Id &&
             u.GameId == gameId);
         
-        
         if(userGame == null) return;
         
-        var playTime  = DateTime.UtcNow - session.StartedAt;
-        var minutes = (float)playTime.TotalHours * 60;
-        userGame.HoursPlayed += minutes;
+        var playTime  = session.LastHeartBeat - session.StartedAt;
+        userGame.HoursPlayed += (float)playTime.TotalHours;
         
         _context.Remove(session);
         await _context.SaveChangesAsync();
@@ -61,7 +59,7 @@ public class SessionHub : Hub
         await base.OnDisconnectedAsync(exception);
     }
 
-    public async Task Heartbeat()
+    public async Task Heartbeat() // Add security when disconnect without event.
     {
         var session = await _context.SessionRooms.FirstOrDefaultAsync(s => s.ConnectionId == Context.ConnectionId);
 
