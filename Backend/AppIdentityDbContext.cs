@@ -21,6 +21,8 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
     
     public DbSet<Friendship> FriendShips {get; set;}
     
+    public DbSet<FriendRequest> FriendRequests { get; set; }
+    
     public DbSet<SessionRoom> SessionRooms { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {

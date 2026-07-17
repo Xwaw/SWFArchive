@@ -3,22 +3,14 @@ import ListItems from "../../../components/ListItems";
 import useSearchUsers from "../hooks/useSearchUsers";
 import { useNavigate } from "react-router-dom";
 
-interface UserItemProps {
-  id: string;
-  avatarUrl: string;
-  username: string;
-}
-
 export default function FriendSearch() {
-  const [friends, setFriends] = useState<UserItemProps[] | null>(null);
   const [input, setInput] = useState<string>("");
   const {users, searchUsers} = useSearchUsers();
 
   const navigate = useNavigate();
 
   const handleInput = async () => {
-    searchUsers(input)
-    setFriends(users?.items!)
+    await searchUsers(input)
   }
 
   return (
@@ -37,8 +29,8 @@ export default function FriendSearch() {
       </div>
       <div className="w-full h-full p-2 bg-amber-950 overflow-y-scroll">
         <ListItems>
-          {friends ? (
-            friends.map((value) => {
+          {users ? (
+            users.items.map((value) => {
               return (
                 <div className="w-full h-25 bg-amber-800 p-2 flex gap-2 items-center">
                   <div

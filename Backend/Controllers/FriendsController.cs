@@ -16,6 +16,7 @@ public class FriendsController : ControllerBase
         _friendsService = friendsService;
     }
 
+    [Authorize]
     [HttpGet("users/search/{username}")]
     public async Task<IActionResult> GetUsersByUsername(string username)
     {
@@ -24,9 +25,12 @@ public class FriendsController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
     [HttpPost("friend/{id}")]
-    public async Task<IActionResult> SendFriendRequestById(string id) // Send friend request by his ID
+    public async Task<IActionResult> SendFriendRequestById(string id)
     {
-        throw new NotImplementedException();
+        await _friendsService.SendFriendRequest(User, id);
+        
+        return Ok();
     }
 }

@@ -1,14 +1,17 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Backend.Models.User;
 
 public class FriendRequest
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; set; }
 
-    public string SenderId { get; set; }
-    public User Sender { get; set; }
+    public required string SenderId { get; set; }
+    public required User Sender { get; set; }
 
-    public string ReceiverId { get; set; }
-    public User Receiver { get; set; }
+    public required string ReceiverId { get; set; }
+    public required User Receiver { get; set; }
 
     public DateTime CreatedAt { get; set; }
 }

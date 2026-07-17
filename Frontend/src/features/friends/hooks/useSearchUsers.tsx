@@ -25,6 +25,7 @@ export default function useSearchUsers() {
 
         try {
             const response = await friendsService.getUsersBySearchKey(searchKey);
+            console.log(response.data)
             setUsers(response.data);
         } catch {
             setError("Something went wrong");
