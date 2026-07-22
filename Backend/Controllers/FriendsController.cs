@@ -17,6 +17,14 @@ public class FriendsController : ControllerBase
     }
 
     [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> GetFriends()
+    {
+        var result = await _friendsService.GetFriendships(User);
+        return Ok(result);
+    }
+
+    [Authorize]
     [HttpGet("users/search/{username}")]
     public async Task<IActionResult> GetUsersByUsername(string username)
     {
@@ -26,11 +34,37 @@ public class FriendsController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("friend/{id}")]
+    [HttpPost("invite/{id}")]
     public async Task<IActionResult> SendFriendRequestById(string id)
     {
-        await _friendsService.SendFriendRequest(User, id);
+        var result = await _friendsService.SendFriendRequest(User, id);
         
-        return Ok();
+        Console.WriteLine(result);
+        
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("requests")]
+    public async Task<IActionResult> GetUserFriendRequests()
+    {
+        var result = await _friendsService.GetUserFriendRequests(User);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("{requestId}/accept")]
+    public async Task<IActionResult> AcceptFriendRequest(Guid requestId)
+    {
+        var result = await _friendsService.AcceptRequest(User, requestId);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("{requestId}/deny")]
+    public async Task<IActionResult> DenyFriendRequest(Guid requestId)
+    {
+        var result = await _friendsService.DenyRequest(User, requestId);
+        return Ok(result);
     }
 }

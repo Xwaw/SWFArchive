@@ -1,51 +1,31 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ListItems from "../../components/ListItems";
 import { useState } from "react";
 import FriendChatView from "../../features/friends/components/FriendChatView";
+import useOwnership from "../../features/authorization/hooks/UseOwnership";
+import FriendsList from "../../features/friends/components/FriendsList";
+import FriendRequestList from "../../features/friends/components/FriendRequestList";
 
 export default function Friends() {
-  const navigate = useNavigate();
-  // hook useFriendsList - giving list every friend
-  const [selectedFriend, setSelectedFriend] = useState<string | null>(null);
+  const { userId } = useParams();
+  const { isLoading, error, isOwner } = useOwnership(userId ?? "");
 
-  const [users, setUsers] = useState([
-    { id: 1, name: "Widzet" },
-    { id: 2, name: "Jebać poe" },
-    { id: 3, name: "Poe 2 w sumie też" },
-    { id: 1, name: "Widzet" },
-    { id: 2, name: "Jebać poe" },
-    { id: 3, name: "Poe 2 w sumie też" },
-    { id: 1, name: "Widzet" },
-    { id: 2, name: "Jebać poe" },
-    { id: 3, name: "Poe 2 w sumie też" },
-    { id: 1, name: "Widzet" },
-    { id: 2, name: "Jebać poe" },
-    { id: 3, name: "Poe 2 w sumie też" },
-    { id: 1, name: "Widzet" },
-    { id: 2, name: "Jebać poe" },
-    { id: 3, name: "Poe 2 w sumie też" },
-    { id: 1, name: "Widzet" },
-    { id: 2, name: "Jebać poe" },
-    { id: 3, name: "Poe 2 w sumie też" },
-    { id: 1, name: "Widzet" },
-    { id: 2, name: "Jebać poe" },
-    { id: 3, name: "Poe 2 w sumie też" },
-    { id: 1, name: "Widzet" },
-    { id: 2, name: "Jebać poe" },
-    { id: 3, name: "Poe 2 w sumie też" },
-    { id: 1, name: "Widzet" },
-    { id: 2, name: "Jebać poe" },
-    { id: 3, name: "Poe 2 w sumie też" },
-    { id: 1, name: "Widzet" },
-    { id: 2, name: "Jebać poe" },
-    { id: 3, name: "Poe 2 w sumie też" },
-    { id: 1, name: "Widzet" },
-    { id: 2, name: "Jebać poe" },
-    { id: 3, name: "Poe 2 w sumie też" },
-    { id: 1, name: "Widzet" },
-    { id: 2, name: "Jebać poe" },
-    { id: 3, name: "Poe 2 w sumie też" },
-  ]);
+  if (isLoading) return <div>LOADING...</div>;
+
+  if (error) {
+    return (
+      <div className="w-full h-full flex justify-center items-center text-red-600">
+        {error}
+      </div>
+    );
+  }
+
+  if (!isOwner)
+    return (
+      <div className="w-full h-full flex justify-center items-center text-red-600">
+        U ARE NOT OWNING THIS LIST
+      </div>
+    );
 
   return (
     <div>
@@ -59,29 +39,12 @@ export default function Friends() {
               Friends List
             </div>
           </div>
-          <ListItems noItemsMessage="U have no friends :C">
-            {users.map((user) => {
-              return (
-                <div className="w-full h-20 bg-red-900 hover:bg-red-600 flex p-2 gap-4 cursor-pointer">
-                  <div className="h-full aspect-square bg-green-500">
-                    {user.id}
-                  </div>
-                  <div
-                    className="flex items-center w-full h-full"
-                    onClick={() => {
-                      setSelectedFriend(user.name); // plan: ID of friend when backend will be connected with system
-                    }}
-                  >
-                    {user.name}
-                  </div>
-                </div>
-              );
-            })}
-          </ListItems>
+          <FriendsList />
+          <FriendRequestList />
         </div>
 
         <div className="w-full h-full bg-gray-800">
-          <FriendChatView id={selectedFriend}></FriendChatView>
+          <FriendChatView id={""}></FriendChatView>
         </div>
       </div>
     </div>

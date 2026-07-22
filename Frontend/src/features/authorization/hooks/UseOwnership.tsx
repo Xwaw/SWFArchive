@@ -8,8 +8,11 @@ export default function useOwnership(userId: string){
     const [isOwner, setIsOwner] = useState<boolean | undefined>(undefined);
 
     const handleOwnership = async () => {
+        setIsLoading(true)
+        setError(null)
+
         try{
-            var ownership = await accountService.confirmUserAccount(userId)
+            const ownership = await accountService.confirmUserAccount(userId)
             setIsOwner(ownership.data ?? false)
         }catch(error){
             if(isAxiosError(error)){
@@ -39,7 +42,7 @@ export default function useOwnership(userId: string){
 
     useEffect(() => {
         handleOwnership()
-    }, [])
+    }, [userId])
 
     return(
         {isOwner, isLoading, error}

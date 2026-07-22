@@ -28,7 +28,7 @@ export default function ProfileButton() {
           {
             text: "Friends",
             onClick: () => {
-              navigate("/friends");
+              navigate(`/friends/${profile?.userId}`);
             },
           },
           {

@@ -2,6 +2,7 @@ import { useState } from "react";
 import ListItems from "../../../components/ListItems";
 import useSearchUsers from "../hooks/useSearchUsers";
 import { useNavigate } from "react-router-dom";
+import InviteButton from "./InviteButton";
 
 export default function FriendSearch() {
   const [input, setInput] = useState<string>("");
@@ -38,9 +39,7 @@ export default function FriendSearch() {
                     style={{ backgroundImage: `url(${value.avatarUrl})` }}
                   />
                   <p className="w-full" onClick={() => navigate(`/profile/${value.id}`)}>{value.username}</p>
-                  <button className="bg-red-900 h-8 w-30 hover:bg-red-600">
-                    Add friend
-                  </button>
+                  <InviteButton userId={value.id}></InviteButton>
                 </div>
               );
             })

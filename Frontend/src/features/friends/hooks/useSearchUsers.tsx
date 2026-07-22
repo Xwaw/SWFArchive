@@ -16,16 +16,14 @@ interface PaginationItems {
 }
 
 export default function useSearchUsers() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [users, setUsers] = useState<PaginationItems | null>(null);
 
   const searchUsers = async (searchKey: string) => {
-        setIsLoading(true);
-
+    setIsLoading(true);
         try {
             const response = await friendsService.getUsersBySearchKey(searchKey);
-            console.log(response.data)
             setUsers(response.data);
         } catch {
             setError("Something went wrong");
