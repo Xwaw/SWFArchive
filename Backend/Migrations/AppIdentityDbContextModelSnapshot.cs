@@ -212,7 +212,41 @@ namespace Backend.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FriendShips");
+                    b.ToTable("Friendships");
+                });
+
+            modelBuilder.Entity("Backend.Models.User.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("FriendshipId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("MessageId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FriendshipId");
+
+                    b.HasIndex("MessageId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Backend.Models.User.User", b =>
@@ -595,6 +629,29 @@ namespace Backend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Backend.Models.User.Message", b =>
+                {
+                    b.HasOne("Backend.Models.User.Friendship", "Friendship")
+                        .WithMany("Messages")
+                        .HasForeignKey("FriendshipId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend.Models.User.Message", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("MessageId");
+
+                    b.HasOne("Backend.Models.User.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Friendship");
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("Backend.Models.User.UserBadge", b =>
                 {
                     b.HasOne("Backend.Models.Dto.FileTarget", "Image")
@@ -722,6 +779,16 @@ namespace Backend.Migrations
             modelBuilder.Entity("Backend.Models.Tag", b =>
                 {
                     b.Navigation("GameTag");
+                });
+
+            modelBuilder.Entity("Backend.Models.User.Friendship", b =>
+                {
+                    b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("Backend.Models.User.Message", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("Backend.Models.User.User", b =>

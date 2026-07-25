@@ -92,7 +92,7 @@ public class FriendsService
         var request = await _context.FriendRequests.FirstOrDefaultAsync(fr => fr.Id == requestId && fr.ReceiverId == user.Id);
         if(request == null) return false;
         
-        var isFriendshipExist = await _context.FriendShips.AnyAsync(fr =>
+        var isFriendshipExist = await _context.Friendships.AnyAsync(fr =>
             (fr.UserId == request.ReceiverId && fr.FriendId == request.SenderId) || (fr.UserId == request.SenderId && fr.FriendId == request.ReceiverId));
         if(isFriendshipExist)
         {
@@ -102,7 +102,7 @@ public class FriendsService
         };
         
 
-        await _context.FriendShips.AddRangeAsync(new Friendship
+        await _context.Friendships.AddRangeAsync(new Friendship
         {
             UserId = request.ReceiverId,
             FriendId = request.SenderId
@@ -136,7 +136,7 @@ public class FriendsService
     {
         var user = await _userManager.GetUserAsync(principal);
         if (user == null) return [];
-        var friendships = await _context.FriendShips.Where(f => f.UserId == user.Id).Select(f => new FriendshipViewDto
+        var friendships = await _context.Friendships.Where(f => f.UserId == user.Id).Select(f => new FriendshipViewDto
         {
             friendId = f.FriendId,
             friendUsername = f.Friend.UserName

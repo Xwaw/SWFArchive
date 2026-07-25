@@ -19,7 +19,9 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
     public DbSet<UserProfile> UserProfiles { get; set; }
     public DbSet<Tag> Tags { get; set; }
     
-    public DbSet<Friendship> FriendShips {get; set;}
+    public DbSet<Friendship> Friendships {get; set;}
+    
+    public DbSet<Message> Messages {get; set;}
     
     public DbSet<FriendRequest> FriendRequests { get; set; }
     

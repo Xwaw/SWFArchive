@@ -3,6 +3,7 @@ using Backend.Authorization;
 using Backend.Controllers;
 using Backend.Hubs.Game;
 using Backend.Models;
+using Backend.Models.Dto.Friend;
 using Backend.Models.User;
 using Backend.Repositories.Archive;
 using Backend.Repositories.Comments;
@@ -235,5 +236,6 @@ app.MapRazorPages();
 app.MapDefaultControllerRoute();
 
 app.MapHub<SessionHub>("/sessionHub");
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();
