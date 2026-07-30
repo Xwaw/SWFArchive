@@ -1,27 +1,20 @@
 import { useState } from "react";
 import ListItems from "../../../components/ListItems";
+import useChat from "../../chat/hooks/UseChat";
+import { useParams } from "react-router-dom";
 
 interface SelectedFriendProps {
-  id: string | null;
+  conversationId: string | null;
 }
 
-interface ChatMessage {
-  id: string;
-  text: string;
-  ownerId: string;
-  ownerName: string;
-  ownerAvatarUrl: string;
-  isOwnership: boolean;
-}
-
-export default function FriendChatView({ id }: SelectedFriendProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-
+export default function FriendChatView({ conversationId }: SelectedFriendProps) {
+  const {messages, sendMessage} = useChat(conversationId ?? "");
   const [input, setInput] = useState("");
+  const {userId} = useParams();
 
   return (
     <div className="w-full h-full">
-      {id ? (
+      {conversationId ? (
         <div className="w-full h-full flex flex-col justify-center">
           <div className="w-full h-[700%] bg-teal-800 overflow-scroll">
             <ListItems>
@@ -31,11 +24,11 @@ export default function FriendChatView({ id }: SelectedFriendProps) {
                     return (
                       <div
                         key={msg.id}
-                        className={`w-full h-20 p-2 bg-gradient-to-r border-1 border-black ${msg.isOwnership ? "from-red-950 to-red-600 from-70% to-100%" : "from-0% to-30% from-red-600 to-red-950"}`}
+                        className={`w-full h-20 p-2 bg-gradient-to-r border-1 border-black ${msg.senderId === userId ? "from-red-950 to-red-600 from-70% to-100%" : "from-0% to-30% from-red-600 to-red-950"}`}
                       >
                         <div
                           className={`flex items-center ${
-                            msg.isOwnership
+                            msg.senderId === userId
                               ? "justify-start flex-row-reverse"
                               : "justify-start"
                           }`}
@@ -43,10 +36,10 @@ export default function FriendChatView({ id }: SelectedFriendProps) {
                           <div className="flex flex-col w-25 h-full justify-center items-center">
                             <div className="w-10 aspect-square bg-blue-950 flex" onClick={() => {alert("his profile")}}></div>
                             <div className="flex justify-center items-center">
-                              {msg.ownerName}
+                              {msg.senderId}
                             </div>
                           </div>
-                          <div>{msg.text}</div>
+                          <div>{msg.content}</div>
                         </div>
                       </div>
                     );
@@ -69,16 +62,8 @@ export default function FriendChatView({ id }: SelectedFriendProps) {
               onKeyDown={(e) => {
                 if(e.key === "Enter" && !e.shiftKey){
                     e.preventDefault();
-                    setMessages(
-                        prev => [...prev, {
-                            id: "123",
-                            text: input,
-                            ownerId: "user-1",
-                            ownerName: "xwaw",
-                            ownerAvatarUrl: "/avatar.png",
-                            isOwnership: true
-                        }]
-                    )
+
+                    sendMessage(input);
                     setInput("")
                 }
               }}

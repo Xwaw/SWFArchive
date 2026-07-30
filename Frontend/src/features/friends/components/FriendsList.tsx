@@ -3,8 +3,11 @@ import ListItems from "../../../components/ListItems";
 import useFriendships from "../hooks/useFriendships";
 import { useNavigate } from "react-router-dom";
 
-export default function FriendsList() {
-  const [selectedFriend, setSelectedFriend] = useState<string | null>(null);
+interface FriendListProps{
+  onFriendClick: (friendshipId: string) => void
+}
+
+export default function FriendsList({onFriendClick}: FriendListProps) {
   const {isLoading, error, friendships} = useFriendships();
 
   const navigate = useNavigate();
@@ -36,7 +39,8 @@ export default function FriendsList() {
               <div
                 className="flex items-center w-full h-full"
                 onClick={() => {
-                  setSelectedFriend(user.friendId); 
+                  onFriendClick(user.conversationId)
+                  console.log(user.conversationId)
                 }}
               >
                 {user.friendUsername}

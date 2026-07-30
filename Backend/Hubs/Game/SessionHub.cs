@@ -59,7 +59,7 @@ public class SessionHub : Hub
         await base.OnDisconnectedAsync(exception);
     }
 
-    public async Task Heartbeat() // Add security when disconnect without event.
+    public async Task Heartbeat() 
     {
         var session = await _context.SessionRooms.FirstOrDefaultAsync(s => s.ConnectionId == Context.ConnectionId);
 

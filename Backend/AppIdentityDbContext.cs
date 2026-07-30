@@ -20,6 +20,7 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
     public DbSet<Tag> Tags { get; set; }
     
     public DbSet<Friendship> Friendships {get; set;}
+    public DbSet<Conversation> Conversations { get; set; }
     
     public DbSet<Message> Messages {get; set;}
     

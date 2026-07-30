@@ -1,6 +1,7 @@
 using Backend;
 using Backend.Authorization;
 using Backend.Controllers;
+using Backend.Hubs.Chat;
 using Backend.Hubs.Game;
 using Backend.Models;
 using Backend.Models.Dto.Friend;
@@ -121,6 +122,11 @@ builder.Services.AddSingleton<GmailService>(sp =>
         HttpClientInitializer = credential,
         ApplicationName = "Backend"
     });
+});
+
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
 });
 
 builder.Services.AddScoped<ProfileService>();

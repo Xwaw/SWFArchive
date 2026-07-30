@@ -1,14 +1,14 @@
 import { useNavigate, useParams } from "react-router-dom";
-import ListItems from "../../components/ListItems";
-import { useState } from "react";
 import FriendChatView from "../../features/friends/components/FriendChatView";
 import useOwnership from "../../features/authorization/hooks/UseOwnership";
 import FriendsList from "../../features/friends/components/FriendsList";
 import FriendRequestList from "../../features/friends/components/FriendRequestList";
+import { useState } from "react";
 
 export default function Friends() {
   const { userId } = useParams();
   const { isLoading, error, isOwner } = useOwnership(userId ?? "");
+  const [selectedFriend, setSelectedFriend] = useState<string | null>(null);
 
   if (isLoading) return <div>LOADING...</div>;
 
@@ -39,12 +39,18 @@ export default function Friends() {
               Friends List
             </div>
           </div>
-          <FriendsList />
+          <FriendsList onFriendClick={(friend) => {setSelectedFriend(friend)}}/>
           <FriendRequestList />
         </div>
 
         <div className="w-full h-full bg-gray-800">
-          <FriendChatView id={""}></FriendChatView>
+          {selectedFriend ? (
+            <FriendChatView conversationId={selectedFriend} />
+          ) : (
+            <div className="w-full h-full flex justify-center items-center">
+              Wybierz znajomego
+            </div>
+          )}
         </div>
       </div>
     </div>

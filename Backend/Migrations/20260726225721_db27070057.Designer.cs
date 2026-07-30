@@ -3,6 +3,7 @@ using System;
 using Backend;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    partial class AppIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260726225721_db27070057")]
+    partial class db27070057
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
@@ -163,17 +166,6 @@ namespace Backend.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("Backend.Models.User.Conversation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Conversations");
-                });
-
             modelBuilder.Entity("Backend.Models.User.FriendRequest", b =>
                 {
                     b.Property<Guid>("Id")
@@ -206,9 +198,6 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("ConversationId")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
@@ -221,8 +210,6 @@ namespace Backend.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ConversationId");
 
                     b.HasIndex("FriendId");
 
@@ -241,10 +228,10 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("ConversationId")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Created")
+                    b.Property<Guid>("FriendshipId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SenderId")
@@ -253,7 +240,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConversationId");
+                    b.HasIndex("FriendshipId");
 
                     b.HasIndex("SenderId");
 
@@ -623,12 +610,6 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.User.Friendship", b =>
                 {
-                    b.HasOne("Backend.Models.User.Conversation", "Conversation")
-                        .WithMany("Friendships")
-                        .HasForeignKey("ConversationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Backend.Models.User.User", "Friend")
                         .WithMany()
                         .HasForeignKey("FriendId")
@@ -641,8 +622,6 @@ namespace Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Conversation");
-
                     b.Navigation("Friend");
 
                     b.Navigation("User");
@@ -650,9 +629,9 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.User.Message", b =>
                 {
-                    b.HasOne("Backend.Models.User.Conversation", "Conversation")
+                    b.HasOne("Backend.Models.User.Friendship", "Friendship")
                         .WithMany("Messages")
-                        .HasForeignKey("ConversationId")
+                        .HasForeignKey("FriendshipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -662,7 +641,7 @@ namespace Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Conversation");
+                    b.Navigation("Friendship");
 
                     b.Navigation("Sender");
                 });
@@ -796,10 +775,8 @@ namespace Backend.Migrations
                     b.Navigation("GameTag");
                 });
 
-            modelBuilder.Entity("Backend.Models.User.Conversation", b =>
+            modelBuilder.Entity("Backend.Models.User.Friendship", b =>
                 {
-                    b.Navigation("Friendships");
-
                     b.Navigation("Messages");
                 });
 

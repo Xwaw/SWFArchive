@@ -13,8 +13,9 @@ public class Friendship
 
     public string FriendId { get; set; }
     public User Friend { get; set; }
+    
+    public Guid ConversationId { get; set; }
+    public Conversation Conversation { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    
-    public ICollection<Message> Messages { get; set; } = new List<Message>();
 }

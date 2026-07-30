@@ -67,4 +67,12 @@ public class FriendsController : ControllerBase
         var result = await _friendsService.DenyRequest(User, requestId);
         return Ok(result);
     }
+
+    [Authorize]
+    [HttpGet("messages/{conversationId}")]
+    public async Task<IActionResult> GetMessages(Guid conversationId)
+    {
+        var result = await _friendsService.GetConversationMessages(conversationId);
+        return Ok(result);
+    }
 }

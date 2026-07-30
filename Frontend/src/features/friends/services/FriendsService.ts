@@ -54,6 +54,15 @@ class FriendsService {
       throw error;
     }
   }
+
+  async getMessages(conversationId: string){
+    try{
+      const result = await http.get(`friends/messages/${conversationId}`);
+      return result.data;
+    } catch(error){
+      throw error;
+    }
+  }
 }
 
 export const friendsService = new FriendsService();
