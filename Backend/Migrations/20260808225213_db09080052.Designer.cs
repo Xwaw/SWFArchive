@@ -11,14 +11,147 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20260724101205_db247071212")]
-    partial class db247071212
+    [Migration("20260808225213_db09080052")]
+    partial class db09080052
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
+
+            modelBuilder.Entity("Backend.Models.Archive.GameArchive", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AuthorName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PlaysCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<float>("RatingAverage")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("RatingCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Version")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ArchiveGames");
+                });
+
+            modelBuilder.Entity("Backend.Models.BadgeEntity.Badge", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RequiredPlayTime")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Badges");
+                });
+
+            modelBuilder.Entity("Backend.Models.BadgeEntity.BadgeModeration", b =>
+                {
+                    b.Property<Guid>("BadgeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ModeratedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ModeratorId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Result")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("BadgeId");
+
+                    b.HasIndex("ModeratorId");
+
+                    b.ToTable("BadgeModeration");
+                });
+
+            modelBuilder.Entity("Backend.Models.BadgeEntity.UserBadge", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("BadgeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ObtainedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserProfileUserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BadgeId");
+
+                    b.HasIndex("UserProfileUserId");
+
+                    b.HasIndex("UserId", "BadgeId")
+                        .IsUnique();
+
+                    b.ToTable("UserBadges");
+                });
 
             modelBuilder.Entity("Backend.Models.Dto.FileTarget", b =>
                 {
@@ -79,53 +212,6 @@ namespace Backend.Migrations
                     b.ToTable("SessionRooms");
                 });
 
-            modelBuilder.Entity("Backend.Models.GameArchive", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("AuthorName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("OwnerId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("PlaysCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<float>("RatingAverage")
-                        .HasColumnType("REAL");
-
-                    b.Property<int>("RatingCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("UploadedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Version")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ArchiveGames");
-                });
-
             modelBuilder.Entity("Backend.Models.GameTag", b =>
                 {
                     b.Property<Guid>("GameArchiveId")
@@ -166,6 +252,17 @@ namespace Backend.Migrations
                     b.ToTable("Tags");
                 });
 
+            modelBuilder.Entity("Backend.Models.User.Conversation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Conversations");
+                });
+
             modelBuilder.Entity("Backend.Models.User.FriendRequest", b =>
                 {
                     b.Property<Guid>("Id")
@@ -198,6 +295,9 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("ConversationId")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
@@ -210,6 +310,8 @@ namespace Backend.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ConversationId");
 
                     b.HasIndex("FriendId");
 
@@ -228,13 +330,10 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("ConversationId")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("FriendshipId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("MessageId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SenderId")
@@ -243,9 +342,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FriendshipId");
-
-                    b.HasIndex("MessageId");
+                    b.HasIndex("ConversationId");
 
                     b.HasIndex("SenderId");
 
@@ -314,42 +411,6 @@ namespace Backend.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Backend.Models.User.UserBadge", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ImageId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserProfileUserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
-
-                    b.HasIndex("UserId1");
-
-                    b.HasIndex("UserProfileUserId");
-
-                    b.ToTable("UserBadge");
                 });
 
             modelBuilder.Entity("Backend.Models.User.UserGame", b =>
@@ -575,9 +636,58 @@ namespace Backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Backend.Models.BadgeEntity.Badge", b =>
+                {
+                    b.HasOne("Backend.Models.Archive.GameArchive", "Game")
+                        .WithMany("Badges")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("Backend.Models.BadgeEntity.BadgeModeration", b =>
+                {
+                    b.HasOne("Backend.Models.BadgeEntity.Badge", "Badge")
+                        .WithOne("Moderation")
+                        .HasForeignKey("Backend.Models.BadgeEntity.BadgeModeration", "BadgeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend.Models.User.User", "Moderator")
+                        .WithMany()
+                        .HasForeignKey("ModeratorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Badge");
+
+                    b.Navigation("Moderator");
+                });
+
+            modelBuilder.Entity("Backend.Models.BadgeEntity.UserBadge", b =>
+                {
+                    b.HasOne("Backend.Models.BadgeEntity.Badge", "Badge")
+                        .WithMany("UserBadges")
+                        .HasForeignKey("BadgeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend.Models.User.UserProfile", "UserProfile")
+                        .WithMany("ProfileBadges")
+                        .HasForeignKey("UserProfileUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Badge");
+
+                    b.Navigation("UserProfile");
+                });
+
             modelBuilder.Entity("Backend.Models.GameTag", b =>
                 {
-                    b.HasOne("Backend.Models.GameArchive", "GameArchive")
+                    b.HasOne("Backend.Models.Archive.GameArchive", "GameArchive")
                         .WithMany("GameTags")
                         .HasForeignKey("GameArchiveId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -615,6 +725,12 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.User.Friendship", b =>
                 {
+                    b.HasOne("Backend.Models.User.Conversation", "Conversation")
+                        .WithMany("Friendships")
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Backend.Models.User.User", "Friend")
                         .WithMany()
                         .HasForeignKey("FriendId")
@@ -627,6 +743,8 @@ namespace Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Conversation");
+
                     b.Navigation("Friend");
 
                     b.Navigation("User");
@@ -634,15 +752,11 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.User.Message", b =>
                 {
-                    b.HasOne("Backend.Models.User.Friendship", "Friendship")
+                    b.HasOne("Backend.Models.User.Conversation", "Conversation")
                         .WithMany("Messages")
-                        .HasForeignKey("FriendshipId")
+                        .HasForeignKey("ConversationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Backend.Models.User.Message", null)
-                        .WithMany("Messages")
-                        .HasForeignKey("MessageId");
 
                     b.HasOne("Backend.Models.User.User", "Sender")
                         .WithMany()
@@ -650,35 +764,14 @@ namespace Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Friendship");
+                    b.Navigation("Conversation");
 
                     b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("Backend.Models.User.UserBadge", b =>
-                {
-                    b.HasOne("Backend.Models.Dto.FileTarget", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Backend.Models.User.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.HasOne("Backend.Models.User.UserProfile", null)
-                        .WithMany("UserBadges")
-                        .HasForeignKey("UserProfileUserId");
-
-                    b.Navigation("Image");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Backend.Models.User.UserGame", b =>
                 {
-                    b.HasOne("Backend.Models.GameArchive", "Game")
+                    b.HasOne("Backend.Models.Archive.GameArchive", "Game")
                         .WithMany("UserGames")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -772,11 +865,20 @@ namespace Backend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Backend.Models.GameArchive", b =>
+            modelBuilder.Entity("Backend.Models.Archive.GameArchive", b =>
                 {
+                    b.Navigation("Badges");
+
                     b.Navigation("GameTags");
 
                     b.Navigation("UserGames");
+                });
+
+            modelBuilder.Entity("Backend.Models.BadgeEntity.Badge", b =>
+                {
+                    b.Navigation("Moderation");
+
+                    b.Navigation("UserBadges");
                 });
 
             modelBuilder.Entity("Backend.Models.Tag", b =>
@@ -784,13 +886,10 @@ namespace Backend.Migrations
                     b.Navigation("GameTag");
                 });
 
-            modelBuilder.Entity("Backend.Models.User.Friendship", b =>
+            modelBuilder.Entity("Backend.Models.User.Conversation", b =>
                 {
-                    b.Navigation("Messages");
-                });
+                    b.Navigation("Friendships");
 
-            modelBuilder.Entity("Backend.Models.User.Message", b =>
-                {
                     b.Navigation("Messages");
                 });
 
@@ -808,9 +907,9 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.User.UserProfile", b =>
                 {
-                    b.Navigation("ProfileComments");
+                    b.Navigation("ProfileBadges");
 
-                    b.Navigation("UserBadges");
+                    b.Navigation("ProfileComments");
                 });
 #pragma warning restore 612, 618
         }

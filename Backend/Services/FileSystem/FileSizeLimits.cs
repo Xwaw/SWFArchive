@@ -1,3 +1,5 @@
+using Backend.Models.BadgeEntity;
+
 namespace Backend.Enums;
 
 public static class FileSizeLimits
@@ -11,6 +13,7 @@ public static class FileSizeLimits
             FileUsageType.Background => Background,
             FileUsageType.Thumbnail => Thumbnail,
             FileUsageType.FlashFile => FlashFile,
+            FileUsageType.Badge => BadgeGif,
             _ => throw new ArgumentOutOfRangeException(nameof(usageType))
         };
     }
@@ -22,4 +25,5 @@ public static class FileSizeLimits
     private const int Background = 8 * MB;
     private const int Thumbnail = 2 * MB;
     private const int FlashFile = 20 * MB;
+    private const int BadgeGif = 30 * MB;
 }

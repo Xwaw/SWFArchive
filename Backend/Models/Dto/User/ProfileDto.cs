@@ -15,6 +15,4 @@ public class ProfileDto
     public string? IsOnline { get; set; }
     
     public DateTime? CreatedAt { get; set; }
-
-    public ICollection<UserBadge>? Badges { get; set; } = new List<UserBadge>();
 }

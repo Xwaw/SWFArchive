@@ -8,7 +8,8 @@ export default function useChat(conversationId: string) {
 
     const loadChatMessages = async () => {
         const messagesList = await friendsService.getMessages(conversationId);
-        console.log("test: " + messagesList)
+
+        console.log(messagesList[0].senderUsername)
 
         setMessages(messagesList);
     };
@@ -28,6 +29,7 @@ export default function useChat(conversationId: string) {
             await loadChatMessages();
 
             unsubscribe = chatService.onMessage((message) => {
+                console.log(message)
                 setMessages(prev => [...prev, message]);
             });
         };

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Backend.Models.User;
 
-namespace Backend.Models;
+namespace Backend.Models.Archive;
 
 public class GameArchive
 {
@@ -35,4 +35,6 @@ public class GameArchive
     public ICollection<GameTag> GameTags { get; set; } = new HashSet<GameTag>();
     
     public ICollection<UserGame> UserGames { get; set; } = new List<UserGame>();
+    
+    public ICollection<BadgeEntity.Badge> Badges { get; set; } = new List<BadgeEntity.Badge>();
 }

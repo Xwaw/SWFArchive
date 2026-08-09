@@ -1,4 +1,6 @@
 ﻿using Backend.Models;
+using Backend.Models.Archive;
+using Backend.Models.BadgeEntity;
 using Backend.Models.Dto;
 using Backend.Models.Game;
 using Backend.Models.User;
@@ -18,15 +20,15 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
     public DbSet<UserComment> UserComments { get; set; }
     public DbSet<UserProfile> UserProfiles { get; set; }
     public DbSet<Tag> Tags { get; set; }
-    
     public DbSet<Friendship> Friendships {get; set;}
     public DbSet<Conversation> Conversations { get; set; }
-    
     public DbSet<Message> Messages {get; set;}
-    
     public DbSet<FriendRequest> FriendRequests { get; set; }
-    
     public DbSet<SessionRoom> SessionRooms { get; set; }
+    
+    public DbSet<Badge> Badges { get; set; }
+    
+    public DbSet<UserBadge> UserBadges { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder); 
@@ -81,6 +83,10 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
             .WithMany(u => u.ReceivedFriendRequests)
             .HasForeignKey(fr => fr.ReceiverId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.Entity<UserBadge>()
+            .HasIndex(x => new { x.UserId, x.BadgeId })
+            .IsUnique();
     }
 }
     

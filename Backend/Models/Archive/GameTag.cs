@@ -1,3 +1,5 @@
+using Backend.Models.Archive;
+
 namespace Backend.Models;
 
 public class GameTag

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class db247071212 : Migration
+    public partial class db08081226 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -73,6 +73,17 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Conversations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Conversations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Files",
                 columns: table => new
                 {
@@ -116,6 +127,29 @@ namespace Backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tags", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Badges",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    GameId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    RequiredPlayTime = table.Column<int>(type: "INTEGER", nullable: false),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    UploadedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Badges", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Badges_ArchiveGames_GameId",
+                        column: x => x.GameId,
+                        principalTable: "ArchiveGames",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -251,32 +285,6 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Friendships",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    FriendId = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Friendships", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Friendships_AspNetUsers_FriendId",
-                        column: x => x.FriendId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Friendships_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserGames",
                 columns: table => new
                 {
@@ -326,6 +334,66 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Friendships",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    FriendId = table.Column<string>(type: "TEXT", nullable: false),
+                    ConversationId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Friendships", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Friendships_AspNetUsers_FriendId",
+                        column: x => x.FriendId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Friendships_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Friendships_Conversations_ConversationId",
+                        column: x => x.ConversationId,
+                        principalTable: "Conversations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ConversationId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    SenderId = table.Column<string>(type: "TEXT", nullable: false),
+                    Content = table.Column<string>(type: "TEXT", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Messages_Conversations_ConversationId",
+                        column: x => x.ConversationId,
+                        principalTable: "Conversations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GameTag",
                 columns: table => new
                 {
@@ -352,69 +420,30 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
+                name: "UserBadges",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    FriendshipId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    SenderId = table.Column<string>(type: "TEXT", nullable: false),
-                    Content = table.Column<string>(type: "TEXT", nullable: false),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    MessageId = table.Column<Guid>(type: "TEXT", nullable: true)
+                    BadgeId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    UserProfileUserId = table.Column<string>(type: "TEXT", nullable: false),
+                    ObtainedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.PrimaryKey("PK_UserBadges", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Messages_AspNetUsers_SenderId",
-                        column: x => x.SenderId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_UserBadges_Badges_BadgeId",
+                        column: x => x.BadgeId,
+                        principalTable: "Badges",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Messages_Friendships_FriendshipId",
-                        column: x => x.FriendshipId,
-                        principalTable: "Friendships",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Messages_Messages_MessageId",
-                        column: x => x.MessageId,
-                        principalTable: "Messages",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserBadge",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserId1 = table.Column<string>(type: "TEXT", nullable: true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    ImageId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserProfileUserId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserBadge", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserBadge_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_UserBadge_Files_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Files",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserBadge_UserProfiles_UserProfileUserId",
+                        name: "FK_UserBadges_UserProfiles_UserProfileUserId",
                         column: x => x.UserProfileUserId,
                         principalTable: "UserProfiles",
-                        principalColumn: "UserId");
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -484,6 +513,11 @@ namespace Backend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Badges_GameId",
+                table: "Badges",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FriendRequests_ReceiverId",
                 table: "FriendRequests",
                 column: "ReceiverId");
@@ -492,6 +526,11 @@ namespace Backend.Migrations
                 name: "IX_FriendRequests_SenderId",
                 table: "FriendRequests",
                 column: "SenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Friendships_ConversationId",
+                table: "Friendships",
+                column: "ConversationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Friendships_FriendId",
@@ -509,14 +548,9 @@ namespace Backend.Migrations
                 column: "TagId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_FriendshipId",
+                name: "IX_Messages_ConversationId",
                 table: "Messages",
-                column: "FriendshipId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_MessageId",
-                table: "Messages",
-                column: "MessageId");
+                column: "ConversationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_SenderId",
@@ -524,18 +558,19 @@ namespace Backend.Migrations
                 column: "SenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserBadge_ImageId",
-                table: "UserBadge",
-                column: "ImageId");
+                name: "IX_UserBadges_BadgeId",
+                table: "UserBadges",
+                column: "BadgeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserBadge_UserId1",
-                table: "UserBadge",
-                column: "UserId1");
+                name: "IX_UserBadges_UserId_BadgeId",
+                table: "UserBadges",
+                columns: new[] { "UserId", "BadgeId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserBadge_UserProfileUserId",
-                table: "UserBadge",
+                name: "IX_UserBadges_UserProfileUserId",
+                table: "UserBadges",
                 column: "UserProfileUserId");
 
             migrationBuilder.CreateIndex(
@@ -585,7 +620,13 @@ namespace Backend.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Files");
+
+            migrationBuilder.DropTable(
                 name: "FriendRequests");
+
+            migrationBuilder.DropTable(
+                name: "Friendships");
 
             migrationBuilder.DropTable(
                 name: "GameTag");
@@ -597,7 +638,7 @@ namespace Backend.Migrations
                 name: "SessionRooms");
 
             migrationBuilder.DropTable(
-                name: "UserBadge");
+                name: "UserBadges");
 
             migrationBuilder.DropTable(
                 name: "UserComments");
@@ -612,10 +653,10 @@ namespace Backend.Migrations
                 name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Friendships");
+                name: "Conversations");
 
             migrationBuilder.DropTable(
-                name: "Files");
+                name: "Badges");
 
             migrationBuilder.DropTable(
                 name: "UserProfiles");

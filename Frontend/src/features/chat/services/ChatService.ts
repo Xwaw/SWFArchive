@@ -32,12 +32,16 @@ class ChatService{
         await this.connection.invoke("SendMessage", conversationId, text)
     }
 
-    onMessage(callback: (message: MessageChat) => void){
-        this.connection.on("ReceiveMessage", callback)
+    onMessage(callback: (message: MessageChat) => void) {
+        this.connection.on("ReceiveMessage", (...args) => {
+            console.log("ReceiveMessage args:", args);
 
-        return(() => {
-            this.connection.off("ReceiveMessage", callback)
-        })
+            callback(args[0]);
+        });
+
+        return () => {
+            this.connection.off("ReceiveMessage");
+        };
     }
 }
 

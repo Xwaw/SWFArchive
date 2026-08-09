@@ -7,5 +7,7 @@ public enum FileUsageType
     Background,
     
     FlashFile,
-    Thumbnail
+    Thumbnail,
+    
+    Badge
 }

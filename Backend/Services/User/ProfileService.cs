@@ -5,6 +5,7 @@ using Backend.Models.Dto;
 using Backend.Models.Dto.User;
 using Backend.Models.User;
 using Backend.Repositories.User;
+using Backend.Services.FileSystem;
 using Microsoft.AspNetCore.Identity;
 
 namespace Backend.Services;
@@ -54,7 +55,6 @@ public class ProfileService
         var backgroundTask = _fileRepository.GetUserFileUrlAsync(userId, FileUsageType.Background);
 
         var descriptionTask = _profileRepository.GetDescriptionForUser(userId);
-        var badgesTask = _profileRepository.GetUserBadges(userId);
         var createdAtTask = _profileRepository.GetCreatedAtDate(userId);
 
         await Task.WhenAll(
@@ -62,7 +62,6 @@ public class ProfileService
             bannerTask,
             backgroundTask,
             descriptionTask,
-            badgesTask,
             createdAtTask
         );
 
@@ -72,7 +71,6 @@ public class ProfileService
             BannerUrl = bannerTask.Result,
             BackgroundUrl = backgroundTask.Result,
             Description = descriptionTask.Result,
-            Badges = badgesTask.Result,
             CreatedAt = createdAtTask.Result,
             UserId = userId.ToString(),
             UserName = username

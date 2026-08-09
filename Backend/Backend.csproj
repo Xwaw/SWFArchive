@@ -252,6 +252,7 @@
     <_ContentIncludedByDefault Remove="wwwroot\upload\games\f097f51cc3ff423d940cc1e437f48405\thumbnail\bfcc59f24db34552940298d964bdeeb4.jpg" />
     <_ContentIncludedByDefault Remove="wwwroot\upload\users\adf0eedaaad94c17ba0cff052570abd1\avatar\bc36ee1b684342349ff43c34fb0daeb3.jpg" />
     <_ContentIncludedByDefault Remove="wwwroot\upload\users\adf0eedaaad94c17ba0cff052570abd1\banner\4ce0c90d44cf41a6a9ab868ded240a8a.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\upload\users\4410865ea98f47d98adfe6855bf22c50\avatar\81abfad1fe274b6e8eaf18856ee4c8cb.png" />
   </ItemGroup>
 
   <ItemGroup>

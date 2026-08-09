@@ -13,8 +13,10 @@ using Backend.Repositories.Player;
 using Backend.Repositories.User;
 using Backend.Services;
 using Backend.Services.Archive;
+using Backend.Services.Badge;
 using Backend.Services.Comment;
 using Backend.Services.Email;
+using Backend.Services.FileSystem;
 using Backend.Services.Friends;
 using Backend.Services.Library;
 using Backend.Services.Player;
@@ -88,6 +90,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("CanManageRoles", policy => policy.RequireRole(Roles.HeadAdmin));
     options.AddPolicy("CanGetMailApi", policy => policy.RequireRole(Roles.HeadAdmin));
+    options.AddPolicy("ModerateBadges", policy => policy.RequireRole(Roles.HeadAdmin, Roles.Admin, Roles.Moderator));
 });
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
@@ -164,6 +167,9 @@ builder.Services.AddScoped<PlayerService>();
 
 builder.Services.AddScoped<FriendsController>();
 builder.Services.AddScoped<FriendsService>();
+
+builder.Services.AddScoped<BadgeController>();
+builder.Services.AddScoped<BadgeService>();
 
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();

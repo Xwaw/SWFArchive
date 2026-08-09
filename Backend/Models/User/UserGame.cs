@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Backend.Enums;
+using Backend.Models.Archive;
 
 namespace Backend.Models.User;
 
@@ -19,6 +20,4 @@ public class UserGame
     public StatusGame PlayingStatus { get; set; } = StatusGame.NotPlayed;
     public DateTime AddedAt { get; set; } = DateTime.Now;
     public DateTime? LastPlayed { get; set; } = null;
-    
-    // REPLACE TO LIBRARY DATABASE - RELATION: UserGame : Library (1:1)
 }

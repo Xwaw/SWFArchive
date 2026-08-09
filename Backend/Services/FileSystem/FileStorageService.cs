@@ -1,5 +1,7 @@
 using Backend.Enums;
 
+namespace Backend.Services.FileSystem;
+
 public class FileStorageService
 {
     private readonly string _basePath;
@@ -57,6 +59,36 @@ public class FileStorageService
             await file.CopyToAsync(stream);
 
             return BuildPublicUrl(FileOwnerType.Archive, userId, usageType, fileName);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task<string?> SaveBadgeFile(Guid badgeId, IFormFile? file)
+    {
+        if (file == null || file.Length == 0)
+            return null;
+
+        var folder = Path.Combine(
+            UploadPath,
+            "badges",
+            badgeId.ToString("N")
+        );
+
+        EnsureFolderExists(folder);
+
+        var extension = Path.GetExtension(file.FileName);
+        var fileName = $"{Guid.NewGuid():N}{extension}";
+        var fullPhysicalPath = Path.Combine(folder, fileName);
+
+        try
+        {
+            await using var stream = new FileStream(fullPhysicalPath, FileMode.Create);
+            await file.CopyToAsync(stream);
+
+            return $"/upload/badges/{badgeId:N}/{fileName}";
         }
         catch
         {

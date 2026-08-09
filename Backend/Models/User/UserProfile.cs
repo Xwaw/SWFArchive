@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Backend.Models.BadgeEntity;
 
 namespace Backend.Models.User;
 
@@ -11,7 +11,7 @@ public class UserProfile
 
     public required bool IsOnline { get; set; } = false;
     
-    public ICollection<UserBadge>? UserBadges { get; set; } = new List<UserBadge>();
+    public ICollection<UserBadge>? ProfileBadges { get; set; } = new List<UserBadge>();
     public ICollection<UserComment> ProfileComments { get; set; } = new List<UserComment>();
     public string? Description { get; set; }
     

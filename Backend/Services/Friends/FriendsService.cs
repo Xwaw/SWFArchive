@@ -160,11 +160,29 @@ public class FriendsService
             .ToListAsync();
     }
 
-    public async Task<List<Message>> GetConversationMessages(Guid conversationId)
+    public async Task<List<MessageDto>> GetConversationMessages(Guid conversationId)
     {
-        return await _context.Messages
+        var messages = await _context.Messages
+            .Include(m => m.Sender)
             .Where(m => m.ConversationId == conversationId)
             .OrderBy(m => m.Created)
             .ToListAsync();
+
+        return messages.Select(m => new MessageDto
+        {
+            Id = m.Id,
+            ConversationId = m.ConversationId,
+            SenderId = m.SenderId,
+            SenderUsername = m.Sender.UserName,
+            SenderAvatarUrl = _context.Files
+                .Where(f =>
+                    f.OwnerId.ToString() == m.SenderId.ToString() &&
+                    f.OwnerType == FileOwnerType.User &&
+                    f.UsageType == FileUsageType.Avatar)
+                .Select(f => f.Url)
+                .FirstOrDefault(),
+            Content = m.Content,
+            Created = m.Created
+        }).ToList();
     }
 }

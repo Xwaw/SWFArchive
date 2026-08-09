@@ -40,7 +40,6 @@ export default function FriendsList({onFriendClick}: FriendListProps) {
                 className="flex items-center w-full h-full"
                 onClick={() => {
                   onFriendClick(user.conversationId)
-                  console.log(user.conversationId)
                 }}
               >
                 {user.friendUsername}

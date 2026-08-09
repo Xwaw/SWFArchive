@@ -2,15 +2,18 @@ import { useState } from "react";
 import ListItems from "../../../components/ListItems";
 import useChat from "../../chat/hooks/UseChat";
 import { useParams } from "react-router-dom";
+import { Config } from "../../../Config";
 
 interface SelectedFriendProps {
   conversationId: string | null;
 }
 
-export default function FriendChatView({ conversationId }: SelectedFriendProps) {
-  const {messages, sendMessage} = useChat(conversationId ?? "");
+export default function FriendChatView({
+  conversationId,
+}: SelectedFriendProps) {
+  const { messages, sendMessage } = useChat(conversationId ?? "");
   const [input, setInput] = useState("");
-  const {userId} = useParams();
+  const { userId } = useParams();
 
   return (
     <div className="w-full h-full">
@@ -21,6 +24,7 @@ export default function FriendChatView({ conversationId }: SelectedFriendProps) 
               {messages ? (
                 <div>
                   {messages.map((msg) => {
+                    console.log(msg);
                     return (
                       <div
                         key={msg.id}
@@ -34,9 +38,13 @@ export default function FriendChatView({ conversationId }: SelectedFriendProps) 
                           }`}
                         >
                           <div className="flex flex-col w-25 h-full justify-center items-center">
-                            <div className="w-10 aspect-square bg-blue-950 flex" onClick={() => {alert("his profile")}}></div>
+                            <div
+                              className="w-10 aspect-square bg-blue-950 flex"
+                              
+                              onClick={() => alert("his profile")}
+                            />
                             <div className="flex justify-center items-center">
-                              {msg.senderId}
+                              {msg.senderUsername}
                             </div>
                           </div>
                           <div>{msg.content}</div>
@@ -56,20 +64,23 @@ export default function FriendChatView({ conversationId }: SelectedFriendProps) 
             <textarea
               className="p-2 w-[93%] h-full resize-none bg-black border-1 border-white focus:border-red-600 outline-none"
               placeholder="Type here..."
-
-              onChange={(e) => {setInput(e.currentTarget.value)}}
+              onChange={(e) => {
+                setInput(e.currentTarget.value);
+              }}
               value={input}
               onKeyDown={(e) => {
-                if(e.key === "Enter" && !e.shiftKey){
-                    e.preventDefault();
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
 
-                    sendMessage(input);
-                    setInput("")
+                  sendMessage(input);
+                  setInput("");
                 }
               }}
             />
             <div className="w-[7%] h-full bg-black">
-              <p className="w-full h-full flex justify-center items-center border-1 border-white">Send</p>
+              <p className="w-full h-full flex justify-center items-center border-1 border-white">
+                Send
+              </p>
             </div>
           </div>
         </div>

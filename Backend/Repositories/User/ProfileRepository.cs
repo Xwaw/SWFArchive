@@ -1,3 +1,4 @@
+using Backend.Models.BadgeEntity;
 using Backend.Models.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,15 +39,5 @@ public class ProfileRepository
         
         return await _context.UserProfiles
             .FirstOrDefaultAsync(p => p.UserId == cachedUserId);
-    }
-
-    public async Task<ICollection<UserBadge>> GetUserBadges(Guid userId)
-    {
-        var cachedUserId = userId.ToString();
-        
-        return await _context.UserProfiles
-            .Where(p => p.UserId == cachedUserId)
-            .Select(p => p.UserBadges)
-            .FirstOrDefaultAsync() ?? new List<UserBadge>();
     }
 }
