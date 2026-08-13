@@ -2,7 +2,6 @@ import { useState } from "react";
 import ListItems from "../../../components/ListItems";
 import useChat from "../../chat/hooks/UseChat";
 import { useParams } from "react-router-dom";
-import { Config } from "../../../Config";
 
 interface SelectedFriendProps {
   conversationId: string | null;
