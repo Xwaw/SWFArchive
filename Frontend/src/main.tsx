@@ -2,7 +2,6 @@ import { createRoot } from "react-dom/client";
 import "./css/index.css";
 import "./css/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
 import Archive from "./pages/archive/Archive";
 import UploadGameToArchive from "./pages/archive/UploadGame";
 import ArchiveGameView from "./pages/archive/ArchiveGameView";
@@ -16,6 +15,7 @@ import AuthorizationPanel from "./pages/autherization/AuthorizationPanel";
 import ProfileView from "./pages/profile/ProfileView";
 import { AuthOnly, AuthProvider, GuestOnly } from "./features/authorization/hooks/UseAuth";
 import ProfileEdit from "./pages/profile/ProfileEdit";
+import Home from "./pages/home/Home";
 
 createRoot(document.getElementById("root")!).render(
   <AuthProvider>
