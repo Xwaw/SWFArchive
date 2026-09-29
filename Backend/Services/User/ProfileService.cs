@@ -72,8 +72,8 @@ public class ProfileService
             BackgroundUrl = backgroundTask.Result,
             Description = descriptionTask.Result,
             CreatedAt = createdAtTask.Result,
-            UserId = userId.ToString(),
-            UserName = username
+            ProfileUserId = userId.ToString(),
+            ProfileTitle = username
         };
     }
     

@@ -199,4 +199,31 @@ public class ArchiveService
             IsInLibrary = isInLibrary
         };
     }
+
+    public async Task<List<ArchiveGameCardDto>> GetRandomGames(int value)
+    {
+        var games = await _context.ArchiveGames
+            .OrderBy(g => EF.Functions.Random())
+            .Take(value)
+            .ToListAsync();
+
+        var result = await Task.WhenAll(
+            games.Select(async g => new ArchiveGameCardDto
+            {
+                Id = g.Id,
+                AuthorName = g.AuthorName,
+                PlaysCount = g.PlaysCount,
+                RatingAverage = g.RatingAverage,
+                ThumbnailUrl = await _fileRepository.GetFileUrlAsync(
+                    g.Id,
+                    FileOwnerType.Archive,
+                    FileUsageType.Thumbnail
+                ),
+                Title = g.Title,
+                Uploaded = g.UploadedAt
+            })
+        );
+
+        return result.ToList();
+    }
 }

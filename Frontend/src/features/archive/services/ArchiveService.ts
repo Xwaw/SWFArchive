@@ -45,6 +45,15 @@ export class ArchiveService {
       throw error;
     }
   }
+
+  async GetRandomGames(value: number){
+    try{
+      const response = await http.get(`archive/random/${value}`);
+      return response.data;
+    }catch(error){
+      throw error;
+    }
+  }
 }
 
 export const archiveService = new ArchiveService();

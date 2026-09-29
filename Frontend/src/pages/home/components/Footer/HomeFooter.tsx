@@ -1,19 +1,30 @@
-export default function HomeFooter() {
-  return (
-<footer className="w-full">
-  <div className="w-full h-[40px] flex justify-center items-center gap-6">
-    <span>News</span>
-    <span>All Games</span>
-    <span>Archive</span>
-    <span>Community</span>
-    <span>Profiles</span>
-    <span>Forums</span>
-    <span>About</span>
-  </div>
+import { useNavigate } from "react-router-dom";
 
-  <div className="w-full h-[30px] flex justify-center items-center">
-    SWFArchive
-  </div>
-</footer>
+export default function HomeFooter() {
+  const navigate = useNavigate();
+
+  return (
+    <footer className="w-full" style={{
+      background: `
+        linear-gradient(
+          to top,
+          #180000 0%,
+          #520000 22%,
+          #9b0000 55%,
+          #c21818 78%,
+          #7a0000 100%
+        )
+      `,
+    }}>
+      <div className="w-full h-[40px] flex justify-center items-center gap-6">
+        <span className="hover:underline hover:cursor-pointer hover:text-[#0000ff]" onClick={() => navigate("/archive")}>All Games</span>
+        <span className="hover:underline hover:cursor-pointer hover:text-[#0000ff]" onClick={() => navigate("/profiles")}>Profiles</span>
+        <span className="hover:underline hover:cursor-pointer hover:text-[#0000ff]" onClick={() => navigate("/about")}>About</span>
+      </div>
+
+      <div className="w-full h-[30px] flex justify-center items-center select-none">
+        SWFArchive
+      </div>
+    </footer>
   );
 }

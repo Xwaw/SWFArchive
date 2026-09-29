@@ -17,7 +17,7 @@ export default function RankingsSection() {
       <RankingsTabs />
       <FeaturedRankingGame />
 
-      <div className="w-full h-[1000px] grid grid-rows-9">
+      <div className="w-full h-[700px] grid grid-rows-9">
         {rankingGames.map((game) => (
           <RankingGameRow key={game.position} game={game} />
         ))}

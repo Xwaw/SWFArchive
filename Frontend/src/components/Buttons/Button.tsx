@@ -1,27 +1,41 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-type ButtonStyle = "test" | "login" | "main" | "search";
+type ButtonStyle =
+  | "test"
+  | "login"
+  | "main"
+  | "search"
+  | "seemore"
+  | "tabs"
+  | "icon"
+  | "hexagon"
+  | "bar";
+
 type ButtonState = "normal" | "hover" | "pressed" | "blocked";
 
 interface ButtonProps {
   navigateOnClick?: string;
+  onClick?: () => void;
   children: React.ReactNode;
   disabled?: boolean;
   font?: string;
   style?: ButtonStyle;
   width?: string;
   height?: string;
+  type?: "button" | "submit" | "reset";
 }
 
 export default function Button({
   children,
   navigateOnClick,
+  onClick,
   disabled = false,
   font,
   style = "test",
   width = "100%",
   height = "100%",
+  type = "button",
 }: ButtonProps) {
   const navigate = useNavigate();
 
@@ -31,10 +45,15 @@ export default function Button({
   const image = `/images/buttons/${style}/${currentState}.png`;
 
   return (
-    <div
+    <button
+      type={type}
+      disabled={disabled}
       className={`
         relative
         select-none
+        border-0
+        p-0
+        bg-transparent
         ${disabled ? "cursor-not-allowed" : "cursor-pointer"}
       `}
       style={{
@@ -60,6 +79,8 @@ export default function Button({
       onClick={() => {
         if (disabled) return;
 
+        onClick?.();
+
         if (navigateOnClick) {
           navigate(navigateOnClick);
         }
@@ -80,11 +101,14 @@ export default function Button({
         "
         style={{
           fontFamily: font,
-          color: currentState === "blocked" || currentState === "pressed" ? "#777777" : "#dedede",
+          color:
+            currentState === "blocked" || currentState === "pressed"
+              ? "#777777"
+              : "#dedede",
         }}
       >
         {children}
       </p>
-    </div>
+    </button>
   );
 }

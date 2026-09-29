@@ -1,17 +1,38 @@
+import type { UserDto } from "../../../../features/authorization/types/AuthTypes";
 import BannerHeader from "./BannerHeader";
 import LoginHeader from "./LoginHeader";
 import NavigationHome from "./NavigationHome";
 
-export default function HomeHeader() {
+interface HomeHeaderProps {
+  user: UserDto | undefined;
+}
+
+export default function HomeHeader({ user }: HomeHeaderProps) {
   return (
     <div>
-      <NavigationHome />
+      <NavigationHome isLogged={!!user} />
 
-      <div className="w-full h-[110px] flex shrink-0">
+      <div className="relative w-full h-[110px] flex">
         <BannerHeader />
+        <LoginHeader user={user} />
 
-        <LoginHeader />
+        <img
+          src="/images/login/header_divider.png"
+          alt=""
+          draggable={false}
+          className="
+            absolute
+            top-0
+            left-[68%]
+            -translate-x-1/2
+            h-full
+            w-auto
+            z-30
+            pointer-events-none
+          "
+        />
       </div>
+
       <div
         className="w-full h-0.5"
         style={{

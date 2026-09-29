@@ -28,3 +28,13 @@ export interface GameView {
   isOwner: boolean,
   isInLibrary: boolean
 }
+
+export interface ArchiveGameDto{
+  id: string,
+  title: string,
+  authorName: string,
+  thumbnailUrl?: string,
+  ratingAverage: number,
+  playsCount: number,
+  uploaded: string
+}

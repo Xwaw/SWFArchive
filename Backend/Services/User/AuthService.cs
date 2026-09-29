@@ -47,8 +47,8 @@ public class AuthService
             var profile = new UserProfile
             {
                 UserId = user.Id,
-                Description = user.UserName,
-                IsOnline = false,
+                Description = "No Description",
+                ProfileTitle = user.UserName,
                 CreatedAt = DateTime.Now,
             };
             
@@ -59,9 +59,12 @@ public class AuthService
         return result;
     }
 
-    public async Task<SignInResult> Login(string email, string password, bool rememberMe = false)
+    public async Task<SignInResult> Login(string text, string password, bool rememberMe = false)
     {
-        var user = await _userManager.FindByEmailAsync(email);
+        var isEmail = text.Contains("@");
+
+        var user = isEmail ? await _userManager.FindByEmailAsync(text) : await _userManager.FindByNameAsync(text); // reuse of Username. Username is the context of data, but title is the user content
+            
         if(user == null)
             return SignInResult.Failed;
         
@@ -79,14 +82,12 @@ public class AuthService
         var encodedEmail = WebUtility.UrlEncode(email);
         return $"{_frontendBaseUrl}/auth/reset?token={encodedToken}&email={encodedEmail}";
     }
-
     private string BuildConfirmMailLink(string token, string email)
     {
         var encodedToken = WebUtility.UrlEncode(token);
         var encodedEmail = WebUtility.UrlEncode(email);
         return $"{_frontendBaseUrl}/auth/confirm?token={encodedToken}&email={encodedEmail}";
     }
-
     public async Task SendResetPasswordLink(string userEmail)
     {
         var user = await _userManager.FindByEmailAsync(userEmail);
@@ -97,7 +98,6 @@ public class AuthService
         
         await _gmailSender.SendResetPasswordMail(userEmail, user.UserName!, resetUrl);
     }
-
     public async Task<bool> ResetPassword(string email, string token, string newPassword)
     {
         var user = await _userManager.FindByEmailAsync(email);
@@ -110,7 +110,6 @@ public class AuthService
         
         return result.Succeeded;
     }
-
     public async Task<bool> ChangePassword(ClaimsPrincipal principal, string oldPassword, string newPassword)
     {
         var user = await _userManager.GetUserAsync(principal);
@@ -122,7 +121,6 @@ public class AuthService
         
         return result.Succeeded;
     }
-
     public async Task SendConfirmEmailLink(string userEmail)
     {
         var user = await _userManager.FindByEmailAsync(userEmail);
@@ -133,7 +131,6 @@ public class AuthService
 
         await _gmailSender.SendConfirmMail(userEmail, confirmUrl);
     }
-
     public async Task<bool> ConfirmMail(string email, string token)
     {
         var user = await _userManager.FindByEmailAsync(email);

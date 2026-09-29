@@ -1,34 +1,87 @@
+import { useEffect, useState } from "react";
+import Button from "../../../../components/Buttons/Button";
 import GameCard from "../../../../components/Cards/GameCard";
+import { archiveService } from "../../../../features/archive/services/ArchiveService";
+import type { ArchiveGameDto } from "../../../../features/archive/types/ComponentsDto";
 
 export default function GameCardsSection() {
+  const [games, setGames] = useState<ArchiveGameDto[]>([]);
+  const slots = 4;
+
+  const getRandomGames = async (value: number) => {
+    const response = await archiveService.GetRandomGames(value);
+    setGames(response);
+  }
+
+  useEffect(() => {
+    getRandomGames(slots);
+  }, [])
+
   return (
-    <section
-      className="w-full flex items-stretch gap-2 p-2"
-      style={{
-        background: "linear-gradient(to bottom, #000000 1%, #ff0000 60%)",
-        borderTop: "2px solid #330000",
-        borderRight: "2px solid #aa0000",
-        borderLeft: "2px solid #aa0000",
-        borderBottom: "2px solid #e8b0b0",
-      }}
-    >
-      {/* KARTY */}
-      <div className="flex flex-1 items-start gap-2 min-w-0">
-        {[1, 2, 3, 4].map((game) => (
-          <GameCard key={game} />
-        ))}
+    <section className="relative w-full h-full">
+      <div
+        className="
+          absolute
+          left-[1%]
+          right-[7%]
+          top-[3%]
+          bottom-[3%]
+          flex
+          items-center
+          gap-3
+        "
+      >
+        {
+          games.map((value) => {
+            return(
+              <div
+                key={value.id}
+                className="flex-1 min-w-0 h-[88%] flex items-center justify-center"
+              >
+                <GameCard game={value}/>
+              </div>
+            )
+          })
+        }
       </div>
 
-      {/* DUŻY PRZYCISK PO PRAWEJ */}
-      <button
-        className="flex-none w-[70px] self-stretch"
-        style={{
-          background: "#222",
-          border: "2px solid #555",
-        }}
+      <div
+        className="
+          absolute
+          right-[-0.7%]
+          
+          h-[100%]
+          w-[5.5%]
+          overflow-hidden
+        "
       >
-        NEXT
-      </button>
+        <div
+          className="
+            absolute
+            top-1/2
+            left-1/2
+            w-[320px]
+            h-[70px]
+            -translate-x-1/2
+            -translate-y-1/2
+            -rotate-90
+          "
+        >
+          <Button style="tabs" navigateOnClick="/archive">
+            <p
+              className="whitespace-nowrap p-2"
+              style={{
+                fontFamily: "Robot_Font",
+                fontSize: "40px",
+                color: "#FFF4DD",
+              }}
+            >
+              SEE MORE
+            </p>
+          </Button>
+        </div>
+      </div>
+
     </section>
   );
 }

@@ -14,10 +14,9 @@ export default function RankingGameRow({ game }: RankingGameRowProps) {
       borderBottom: "1px solid #555",
     }}
   >
-    {/* POSITION */}
 
     <div
-      className="w-[4%] shrink-0 flex justify-center items-center"
+      className="w-[4%] shrink-0 flex justify-center items-center bg-[#2c2c2c]"
       style={{
         borderRight: "1px solid #333",
         color: "#ff9d00",
@@ -28,9 +27,7 @@ export default function RankingGameRow({ game }: RankingGameRowProps) {
       {game.position}
     </div>
 
-    {/* GAME */}
-
-    <div className="flex-1 min-w-0 flex flex-col justify-center px-5">
+    <div className="flex-1 min-w-0 flex flex-col justify-center px-5 bg-[#000000]">
       <p
         className="truncate"
         style={{
@@ -62,10 +59,8 @@ export default function RankingGameRow({ game }: RankingGameRowProps) {
       </span>
     </div>
 
-    {/* RELEASE / SCORE */}
-
     <div
-      className="w-[13%] shrink-0 flex flex-col justify-center items-center text-center"
+      className="w-[13%] shrink-0 flex flex-col justify-center items-center text-center bg-[#2c2c2c]"
       style={{
         borderLeft: "1px solid #333",
         fontSize: 14,

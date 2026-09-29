@@ -134,15 +134,9 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserProfileUserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BadgeId");
-
-                    b.HasIndex("UserProfileUserId");
 
                     b.HasIndex("UserId", "BadgeId")
                         .IsUnique();
@@ -456,8 +450,11 @@ namespace Backend.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsOnline")
+                    b.Property<int>("ProfileStatus")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("ProfileTitle")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserId");
 
@@ -673,7 +670,7 @@ namespace Backend.Migrations
 
                     b.HasOne("Backend.Models.User.UserProfile", "UserProfile")
                         .WithMany("ProfileBadges")
-                        .HasForeignKey("UserProfileUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

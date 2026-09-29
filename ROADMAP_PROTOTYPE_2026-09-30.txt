@@ -1,0 +1,326 @@
+SWFARCHIVE — ROADMAPA DO DZIAŁAJĄCEGO PROTOTYPU
+Wersja: 21.09.2026
+Cel: ogłosić używalny prototyp 30.09.2026
+
+============================================================
+1. CO ZNACZY „PROTOTYP GOTOWY”
+============================================================
+
+To nie jest jeszcze wersja produkcyjna. To jest działająca wersja, z której
+może skorzystać nowy użytkownik bez ręcznej edycji bazy i bez obchodzenia UI.
+
+Obowiązkowy przepływ:
+
+REGISTER -> LOGIN -> HOME -> ARCHIVE -> GAME PAGE -> PLAY
+-> WYBÓR EMULATORA -> ADD TO LIBRARY -> LIBRARY -> PROFILE
+-> UPLOAD GAME -> EDIT GAME -> PLAY OWN GAME -> FRIEND -> CHAT
+
+Prototyp jest DONE dopiero, gdy ten przepływ działa:
+- na świeżej bazie,
+- na świeżych kontach,
+- na desktopie,
+- na telefonie,
+- z prawidłowym 401/403 dla operacji prywatnych,
+- bez błędów builda.
+
+Poza zakresem Prototype:
+- grupy i rozbudowane funkcje chatu,
+- rozbudowane powiadomienia,
+- zaawansowana moderacja i system odznak,
+- produkcyjne skalowanie i pełny audyt bezpieczeństwa,
+- nowe funkcje po rozpoczęciu freeze.
+
+============================================================
+2. STAN PROJEKTU PO SPRAWDZENIU FRONTEND + BACKEND
+============================================================
+
+Potwierdzone elementy:
+[x] Routing dla auth, home, archive, game, player, library, profile i friends
+[x] Backendowe kontrolery auth, archive, library, profile i friends
+[x] SignalR: ChatHub i SessionHub
+[x] Integracja Ruffle w zależnościach i assetach
+[x] EF Core, migracje i automatyczne Database.Migrate()
+[x] Upload gry, profil, biblioteka, znajomi i podstawy chatu
+[x] Backend buduje się przez `dotnet build Backend.csproj --no-restore`
+
+Aktualne blokery:
+[ ] `npm run build` nie przechodzi.
+    Główne błędy: LoginForm/RegisterForm wywołują AuthService ze złym
+    kontraktem oraz występują nieużywane importy i zmienne w auth, friends,
+    player, tags, main i FriendsSelector.
+[ ] LibraryController ma add/get/view/play, ale brak potwierdzonego remove.
+[ ] ArchiveController ma get/upload/data, ale brak potwierdzonych operacji
+    edit/delete gry z kontrolą właściciela.
+[ ] FriendsController ma invite/accept/deny, ale brak potwierdzonego remove
+    friendship.
+[ ] AuthOnly i GuestOnly istnieją, ale nie są użyte jako wrappery tras
+    w main.tsx. Trzeba zabezpieczyć właściwe ekrany i akcje.
+[ ] Nie ma jeszcze potwierdzenia pełnego flow E2E na świeżej bazie.
+[ ] Repo nie ma README.md.
+[ ] Working tree ma lokalne zmiany oraz wygenerowane pliki bazy/migracji.
+    Trzeba je przejrzeć przed commitem, nie usuwać automatycznie.
+[ ] Backend zgłasza ostrzeżenie o podatności MailKit 4.14.1. Przed wydaniem
+    sprawdzić możliwość aktualizacji pakietu albo jawnie opisać ryzyko.
+
+Wniosek:
+Projekt ma większość fundamentów, ale obecnie nie jest jeszcze gotowym
+prototypem do ogłoszenia. Najpierw trzeba domknąć kontrakty, uprawnienia,
+operacje CRUD i testy przepływu.
+
+============================================================
+3. KOLEJNOŚĆ PRAC
+============================================================
+
+21.09 — ODBLOKOWANIE BUILDA I HOME
+
+[ ] Ustalić jeden kontrakt AuthService: FormData albo obiekt DTO.
+[ ] Poprawić LoginForm i RegisterForm zgodnie z tym kontraktem.
+[ ] Usunąć nieużywane importy i zmienne wskazane przez TypeScript.
+[ ] Doprowadzić `npm run build` do przejścia bez błędów.
+[ ] Dokończyć Home: header, sekcje gier/activity/rankings, sidebary i footer.
+[ ] Podłączyć dane z API tam, gdzie endpoint już istnieje.
+[ ] Dodać widoczne loading/error/empty state.
+[ ] Sprawdzić login email/username, logout i odświeżenie sesji.
+
+Kryterium:
+[ ] `npm run build` przechodzi.
+[ ] Nowy użytkownik może zarejestrować się, zalogować i zobaczyć Home.
+
+22.09 — RESPONSIVE I OCHRONA TRAS
+
+[ ] Sprawdzić Home i auth na desktopie, tablecie i telefonie.
+[ ] Ustalić breakpointy, szerokość contentu i mobile navigation.
+[ ] Ujednolicić Button, GameCard, inputy, formularze i stany UI.
+[ ] Naprawić overflow, skalowanie fontów, touch i sidebary.
+[ ] Użyć AuthOnly dla archive upload, library, profile edit, friends,
+    chatu i innych operacji wymagających zalogowania.
+[ ] Użyć GuestOnly dla login/register, jeśli taki jest zamierzony flow.
+[ ] Zweryfikować, że niezalogowany użytkownik dostaje przekierowanie lub 401,
+    a nie pusty ekran.
+
+Kryterium:
+[ ] Home/auth nie mają poziomego overflow.
+[ ] Każda prywatna akcja jest chroniona w UI i backendzie.
+
+23.09 — ARCHIVE
+
+[ ] Dokończyć layout listy/gridu i GameCard.
+[ ] Wyszukiwanie po nazwie.
+[ ] Filtrowanie po tagach.
+[ ] Sortowanie.
+[ ] Pagination albo poprawny infinite loading.
+[ ] Podłączyć Games API.
+[ ] Loading, empty i error state.
+[ ] Przejście Archive -> Game Page.
+[ ] Upload dostępny tylko dla zalogowanego użytkownika.
+
+Kryterium:
+[ ] Użytkownik znajduje grę, otwiera ją i widzi prawidłowe dane z backendu.
+
+24.09 — GAME PAGE, PLAYER I EMULATORY
+
+[ ] Tytuł, grafika, autor, opis, metadata, Play i Library button.
+[ ] Wspólny GamePlayer/EmulatorManager.
+[ ] Potwierdzić Ruffle end-to-end na realnym pliku testowym.
+[ ] Potwierdzić każdy dodatkowy emulator deklarowany w UI.
+[ ] Jeśli drugi emulator nie jest gotowy, usunąć go z UI i wpisać do
+    Known Issues zamiast udawać obsługę.
+[ ] Loading, błąd emulatora, stop/wyjście i fullscreen.
+[ ] Sprawdzić player i fullscreen na telefonie.
+
+Kryterium:
+[ ] Co najmniej jedna gra SWF uruchamia się od wejścia do Archive do Playera.
+[ ] Nieobsługiwany lub uszkodzony plik daje czytelny błąd.
+
+25.09 — LIBRARY
+
+[ ] Add to Library.
+[ ] Dodać backendowe remove z biblioteki, jeśli nadal go nie ma.
+[ ] Widok zapisanych gier, play, empty/loading/error.
+[ ] Refresh nie niszczy biblioteki.
+[ ] User A nie widzi ani nie modyfikuje biblioteki User B.
+[ ] Niezalogowany użytkownik nie może dodawać ani usuwać gier.
+[ ] Obsłużyć powtórne Add bez duplikatu albo pokazać kontrolowany błąd.
+
+Kryterium:
+[ ] Add -> refresh -> play -> remove działa bez ręcznej edycji bazy.
+
+26.09 — UPLOAD, EDIT I DELETE GRY
+
+[ ] Upload: tytuł, opis, SWF, thumbnail, metadata, tagi i emulator.
+[ ] Walidacja rozszerzenia, rozmiaru, wymaganych pól i błędów uploadu.
+[ ] Loading/progress, success i error.
+[ ] authorId ma pochodzić z zalogowanej sesji, nie z formularza klienta.
+[ ] Dodać backendowe edit i delete gry.
+[ ] Backend ma sprawdzać OwnerId przy edit/delete i zwracać 403.
+[ ] Frontend ma wczytywać dane do Edit Game.
+[ ] Save i confirmation przed delete.
+[ ] Po uploadzie gra pojawia się w Archive i otwiera w Game Page.
+
+Kryterium:
+[ ] User A może uploadować, edytować, odtwarzać i usuwać własną grę.
+[ ] User B nie może edytować ani usuwać gry User A.
+
+27.09 — PROFILE
+
+[ ] Avatar, username, opis, podstawowe informacje i gry użytkownika.
+[ ] Własny profil: edit profile i zarządzanie grami.
+[ ] Cudzy profil: brak akcji właściciela.
+[ ] Link do Library, Friends i własnych gier w zakresie prototypu.
+[ ] Loading/error/empty.
+[ ] Responsywność desktop/telefon.
+
+Kryterium:
+[ ] User A może edytować A, ale nie widzi akcji edycji dla B.
+
+28.09 — FRIENDS I CHAT 1:1
+
+[ ] Lista znajomych.
+[ ] Wyszukiwanie użytkownika.
+[ ] Invite, accept, deny.
+[ ] Dodać/potwierdzić remove friendship.
+[ ] Poprawne statusy i komunikaty błędów.
+[ ] Chat: lista rozmów, otwarcie, historia, wysłanie i odbiór.
+[ ] SignalR start, reconnect, błąd i zamknięcie po opuszczeniu ekranu.
+[ ] Historia pozostaje po refreshu.
+[ ] Loading/empty/error i poprawny scroll.
+[ ] Nie rozbudowywać chatu poza 1:1.
+
+Kryterium:
+[ ] User A i B zostają znajomymi, wysyłają wiadomość i widzą ją po refreshu.
+
+29.09 — INTEGRACJA I RELEASE CANDIDATE
+
+[ ] Przejść całą aplikację na telefonie:
+    Home, Auth, Archive, Game, Player, Library, Upload, Edit, Profile,
+    Friends i Chat.
+[ ] Naprawić overflow, touch, formularze, obrazy, fullscreen i scroll.
+[ ] Test na świeżej bazie przez migracje.
+[ ] Test dwóch świeżych kont.
+[ ] Test błędów 401/403/404/500.
+[ ] Sprawdzić krytyczne błędy w konsoli i Network.
+[ ] Spisać Known Issues.
+[ ] Nie dodawać nowych feature'ów.
+
+Kryterium:
+[ ] Jeden pełny scenariusz akceptacyjny działa na desktopie i telefonie.
+
+30.09 — PROTOTYPE FREEZE
+
+!!! ZERO NOWYCH FEATURE'ÓW !!!
+Tylko bugfix, testy, polish, dokumentacja i porządkowanie release.
+
+[ ] `npm run build`
+[ ] `dotnet build Backend.csproj --no-restore` z katalogu Backend
+[ ] Backend tests, jeśli istnieją; jeśli nie istnieją, odnotować brak
+[ ] Smoke test endpointów i SignalR
+[ ] Świeża baza i świeże konta
+[ ] Brak krytycznych błędów konsoli
+[ ] README.md
+[ ] Sprawdzenie .gitignore
+[ ] Skan repo pod sekrety i credentials
+[ ] Przegląd lokalnych zmian, migracji, DB, shm/wal, bin i obj
+[ ] Tylko potrzebne pliki trafiają do commita
+[ ] Commit końcowy
+[ ] Tag `v0.1.0-prototype` albo jednoznaczny branch release
+
+============================================================
+4. TESTY AKCEPTACYJNE
+============================================================
+
+TEST A — NOWY USER
+[ ] Register
+[ ] Login email
+[ ] Login username, jeśli wspierany
+[ ] Refresh sesji
+[ ] Logout
+[ ] Dostęp bez logowania kończy się kontrolowanym 401/redirect
+
+TEST B — GRY
+[ ] Archive
+[ ] Search/filter/sort
+[ ] Game Page
+[ ] Play
+[ ] Ruffle
+[ ] Każdy emulator widoczny w UI
+[ ] Stop/exit/fullscreen
+[ ] Błąd nieobsługiwanego pliku
+
+TEST C — LIBRARY
+[ ] Add
+[ ] Library po refreshu
+[ ] Play z Library
+[ ] Remove
+[ ] Izolacja User A/User B
+
+TEST D — CREATOR
+[ ] Upload
+[ ] Walidacja błędnych danych
+[ ] Gra widoczna w Archive
+[ ] Game Page i Play
+[ ] Edit/save
+[ ] Delete + confirmation
+
+TEST E — OWNERSHIP
+[ ] User A tworzy grę
+[ ] User B nie może jej edytować
+[ ] User B nie może jej usunąć
+[ ] User A może ją edytować i usunąć
+[ ] authorId pochodzi z sesji
+
+TEST F — SOCIAL
+[ ] Profile własny/cudzy
+[ ] Invite
+[ ] Accept
+[ ] Deny
+[ ] Remove friendship
+[ ] Chat 1:1
+[ ] SignalR
+[ ] Historia po refreshu
+
+TEST G — MOBILE
+[ ] Home
+[ ] Auth
+[ ] Archive
+[ ] Game/Player
+[ ] Library
+[ ] Profile
+[ ] Upload/Edit
+[ ] Friends/Chat
+[ ] Brak poziomego overflow
+
+============================================================
+5. README I RELEASE
+============================================================
+
+README.md musi opisywać:
+[ ] Czym jest SWFArchive i status Prototype
+[ ] Główne funkcje
+[ ] Tech stack
+[ ] Wymagania
+[ ] Uruchomienie Frontend
+[ ] Uruchomienie Backend
+[ ] Migracje i konfigurację bazy
+[ ] API URL, CORS i adresy środowisk
+[ ] Konfigurację maila bez sekretów w repo
+[ ] Obsługiwane emulatory i formaty
+[ ] Known Issues i ograniczenia
+[ ] Funkcje odłożone po Prototype
+[ ] Licencję/credits
+
+Definition of Done:
+[ ] Frontend build przechodzi.
+[ ] Backend build przechodzi.
+[ ] Testy A-G przechodzą na świeżej bazie i kontach.
+[ ] Flow działa desktop + telefon.
+[ ] Prywatne akcje mają poprawne 401/403.
+[ ] README jest kompletne.
+[ ] Repo nie zawiera sekretów ani przypadkowych artefaktów.
+[ ] Prototype ma tag/branch.
+
+Jeśli którykolwiek punkt Definition of Done nie przechodzi, status to:
+RELEASE CANDIDATE / BLOCKED — nie ogłaszać jako DONE.
+
+Po zamknięciu:
+01.10 -> GUN AREA ALPHA
+Nie dodawać „jeszcze jednej rzeczy” do Prototype.

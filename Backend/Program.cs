@@ -7,6 +7,7 @@ using Backend.Models;
 using Backend.Models.Dto.Friend;
 using Backend.Models.User;
 using Backend.Repositories.Archive;
+using Backend.Repositories.Badge;
 using Backend.Repositories.Comments;
 using Backend.Repositories.Library;
 using Backend.Repositories.Player;
@@ -170,6 +171,7 @@ builder.Services.AddScoped<FriendsService>();
 
 builder.Services.AddScoped<BadgeController>();
 builder.Services.AddScoped<BadgeService>();
+builder.Services.AddScoped<BadgeRepository>();
 
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();

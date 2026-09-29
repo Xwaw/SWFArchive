@@ -6,5 +6,4 @@ public class ArchiveQueryDto
     public string? Search { get; set; }
     public List<Guid>? TagIds { get; set; }
     public string? SortBy { get; set; }
-
 }

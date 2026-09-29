@@ -11,8 +11,6 @@ export default function HomeRightSidebar() {
     />
   </div>
 
-  {/* PANEL */}
-
   <SimpleMenuPanel title={"Most Recent Updates"} items={[
     {label: "something"},
     {label: "something"},

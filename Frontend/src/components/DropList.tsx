@@ -1,69 +1,80 @@
-import { useState, useRef, useEffect } from "react";
-import { createPortal } from "react-dom";
-
-interface ItemProps {
-  text: string;
-  onClick: () => Promise<void> | void;
-}
+import type { FC, HTMLAttributes, ReactNode } from "react";
 
 interface DropListProps {
-  button: React.ReactNode;
-  items: ItemProps[];
+  children: ReactNode;
 }
 
-export default function DropList({ button, items }: DropListProps) {
-  const [open, setOpen] = useState(false);
-  const [pos, setPos] = useState<{ top: number, right: number, width: number } | null>(null);
+interface DropListItemProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+}
 
-  const buttonRef = useRef<HTMLDivElement | null>(null);
+type DropListComponent = FC<DropListProps> & {
+  Item: FC<DropListItemProps>;
+  Separator: FC;
+};
 
-  useEffect(() => {
-    if (open && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setPos({
-        top: rect.bottom + window.scrollY,
-        right: window.innerWidth - rect.right,
-        width: rect.width,
-      });
-    }
-  }, [open]);
-
+const DropList: DropListComponent = ({ children }) => {
   return (
-    <>
-      <div
-        ref={buttonRef}
-        className="bg-red-300 inline-block"
-        onClick={() => setOpen((prev) => !prev)}
-      >
-        {button}
-      </div>
-
-      {open &&
-        createPortal(
-          <div
-            className="absolute bg-amber-400 shadow-lgp-2 flex flex-col"
-            style={{
-              top: pos?.top,
-              right: pos?.right,
-              position: "fixed",
-              zIndex: 9999,
-            }}
-          >
-            {items.map((value, index) => (
-              <div
-                key={index}
-                className="p-2 hover:bg-amber-500 cursor-pointer w-45 flex justify-center"
-                onClick={() => {
-                  value.onClick();
-                  setOpen(false);
-                }}
-              >
-                {value.text}
-              </div>
-            ))}
-          </div>,
-          document.body
-        )}
-    </>
+    <div
+      className="
+        min-w-35
+        border-2
+        border-[#383838]
+        flex
+        flex-col
+        p-1
+        select-none
+      "
+      style={{
+        background: `
+          linear-gradient(
+            to right,
+            #777777 0%,
+            #777777 35%,
+            #505050 70%,
+            #686868 100%
+          )
+        `,
+        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.6)",
+      }}
+    >
+      {children}
+    </div>
   );
-}
+};
+
+DropList.Item = ({ children, className = "", ...props }) => {
+  return (
+    <div
+      {...props}
+      className={`
+        w-full
+        p-1
+        bg-transparent
+        cursor-pointer
+        select-none
+
+        hover:bg-[linear-gradient(to_right,#ff0000_0%,#ff0000_35%,#680000_70%,#990000_100%)]
+        active:bg-[linear-gradient(to_right,#990000_0%,#990000_35%,#400000_70%,#600000_100%)]
+
+        ${className}
+      `}
+    >
+      {children}
+    </div>
+  );
+};
+
+DropList.Separator = () => {
+  return (
+    <div
+      className="w-full h-[2px]"
+      style={{
+        borderTop: "1px solid #383838",
+        borderBottom: "1px solid #383838",
+      }}
+    />
+  );
+};
+
+export default DropList;
