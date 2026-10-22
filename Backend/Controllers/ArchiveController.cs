@@ -58,4 +58,14 @@ public class ArchiveController : ControllerBase
         
         return Ok(result);
     }
+    
+    [HttpGet("top/{type}")]
+    public async Task<ActionResult<List<ArchiveGameCardDto>>> GetRandomGames([FromRoute] string type)
+    {
+        var result = await _archiveService.GetTopGames(type);
+        if (result.Count == 0)
+            return NotFound("No Games were found");
+        
+        return Ok(result);
+    }
 }

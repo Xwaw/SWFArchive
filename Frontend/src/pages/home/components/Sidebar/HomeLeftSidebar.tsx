@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import MenuPanel from "../../../../components/MenuTabs/MenuPanel";
-import Button from "../../../../components/Buttons/Button";
+import SearchGamesBar from "../../../../features/archive/components/SearchGames";
 
 export default function HomeLeftSidebar() {
   const navigate = useNavigate();
@@ -25,42 +25,19 @@ export default function HomeLeftSidebar() {
         ]}
       />
 
+      {/* Seperate to Search component and advanced search component, finally connect them into one component */}
+
+      {/* If he click [GO!] button then he will navigate url into that archive and this archive use hook "useEffect" on this url and create search business in backend */}
       <MenuPanel
         title={"Find SWF"}
         items={[
           {
-            label: (
-              <div className="w-full h-full flex p-2 gap-2">
-                <input
-                  className="flex-1 min-w-0 text-black border-1 border-black bg-white outline-none focus:outline-none"
-                  placeholder="Search By Title"
-                  style={{
-                    borderRadius: "4px",
-                  }}
-                />
-
-                <Button style="search" width="2.5rem" height="1.6rem">
-                  <span
-                    style={{
-                      fontFamily: "Robot_Font",
-                      color: "#fa940f",
-                      WebkitTextStroke: "0.5px black",
-                      fontSize: "18px",
-                      lineHeight: 1,
-                      transform: "translateY(2px)",
-                    }}
-                  >
-                    GO!
-                  </span>
-                </Button>
-              </div>
-            ),
+            label: <SearchGamesBar />,
           },
-          { label: "Advanced Search" },
-          { label: "New Releases" },
-          { label: "Top Rated" },
-          { label: "Most Popular" },
-          { label: "Random" },
+          { label: "New Releases", onClick: () => navigate("/archive?sortBy=newest") },
+          { label: "Top Rated", onClick: () => navigate("/archive?sortBy=rating") },
+          { label: "Most Popular", onClick: () => navigate("/archive?sortBy=popularity") },
+          { label: "Random", onClick: () => navigate("/archive?sortBy=random") },
         ]}
       />
     </aside>

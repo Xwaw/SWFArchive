@@ -33,29 +33,27 @@ export default function MenuPanel({
       <div className="flex flex-col justify-center">
         {items.map((item, index) => (
           <div key={index}>
-            <button
-              type="button"
-              onClick={item.onClick}
-              className={`
-                w-full
-                flex items-center
-                gap-1
-                text-left
-                cursor-pointer
-                p-0.5
-                ${typeof item.label === "string" ? "hover:underline" : ""}
-              `}
-            >
-              {typeof item.label === "string" && (
+            {typeof item.label === "string" ? (
+              <button
+                type="button"
+                onClick={item.onClick}
+                className="
+          w-full flex items-center gap-1
+          text-left cursor-pointer p-0.5
+          hover:underline
+        "
+              >
                 <img
                   src="/images/icons/menu_arrow.png"
                   alt=""
                   className="h-[15px] aspect-square object-contain shrink-0"
                 />
-              )}
 
-              {item.label}
-            </button>
+                {item.label}
+              </button>
+            ) : (
+              <div className="w-full p-0.5">{item.label}</div>
+            )}
 
             <div
               className="w-full h-0.5"

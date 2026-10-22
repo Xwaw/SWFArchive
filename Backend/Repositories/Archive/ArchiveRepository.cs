@@ -21,9 +21,10 @@ public class ArchiveRepository
         return sortBy switch
         {
             "title" => query.OrderBy(g => g.Title),
-            "date" => query.OrderBy(g => g.UploadedAt),
+            "date" => query.OrderByDescending(g => g.UploadedAt),
             "popularity" => query.OrderBy(g => g.PlaysCount),
             "rating" => query.OrderBy(g => g.RatingAverage),
+            "random" => query.OrderBy(g => EF.Functions.Random()),
             _ => query.OrderBy(g => g.Title)
         };
     }

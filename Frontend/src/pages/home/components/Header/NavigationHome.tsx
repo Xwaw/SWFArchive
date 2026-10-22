@@ -49,7 +49,7 @@ export default function NavigationHome({isLogged}: NagivationHomeProps) {
         QnA
       </Button>
 
-      <Button navigateOnClick="/page" style="main" font="Verdana">
+      <Button disabled={location.pathname === "/about"} navigateOnClick="/about" style="main" font="Verdana">
         About
       </Button>
     </div>

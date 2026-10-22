@@ -226,4 +226,55 @@ public class ArchiveService
 
         return result.ToList();
     }
+    public async Task<List<ArchiveGameCardDto>> GetTopGames(string type)
+    {
+        var now = DateTime.UtcNow;
+        var today = now.Date;
+
+        var query = _context.ArchiveGames.AsNoTracking();
+
+        query = type.ToLowerInvariant() switch
+        {
+            "today" => query.Where(g =>
+                g.UploadedAt >= today &&
+                g.UploadedAt < today.AddDays(1)),
+
+            "month" => query.Where(g =>
+                g.UploadedAt >= new DateTime(now.Year, now.Month, 1) &&
+                g.UploadedAt < new DateTime(now.Year, now.Month, 1).AddMonths(1)),
+
+            "year" => query.Where(g =>
+                g.UploadedAt >= new DateTime(now.Year, 1, 1) &&
+                g.UploadedAt < new DateTime(now.Year + 1, 1, 1)),
+
+            "overall" => query,
+
+            _ => throw new ArgumentException("Invalid ranking type")
+        };
+
+        var games = await query
+            .OrderByDescending(g => g.RatingAverage)
+            .ThenByDescending(g => g.PlaysCount)
+            .Take(10)
+            .ToListAsync();
+
+        var result = await Task.WhenAll(
+            games.Select(async g => new ArchiveGameCardDto
+            {
+                Id = g.Id,
+                AuthorName = g.AuthorName,
+                PlaysCount = g.PlaysCount,
+                RatingAverage = g.RatingAverage,
+                ThumbnailUrl = await _fileRepository.GetFileUrlAsync(
+                    g.Id,
+                    FileOwnerType.Archive,
+                    FileUsageType.Thumbnail
+                ),
+                Title = g.Title,
+                Uploaded = g.UploadedAt
+            })
+        );
+
+        return result.ToList();
+    }
 }

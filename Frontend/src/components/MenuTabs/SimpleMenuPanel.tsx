@@ -7,12 +7,14 @@ interface MenuPanelProps {
   title: string;
   items: MenuPanelItem[];
   className?: string;
+  bottom?: React.ReactNode;
 }
 
 export default function MenuPanel({
   title,
   items,
   className = "",
+  bottom
 }: MenuPanelProps) {
   return (
     <div className={`w-full ${className}`}>
@@ -68,7 +70,7 @@ export default function MenuPanel({
             borderRight: "3px solid #999999",
             borderLeft: "2px solid #050505"
           }}>
-        <p> BIIIIIIIG TEST </p>
+        {bottom}
       </div>
     </div>
   );

@@ -36,7 +36,7 @@ export default function GameCardsSection() {
             return(
               <div
                 key={value.id}
-                className="flex-1 min-w-0 h-[88%] flex items-center justify-center"
+                className="w-[calc((100%-36px)/4)] shrink-0 min-w-0 h-[88%] flex items-center justify-center"
               >
                 <GameCard game={value}/>
               </div>

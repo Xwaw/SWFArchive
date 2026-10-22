@@ -12,14 +12,15 @@ import GamePlayer from "./pages/game/GamePlayer";
 import Test from "./pages/Test";
 import AdminPanel from "./pages/admin/AdminPanel";
 import ProfileView from "./pages/profile/ProfileView";
-import { AuthOnly, AuthProvider, GuestOnly } from "./features/authorization/hooks/UseAuth";
+import { AuthProvider } from "./features/authorization/hooks/UseAuth";
 import ProfileEdit from "./pages/profile/ProfileEdit";
 import Home from "./pages/home/Home";
-import AboutMeSection from "./features/profile/components/sections/AboutMeSection";
 import HallOfFame from "./pages/page/HallOfFame";
-import AboutPage from "./pages/page/About";
+import AboutPage from "./pages/page/AboutPage";
 import PageUpdates from "./pages/page/PageUpdates";
 import QnA from "./pages/page/QnA";
+import PrivacyPolicy from "./pages/page/PrivacyPolicy";
+import AboutMe from "./pages/page/AboutMe";
 
 createRoot(document.getElementById("root")!).render(
   <AuthProvider>
@@ -48,10 +49,12 @@ createRoot(document.getElementById("root")!).render(
 
         {/* ============ */}
 
-        <Route path="/page" element={<AboutPage/>}></Route>
+        <Route path="/about" element={<AboutPage/>}></Route>
         <Route path="/myfavorites" element={<HallOfFame/>}></Route>
         <Route path="/page/updates" element={<PageUpdates/>}></Route>
         <Route path="/page/qna" element={<QnA/>}></Route>
+        <Route path="/privacy" element={<PrivacyPolicy/>}></Route>
+        <Route path="/contact" element={<AboutMe/>}></Route>
       </Routes>
     </BrowserRouter>
   </AuthProvider>

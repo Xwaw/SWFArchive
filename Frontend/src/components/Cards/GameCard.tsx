@@ -45,7 +45,7 @@ export default function GameCard({ game }: GameCardProps) {
             text-ellipsis
           "
           style={{
-            fontSize: "28px",
+            fontSize: "clamp(12px, 1.5vw, 28px)",
             fontFamily: "Verdana",
           }}
         >
@@ -80,7 +80,7 @@ export default function GameCard({ game }: GameCardProps) {
             text-center
           "
           style={{
-            fontSize: "17px",
+            fontSize: "clamp(10px, 1vw, 17px)",
             fontFamily: "Verdana",
           }}
         >

@@ -1,4 +1,22 @@
-export default function RankingsTabs() {
+
+import type { RankingType } from "./RankingsSection";
+
+interface RankingsTabsProps {
+  selectedType: RankingType;
+  onTypeChange: (type: RankingType) => void;
+}
+
+const tabs: { label: string; type: RankingType }[] = [
+  { label: "OVERALL", type: "overall" },
+  { label: "TODAY", type: "today" },
+  { label: "THIS MONTH", type: "month" },
+  { label: "THIS YEAR", type: "year" },
+];
+
+export default function RankingsTabs({
+  selectedType,
+  onTypeChange,
+}: RankingsTabsProps) {
   return (
     <div
       style={{
@@ -6,73 +24,38 @@ export default function RankingsTabs() {
       }}
     >
       <div className="w-full h-[120px] flex items-end justify-center gap-[2%] px-[1%]">
-        <div
-          className="h-[80px]"
-          style={{
-            width: "21%",
-            backgroundImage: `url("/images/buttons/tabs/normal.png")`,
-            backgroundSize: "100% 100%",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center bottom",
-          }}
-        >
-          <p className="w-full h-full flex justify-center items-center" style={{
-            fontFamily: "Gamez",
-            color: "blak",
-            fontSize: "20px"
-          }}>OVERALL</p>
-        </div>
+        {tabs.map((tab) => {
+          const isSelected = selectedType === tab.type;
 
-        <div
-          className="h-[80px]"
-          style={{
-            width: "21%",
-            backgroundImage: `url("/images/buttons/tabs/blocked.png")`,
-            backgroundSize: "100% 100%",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center bottom",
-          }}
-        >
-          <p className="w-full h-full flex justify-center items-center" style={{
-            fontFamily: "Gamez",
-            color: "blak",
-            fontSize: "20px"
-          }}>TODAY</p>
-        </div>
-
-        <div
-          className="h-[80px]"
-          style={{
-            width: "21%",
-            backgroundImage: `url("/images/buttons/tabs/blocked.png")`,
-            backgroundSize: "100% 100%",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center bottom",
-          }}
-        >
-          <p className="w-full h-full flex justify-center items-center" style={{
-            fontFamily: "Gamez",
-            color: "blak",
-            fontSize: "20px"
-          }}>THIS MONTH</p>
-        </div>
-
-        <div
-          className="h-[80px]"
-          style={{
-            width: "21%",
-            backgroundImage: `url("/images/buttons/tabs/blocked.png")`,
-            backgroundSize: "100% 100%",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center bottom",
-          }}
-        >
-          <p className="w-full h-full flex justify-center items-center" style={{
-            fontFamily: "Gamez",
-            color: "blak",
-            fontSize: "20px"
-          }}>THIS YEAR</p>
-        </div>
+          return (
+            <button
+              key={tab.type}
+              type="button"
+              onClick={() => onTypeChange(tab.type)}
+              className="h-[80px] cursor-pointer"
+              style={{
+                width: "21%",
+                backgroundImage: `url("/images/buttons/tabs/${
+                  isSelected ? "normal" : "blocked"
+                }.png")`,
+                backgroundSize: "100% 100%",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center bottom",
+              }}
+            >
+              <span
+                className="w-full h-full flex justify-center items-center"
+                style={{
+                  fontFamily: "Gamez",
+                  color: "black",
+                  fontSize: "20px",
+                }}
+              >
+                {tab.label}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       <div

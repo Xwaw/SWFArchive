@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import { http, httpForm } from "../../../http";
 import type { QuerySearch } from "../types/ComponentsDto";
 
@@ -49,6 +50,15 @@ export class ArchiveService {
   async GetRandomGames(value: number){
     try{
       const response = await http.get(`archive/random/${value}`);
+      return response.data;
+    }catch(error){
+      throw error;
+    }
+  }
+
+  async GetTopGames(type: string){
+    try{
+      const response = await http.get(`archive/top/${type}`);
       return response.data;
     }catch(error){
       throw error;

@@ -34,46 +34,34 @@ export default function ContentBannerSection() {
           gap-5
         "
       >
-        <Button style="search" width="130px" height="32px">
-          <span
-            className="text-[12px] font-bold"
-            style={{
-              fontFamily: "Verdana",
-              color: "#fff3a0",
-              textShadow:
-                "-1px -1px 0 #8a2200, 1px -1px 0 #8a2200, -1px 1px 0 #8a2200, 1px 1px 0 #8a2200, 0 2px 2px #3a0000",
-            }}
-          >
-            WINDOWS
-          </span>
+        <Button
+          style="search"
+          width="130px"
+          height="32px"
+          href="/downloads/flashplayer_32_sa.exe"
+          download
+        >
+          WINDOWS
         </Button>
 
-        <Button style="search" width="130px" height="32px">
-          <span
-            className="text-[12px] font-bold"
-            style={{
-              fontFamily: "Verdana",
-              color: "#fff3a0",
-              textShadow:
-                "-1px -1px 0 #8a2200, 1px -1px 0 #8a2200, -1px 1px 0 #8a2200, 1px 1px 0 #8a2200, 0 2px 2px #3a0000",
-            }}
-          >
-            MACOS
-          </span>
+        <Button
+          style="search"
+          width="130px"
+          height="32px"
+          href="/downloads/Projector.zip"
+          download
+        >
+          MACOS
         </Button>
 
-        <Button style="search" width="130px" height="32px">
-          <span
-            className="text-[12px] font-bold"
-            style={{
-              fontFamily: "Verdana",
-              color: "#fff3a0",
-              textShadow:
-                "-1px -1px 0 #8a2200, 1px -1px 0 #8a2200, -1px 1px 0 #8a2200, 1px 1px 0 #8a2200, 0 2px 2px #3a0000",
-            }}
-          >
-            LINUX
-          </span>
+        <Button
+          style="search"
+          width="130px"
+          height="32px"
+          href="/downloads/flash_player_sa_linux.x86_64.tar"
+          download
+        >
+          LINUX
         </Button>
       </div>
 
@@ -94,7 +82,7 @@ export default function ContentBannerSection() {
         "
       >
         <img
-          src=""
+          src={"/gifs/flash_logo_anim.gif"}
           alt="Flash Player"
           draggable={false}
           className="
