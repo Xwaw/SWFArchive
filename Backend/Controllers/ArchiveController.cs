@@ -39,12 +39,63 @@ public class ArchiveController : ControllerBase
         return Ok();
     }
 
+    [HttpPost("edit/game")]
+    public async Task<IActionResult> EditGame()
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpPost("delete/game")]
+    public async Task<IActionResult> DeleteGame()
+    {
+        throw new NotImplementedException();
+    }
+
+    [Authorize]
+    [HttpPut("game/rate")]
+    public async Task<IActionResult> RateGame([FromBody] GameRateDto dto)
+    {
+        await _archiveService.RateGame(User, dto);
+        
+        return Ok("Game rate updated");
+    }
+
     [HttpGet("data/{id}")]
     public async Task<ActionResult<GameInfoDto>> ViewGame([FromRoute] Guid id)
     {
         var result = await _archiveService.GetGameInfo(id, User);
         if (result == null)
             return NotFound("Game not found");
+        
+        return Ok(result);
+    }
+
+    [HttpGet("play/{id:guid}")]
+    public async Task<IActionResult> GetGameFileUrl([FromRoute] Guid id)
+    {
+        var result = await _archiveService.GetGameFileUrl(id);
+        if (result == null)
+            return NotFound("Game not found");
+
+        return Ok(result);
+    }
+
+    [HttpGet("random/{value}")]
+    public async Task<ActionResult<List<ArchiveGameCardDto>>> GetRandomGames([FromRoute] int value)
+    {
+        var result = await _archiveService.GetRandomGames(value);
+        if (result.Count == 0)
+            return NotFound("No Games were found");
+        
+        return Ok(result);
+    }
+    
+    [HttpGet("top/{type}")]
+    public async Task<ActionResult<List<ArchiveGameCardDto>>> GetRandomGames([FromRoute] string type)
+    {
+        var result = await _archiveService.GetTopGames(type);
+        if (result.Count == 0)
+            return NotFound("No Games were found");
         
         return Ok(result);
     }

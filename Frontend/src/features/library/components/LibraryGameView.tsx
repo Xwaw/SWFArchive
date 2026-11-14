@@ -1,3 +1,4 @@
+import LoadingIndicator from "../../../components/LoadingIndicator";
 import { Config } from "../../../Config";
 import useGameViewLibrary from "../hooks/UseGameViewLibrary";
 import type { ViewGameLibraryProps } from "../types/props";
@@ -10,7 +11,7 @@ export default function LibraryGameView({ gameId }: ViewGameLibraryProps) {
   if(isLoading){
     return(
       <div>
-        LOADING...
+        <LoadingIndicator />
       </div>
     )
   }

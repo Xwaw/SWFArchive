@@ -1,0 +1,9 @@
+.archive-upload-button {
+  display: none;
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .archive-upload-button {
+    display: flex;
+  }
+}

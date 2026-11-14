@@ -60,5 +60,33 @@ public class BadgeController : ControllerBase
         throw new NotImplementedException();
     }
     
+    [Authorize]
+    [HttpPost("test/accept/{badgeId}")]
+    public async Task<IActionResult> TestAcceptBadge(Guid badgeId)
+    {
+        var result = await _badgeService.AcceptBadge(badgeId, User);
+
+        if (!result)
+            return BadRequest("Badge not accepted");
+
+        return Ok("Badge accepted");
+    }
+    
+    // TODO: REMOVE - Sandbox testing only
+    [Authorize]
+    [HttpPost("test/add-to-me/{badgeId}")]
+    public async Task<IActionResult> AddBadgeToMe(Guid badgeId)
+    {
+        var result = await _badgeService.AddBadgeToUser(
+            badgeId,
+            User
+        );
+
+        if (!result)
+            return BadRequest("Badge cannot be added to user");
+
+        return Ok("Badge added to user");
+    }
+    
     // add function "GetBadges" for user and archive game
 }

@@ -8,6 +8,7 @@ public class GameInfoDto
     public string? Description { get; set; }
 
     public float StarsRated { get; set; } = 0;
+    public int? UserRating { get; set; }
     public int PlaysCount { get; set; } = 0;
 
     public DateTime Uploaded { get; set; } = DateTime.Now;
@@ -15,6 +16,7 @@ public class GameInfoDto
 
     public List<string> Tags { get; set; } = [];
     
+    public required string PublisherId { get; set; }
     public required bool IsOwner { get; set; }
     public required bool IsInLibrary { get; set; }
 }

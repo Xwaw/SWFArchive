@@ -22,12 +22,6 @@ public class AccountController : ControllerBase
         _authService = authService;
         _accountService = accountService;
     }
-    
-    [HttpGet("status")]
-    public IActionResult GetAuthStatus()
-    {
-        return Ok(User.Identity?.IsAuthenticated ?? false);
-    }
    
     [Authorize]
     [HttpGet("me")]
@@ -47,11 +41,11 @@ public class AccountController : ControllerBase
     }
     
     [HttpPost("login")]
-    public async Task<IActionResult> LoginUser([FromBody] LoginDto dto)
+    public async Task<IActionResult> LoginUser([FromForm] LoginDto dto)
     {
         if(User.Identity!.IsAuthenticated) return Conflict("User is already logged in");
         
-        var result = await _authService.Login(dto.Email, dto.Password, dto.RememberMe);
+        var result = await _authService.Login(dto.Text, dto.Password);
         if (!result.Succeeded) return Unauthorized("Invalid email or password");
         
         return Ok(new {message = "Login Successful"});
@@ -66,11 +60,11 @@ public class AccountController : ControllerBase
     }
     
     [HttpPut("register")]
-    public async Task<IActionResult> CreateAndRegisterUser([FromBody] RegisterDto dto)
+    public async Task<IActionResult> CreateAndRegisterUser([FromForm] RegisterDto dto)
     {
         if(User.Identity!.IsAuthenticated) return Conflict("User is already logged in");
 
-        var result = await _authService.Register(dto.UserName, dto.Email, dto.Password);
+        var result = await _authService.Register(dto.Username, dto.Email, dto.Password);
         if(!result.Succeeded) return BadRequest(result.Errors);
         
         return Ok(new {message = "Registration Successful"});
@@ -79,7 +73,7 @@ public class AccountController : ControllerBase
     //passwords
     [Authorize]
     [HttpPut("change-password")]
-    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+    public async Task<IActionResult> ChangePassword([FromForm] ChangePasswordDto dto)
     {
         var result = await _authService.ChangePassword(User, dto.OldPassword, dto.NewPassword); // need sending email
         if(!result) return BadRequest("Something went wrong");
@@ -87,7 +81,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("forgot-password")]
-    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
+    public async Task<IActionResult> ForgotPassword([FromForm] ForgotPasswordDto dto)
     {
         await _authService.SendResetPasswordLink(dto.Email);
             

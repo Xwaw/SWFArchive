@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import { http, httpForm } from "../../../http";
 import type { QuerySearch } from "../types/ComponentsDto";
 
@@ -5,6 +6,7 @@ export class ArchiveService {
   async GetArchive(queryDto: QuerySearch) {
     try {
       const params = new URLSearchParams();
+      params.set("currentPage", String(queryDto.currentPage));
 
       if (queryDto.search) {
         params.append("search", queryDto.search);
@@ -37,9 +39,36 @@ export class ArchiveService {
     }
   }
 
+  async RateGame(id: string, rating: number) {
+    try {
+      const response = await http.put(`archive/game/rate`, { gameId: id, rating });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async GetGameData(id: string){
     try{
       const response = await http.get(`archive/data/${id}`);
+      return response.data;
+    }catch(error){
+      throw error;
+    }
+  }
+
+  async GetRandomGames(value: number){
+    try{
+      const response = await http.get(`archive/random/${value}`);
+      return response.data;
+    }catch(error){
+      throw error;
+    }
+  }
+
+  async GetTopGames(type: string){
+    try{
+      const response = await http.get(`archive/top/${type}`);
       return response.data;
     }catch(error){
       throw error;

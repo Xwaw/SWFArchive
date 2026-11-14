@@ -1,3 +1,4 @@
+import LoadingIndicator from "../../components/LoadingIndicator";
 import useOwnership from "../../features/authorization/hooks/UseOwnership";
 import { useParams } from "react-router-dom";
 import { GoBack } from "../../components/GoBack";
@@ -10,7 +11,7 @@ export default function ProfileEdit() {
   const { isOwner } = useOwnership(userId ?? "");
 
   if (isOwner === null) {
-    return <div>Loading...</div>;
+    return <div><LoadingIndicator /></div>;
   }
 
   if (isOwner === false) {

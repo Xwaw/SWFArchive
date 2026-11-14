@@ -1,0 +1,35 @@
+@media (max-width: 1023px) {
+  .archive-mobile-search {
+    font-size: clamp(16px, 2vw, 18px);
+    line-height: 1.5;
+  }
+
+  .archive-mobile-search h2 {
+    font-size: clamp(20px, 2.5vw, 24px);
+  }
+
+  .archive-mobile-search .text-sm {
+    font-size: inherit;
+  }
+
+  .archive-mobile-search input:not([type="checkbox"]),
+  .archive-mobile-search select {
+    min-height: 44px;
+    padding: 6px 8px;
+    font-size: 16px;
+  }
+
+  .archive-mobile-search button {
+    min-height: 44px;
+  }
+
+  .archive-mobile-search input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .archive-mobile-search label {
+    padding-block: 6px;
+  }
+}

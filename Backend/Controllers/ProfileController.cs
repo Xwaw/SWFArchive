@@ -25,12 +25,18 @@ public class ProfileController : ControllerBase
         return Ok(result);
     }
 
-    [Authorize]
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetProfile(Guid userId)
     {
         var result = await _profileService.GetProfileByUserId(userId);
         return Ok(result);
+    }
+
+    [HttpGet("by-username/{userName}")]
+    public async Task<IActionResult> GetProfileByUserName(string userName)
+    {
+        var result = await _profileService.GetProfileByUserName(userName);
+        return result == null ? NotFound() : Ok(result);
     }
 
     [Authorize]

@@ -1,0 +1,282 @@
+.archive-game-page {
+  min-height: 100vh;
+  background: #100b0b;
+}
+
+.archive-game-page > main {
+  padding-bottom: 24px;
+}
+
+.archive-game-stage {
+  --archive-game-floor-height: clamp(88px, 12vw, 152px);
+  --archive-game-floor-rise: 330px;
+  position: relative;
+  isolation: isolate;
+  padding-bottom: var(--archive-game-floor-height);
+  background:
+    radial-gradient(ellipse at 50% 38%, #641c1c55, transparent 48%),
+    radial-gradient(ellipse at 50% 72%, #5c182044, transparent 58%),
+    linear-gradient(180deg, #141414 0%, #1b1111 82%, #241010 100%);
+}
+
+.archive-game-stage::before {
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: calc(
+    var(--archive-game-floor-height) + var(--archive-game-floor-rise)
+  );
+  background:
+    radial-gradient(ellipse at 50% 0%, #ff0000aa, transparent 62%),
+    linear-gradient(180deg, #ff0000 0 3px, transparent 4px),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 79px,
+      #ff181899 80px 82px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 23px,
+      #ff181877 24px 26px
+    ),
+    linear-gradient(180deg, #720909, #210606);
+  box-shadow:
+    0 -3px 16px #ff0000cc,
+    inset 0 6px 16px #ff000066;
+  content: "";
+  transform: perspective(380px) rotateX(16deg);
+  transform-origin: top center;
+}
+
+.archive-game-stage::after {
+  position: absolute;
+  z-index: 1;
+  bottom: calc(
+    var(--archive-game-floor-height) + var(--archive-game-floor-rise) - 40px
+  );
+  left: 50%;
+  width: min(70%, 920px);
+  height: 56px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse, #000f 0%, #000d 42%, #0008 64%, transparent 82%);
+  content: "";
+  filter: blur(14px);
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.archive-game-stage > * {
+  position: relative;
+  z-index: 2;
+}
+
+.archive-game-navigation nav {
+  min-width: 720px;
+}
+
+.archive-game-thumbnail {
+  background: linear-gradient(#666, #c5c5c5 50%, #666);
+}
+
+.archive-game-thumbnail img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.archive-game-publisher {
+  background: linear-gradient(120deg, #291d17, #78523b);
+}
+
+.archive-game-publisher-info {
+  text-shadow: 1px 1px 2px #000;
+}
+
+.archive-game-publisher-info strong {
+  display: block;
+  overflow: hidden;
+  font: bold clamp(24px, 2.5vw, 48px) "Trebuchet MS", Arial, sans-serif;
+  text-overflow: ellipsis;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.archive-game-publisher-info p {
+  color: #ffb34e;
+  font-size: clamp(12px, 1.1vw, 21px);
+}
+
+.archive-game-publisher-avatar {
+  border: 5px solid;
+  border-color: #151515 #888 #888 #151515;
+  background: #353535;
+}
+
+.archive-game-publisher-avatar > span {
+  font-size: clamp(32px, 3.3vw, 64px);
+  text-shadow: 1px 1px 2px #000;
+}
+
+.archive-game-title-row {
+  position: relative;
+}
+
+.archive-game-title-row h1 {
+  grid-column: 2;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(24px, 4vw, 44px);
+  text-align: center;
+  text-shadow: 0 2px 3px #000b;
+}
+
+.archive-game-back-position {
+  position: absolute;
+  z-index: 40;
+  top: 0;
+  left: 14px;
+  transform: translateY(-50%);
+}
+
+.archive-game-back {
+  border: 3px solid #ed272f;
+}
+
+.archive-game-back:focus-visible {
+  outline: 3px solid #00a8df;
+  outline-offset: 3px;
+}
+
+.archive-game-content {
+  width: min(90%, 1200px);
+  margin-inline: auto;
+}
+
+.archive-game-player {
+  width: 100%;
+}
+
+.archive-game-cabinet {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.archive-game-cabinet-lower {
+  display: block;
+  width: min(100%, 1200px);
+  height: auto;
+}
+
+.archive-game-cabinet-header {
+  display: block;
+  width: min(95.7%, 1148px);
+  height: auto;
+  transform: translateX(0.7%);
+}
+
+.archive-game-screen-frame {
+  position: relative;
+  width: min(100%, 1200px);
+  aspect-ratio: 640 / 523;
+}
+
+.archive-game-screen-art {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.archive-game-player-window {
+  position: absolute;
+  top: 19%;
+  left: 13%;
+  width: 76%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+}
+
+@media (max-width: 1023px) {
+  .archive-game-thumbnail,
+  .archive-game-publisher {
+    width: 50%;
+  }
+
+  .archive-game-header-divider {
+    left: 50%;
+  }
+
+  .archive-game-publisher {
+    gap: 10px;
+    padding-right: 10px;
+  }
+
+  .archive-game-publisher-info strong {
+    font-size: clamp(22px, 3vw, 30px);
+  }
+
+  .archive-game-publisher-avatar {
+    width: clamp(72px, 9vw, 92px);
+  }
+
+  .archive-game-content {
+    width: calc(100% - 24px);
+  }
+}
+
+@media (max-width: 640px) {
+  .archive-game-banner {
+    height: 180px;
+  }
+
+  .archive-game-thumbnail {
+    width: 50%;
+  }
+
+  .archive-game-publisher {
+    width: 50%;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding-left: calc(16vw + 8px);
+  }
+
+  .archive-game-header-divider {
+    left: 50%;
+    width: 32%;
+  }
+
+  .archive-game-publisher-info strong {
+    font-size: clamp(18px, 3.5vw, 24px);
+  }
+
+  .archive-game-publisher-info p {
+    font-size: clamp(10px, 1.8vw, 12px);
+  }
+
+  .archive-game-publisher-avatar {
+    width: clamp(56px, 11vw, 72px);
+    border-width: 4px;
+  }
+
+  .archive-game-title-row {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .archive-game-back {
+    width: 44px;
+  }
+}

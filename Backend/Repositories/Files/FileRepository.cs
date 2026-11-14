@@ -47,4 +47,18 @@ public class FileRepository
         _context.Files.RemoveRange(files);
         await _context.SaveChangesAsync();
     }
+    
+    public async Task<string?> GetFileUrlAsync(
+        Guid ownerId,
+        FileOwnerType ownerType,
+        FileUsageType usageType)
+    {
+        return await _context.Files
+            .Where(f =>
+                f.OwnerId == ownerId &&
+                f.OwnerType == ownerType &&
+                f.UsageType == usageType)
+            .Select(f => f.Url)
+            .FirstOrDefaultAsync();
+    }
 }

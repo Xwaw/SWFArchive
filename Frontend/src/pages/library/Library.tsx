@@ -1,4 +1,5 @@
 import { useState } from "react";
+import LoadingIndicator from "../../components/LoadingIndicator";
 import ListItems from "../../components/ListItems";
 import LibraryGameItem from "../../features/library/components/LibraryGameItem";
 import useUserLibrary from "../../features/library/hooks/UseUserLibrary";
@@ -43,7 +44,7 @@ export default function Library() {
             <div className="h-screen">
               {isLibraryLoading ? (
                 <div>
-                  <div>{isLibraryLoading}</div>
+                  <LoadingIndicator />
                 </div>
               ) : isLibraryError ? (
                 <div>{isLibraryError}</div>

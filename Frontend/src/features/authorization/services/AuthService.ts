@@ -1,21 +1,15 @@
 import axios from "axios";
-import { http } from "../../../http";
-import type { AuthResult } from "../types/AuthTypes";
+import { http, httpForm } from "../../../http";
+import type { AuthResult, UserDto } from "../types/AuthTypes";
 
 const controller = "/" + "account";
 
 export class AuthService {
   async login(
-    email: string,
-    password: string,
-    rememberMe: boolean = false,
+    form: FormData
   ): Promise<AuthResult<void>> {
     try {
-      await http.post(`${controller}/login`, {
-        Email: email,
-        Password: password,
-        RememberMe: rememberMe,
-      });
+      await httpForm.post(`${controller}/login`, form);
 
       return { success: true };
     } catch (error) {
@@ -37,16 +31,10 @@ export class AuthService {
   }
 
   async register(
-    userName: string,
-    email: string,
-    password: string,
+    form: FormData
   ): Promise<AuthResult<void>> {
     try {
-      await http.put(`${controller}/register`, {
-        UserName: userName,
-        Email: email,
-        Password: password,
-      });
+      await httpForm.put(`${controller}/register`, form);
 
       return { success: true };
     } catch (error) {
@@ -83,9 +71,9 @@ export class AuthService {
     }
   }
 
-  async isLoggedIn(): Promise<AuthResult<boolean>> {
+  async getMe(): Promise<AuthResult<UserDto>> {
     try {
-      var result = await http.get(`${controller}/status`);
+      var result = await http.get(`${controller}/me`);
       return { success: true, data: result.data };
     } catch (error) {
       return { success: false, error: "Server error" };

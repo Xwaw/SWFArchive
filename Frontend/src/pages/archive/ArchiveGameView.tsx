@@ -1,19 +1,21 @@
 import { useParams } from "react-router-dom";
-import CommentSection from "../../features/comments/components/CommentSection";
 import ViewGame from "../../features/archive/components/View/ViewGame";
+import { useAuth } from "../../features/authorization/hooks/UseAuth";
+import NavigationHome from "../home/components/Header/NavigationHome";
+import "./archive-game-view.css";
 
 export default function ArchiveGameView() {
   const { id } = useParams();
+  const { user } = useAuth();
 
   return (
-    <div className="w-screen min-h-full bg-gray-500">
-      <div className="w-full h-full flex justify-center bg-blue-300">
-        <div className="w-2/3 flex flex-col p-5 bg-black gap-25">
-          <ViewGame gameId={id}></ViewGame>
-
-          <CommentSection targetId={id} targetType={0}></CommentSection>
-        </div>
+    <div className="archive-game-page min-h-screen text-[#f4e9e9] [color-scheme:dark] [font-family:Arial,sans-serif]">
+      <div className="archive-game-navigation overflow-x-auto bg-[#161616]">
+        <NavigationHome isLogged={!!user} />
       </div>
+      <main>
+        <ViewGame key={id} gameId={id} />
+      </main>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import LoadingIndicator from "../../../components/LoadingIndicator";
 import { useState } from "react";
 import ListItems from "../../../components/ListItems";
 import useFriendships from "../hooks/useFriendships";
@@ -15,7 +16,7 @@ export default function FriendsList({onFriendClick}: FriendListProps) {
   if(isLoading){
     return(
       <div>
-        ISLOADING...
+        <LoadingIndicator />
       </div>
     )
   }

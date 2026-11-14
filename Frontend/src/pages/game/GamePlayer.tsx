@@ -1,3 +1,4 @@
+import LoadingIndicator from "../../components/LoadingIndicator";
 import { useParams } from "react-router-dom";
 import GameScreen from "../../features/player/components/GameScreen";
 import { Config } from "../../Config";
@@ -13,7 +14,7 @@ export default function GamePlayer() {
   if(isLoading) {
     return(
       <div>
-        LOADING...
+        <LoadingIndicator />
       </div>
     )
   }

@@ -8,6 +8,12 @@ export type ProfileDto = {
     createdAt: string
 }
 
+export type ProfileSummaryDto = {
+    profileUserId: string;
+    profileTitle: string;
+    avatarUrl?: string | null;
+};
+
 export type UserStatusDto = {
     userId: string,
     userName: string,

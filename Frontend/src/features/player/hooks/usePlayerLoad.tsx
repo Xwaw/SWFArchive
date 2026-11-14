@@ -1,46 +1,36 @@
-import { isAxiosError } from "axios";
+﻿import { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { playerService } from "../services/playerService";
 
-export default function usePlayerLoad(gameId: string){
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    const [url, setUrl] = useState<string | null>();
+export default function usePlayerLoad(gameId: string, isArchiveGame = false) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [url, setUrl] = useState<string | null>(null);
 
-    const fetachLoadGame = async () => {
-        try{
-            const response = await playerService.getUrlGame(gameId);
-            setUrl(response);
-        }catch(error){
-            if(isAxiosError(error)){
-                const status = error.response?.status;
+  useEffect(() => {
+    let cancelled = false;
+    setIsLoading(true);
+    setError(null);
+    setUrl(null);
+    const load = async () => {
+      try {
+        if (!gameId) throw new Error("Missing game ID");
+        const response = isArchiveGame
+          ? await playerService.getArchiveGameUrl(gameId)
+          : await playerService.getUrlGame(gameId);
+        if (typeof response !== "string" || !response.trim()) throw new Error("Invalid game URL");
+        if (!cancelled) setUrl(response);
+      } catch (error) {
+        if (cancelled) return;
+        const status = isAxiosError(error) ? error.response?.status : undefined;
+        setError(status === 401 ? "Log in to play this game." : status === 404 ? "Game not found." : "Could not load the game.");
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    };
+    void load();
+    return () => { cancelled = true; };
+  }, [gameId, isArchiveGame]);
 
-                if(status === 500){
-                    setError("SERVER ERROR");
-                    return;
-                }
-                if(status === 404){
-                    setError("GAME NOT FOUND");
-                    return;
-                }
-                if(status === 401){
-                    setError("NOT AUTHORIZED");
-                    return;
-                }
-
-                setError("UKNOWN ERROR");
-                return;
-            }
-        }finally{
-            setIsLoading(false);
-        }
-    }
-
-    useEffect(() => {
-        fetachLoadGame();
-    }, [url])
-
-    return{
-        isLoading, error, url
-    }
+  return { isLoading, error, url };
 }

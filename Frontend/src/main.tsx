@@ -2,7 +2,6 @@ import { createRoot } from "react-dom/client";
 import "./css/index.css";
 import "./css/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
 import Archive from "./pages/archive/Archive";
 import UploadGameToArchive from "./pages/archive/UploadGame";
 import ArchiveGameView from "./pages/archive/ArchiveGameView";
@@ -12,27 +11,21 @@ import FriendsSelector from "./pages/profile/FriendsSelector";
 import GamePlayer from "./pages/game/GamePlayer";
 import Test from "./pages/Test";
 import AdminPanel from "./pages/admin/AdminPanel";
-import AuthorizationPanel from "./pages/autherization/AuthorizationPanel";
 import ProfileView from "./pages/profile/ProfileView";
-import { AuthOnly, AuthProvider, GuestOnly } from "./features/authorization/hooks/UseAuth";
+import { AuthProvider } from "./features/authorization/hooks/UseAuth";
 import ProfileEdit from "./pages/profile/ProfileEdit";
+import Home from "./pages/home/Home";
+import HallOfFame from "./pages/page/HallOfFame";
+import AboutPage from "./pages/page/AboutPage";
+import PageUpdates from "./pages/page/PageUpdates";
+import QnA from "./pages/page/QnA";
+import PrivacyPolicy from "./pages/page/PrivacyPolicy";
+import AboutMe from "./pages/page/AboutMe";
 
 createRoot(document.getElementById("root")!).render(
   <AuthProvider>
     <BrowserRouter>
       <Routes>
-        <Route element={<GuestOnly />}>
-          <Route path="/auth/login" element={<AuthorizationPanel mode="login"/>}></Route>
-          <Route path="/auth/register" element={<AuthorizationPanel mode="register"/>}></Route>
-          <Route path="/auth/forgot" element={<AuthorizationPanel mode="forgot"/>}></Route>
-          <Route path="/auth/reset" element={<AuthorizationPanel mode="reset"/>}></Route>
-          <Route path="/auth/info" element={<AuthorizationPanel mode="info"/>}/>
-        </Route>
-
-        <Route element={<AuthOnly />}>
-          <Route path="/auth/change" element={<AuthorizationPanel mode="change"/>}></Route>
-        </Route>
-
         <Route path="/profile/:userId" element={<ProfileView />}></Route>
         <Route path="/profile/edit/:userId" element={<ProfileEdit />}></Route>
 
@@ -53,6 +46,15 @@ createRoot(document.getElementById("root")!).render(
 
         <Route path="/sandbox" element={<Test />}></Route>
         <Route path="/admin" element={<AdminPanel />}></Route>
+
+        {/* ============ */}
+
+        <Route path="/about" element={<AboutPage/>}></Route>
+        <Route path="/myfavorites" element={<HallOfFame/>}></Route>
+        <Route path="/page/updates" element={<PageUpdates/>}></Route>
+        <Route path="/page/qna" element={<QnA/>}></Route>
+        <Route path="/privacy" element={<PrivacyPolicy/>}></Route>
+        <Route path="/contact" element={<AboutMe/>}></Route>
       </Routes>
     </BrowserRouter>
   </AuthProvider>

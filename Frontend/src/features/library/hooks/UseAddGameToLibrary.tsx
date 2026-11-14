@@ -5,6 +5,7 @@ import { libraryService } from "../services/LibraryService";
 export default function useAddGameToLibrary(gameId: string) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isAdded, setIsAdded] = useState(false);
 
   const addGameToLibrary = async () => {
     try {
@@ -12,6 +13,7 @@ export default function useAddGameToLibrary(gameId: string) {
       setError(null);
 
       await libraryService.AddToLibrary(gameId);
+      setIsAdded(true);
     } catch (error) {
       if (isAxiosError(error)) {
         const errorCode = error.response?.status;
@@ -35,6 +37,7 @@ export default function useAddGameToLibrary(gameId: string) {
 
   return {
     isLoading,
+    isAdded,
     error,
     addGameToLibrary,
   };

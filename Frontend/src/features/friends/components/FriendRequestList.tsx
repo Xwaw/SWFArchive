@@ -1,3 +1,4 @@
+import LoadingIndicator from "../../../components/LoadingIndicator";
 import ListItems from "../../../components/ListItems";
 import useUserRequest from "../hooks/useUserRequest";
 
@@ -7,7 +8,7 @@ export default function FriendRequestList() {
   console.log(requests);
 
   if (isLoading) {
-    return <div>LOADING..</div>;
+    return <div><LoadingIndicator /></div>;
   }
 
   if (error) {

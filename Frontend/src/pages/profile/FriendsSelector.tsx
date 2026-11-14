@@ -1,3 +1,4 @@
+import LoadingIndicator from "../../components/LoadingIndicator";
 import { useNavigate, useParams } from "react-router-dom";
 import FriendChatView from "../../features/friends/components/FriendChatView";
 import useOwnership from "../../features/authorization/hooks/UseOwnership";
@@ -10,7 +11,7 @@ export default function Friends() {
   const { isLoading, error, isOwner } = useOwnership(userId ?? "");
   const [selectedFriend, setSelectedFriend] = useState<string | null>(null);
 
-  if (isLoading) return <div>LOADING...</div>;
+  if (isLoading) return <div><LoadingIndicator /></div>;
 
   if (error) {
     return (

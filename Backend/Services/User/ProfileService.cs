@@ -37,6 +37,19 @@ public class ProfileService
     
         return await BuildProfile(userId, user.UserName!);
     }
+
+    public async Task<ProfileDto?> GetProfileByUserName(string userName)
+    {
+        if (string.IsNullOrWhiteSpace(userName))
+            return null;
+
+        var user = await _userManager.FindByNameAsync(userName.Trim());
+        if (user == null || !Guid.TryParse(user.Id, out var userId))
+            return null;
+
+        return await BuildProfile(userId, user.UserName!);
+    }
+
     public async Task<ProfileDto?> GetProfileByPrincipal(ClaimsPrincipal principal)
     {
         var user = await _userManager.GetUserAsync(principal);
@@ -72,8 +85,8 @@ public class ProfileService
             BackgroundUrl = backgroundTask.Result,
             Description = descriptionTask.Result,
             CreatedAt = createdAtTask.Result,
-            UserId = userId.ToString(),
-            UserName = username
+            ProfileUserId = userId.ToString(),
+            ProfileTitle = username
         };
     }
     

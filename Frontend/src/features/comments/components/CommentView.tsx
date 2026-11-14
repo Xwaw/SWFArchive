@@ -1,83 +1,46 @@
 import { useState } from "react";
+import Button from "../../../components/Buttons/Button";
+import { Config } from "../../../Config";
 import type { CommentDto } from "../types/models";
-
-interface CommentMessageProps {
+interface Props {
   className?: string;
   comment: CommentDto;
-  onUpdate?: (id: string, text: string) => void;
-  onDelete?: (id: string) => void;
+  disabled?: boolean;
+  onUpdate?: (id: string, text: string) => Promise<boolean>;
+  onDelete?: (id: string) => Promise<boolean>;
 }
-
-export default function CommentView({className,comment,onUpdate,onDelete}: CommentMessageProps) {
-  const [isEditMode, setEditMode] = useState(false);
-  const [draftText, setDraftText] = useState(comment.text);
-
-  const saveEdit = () => {
-    if (!draftText.trim()) return;
-    onUpdate?.(comment.commentId, draftText);
-    setEditMode(false);
+export default function CommentView({ className, comment, disabled, onUpdate, onDelete }: Props) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(comment.text);
+  const [pending, setPending] = useState(false);
+  const cancel = () => { setDraft(comment.text); setEditing(false); };
+  const save = async () => {
+    if (!draft.trim() || pending || !onUpdate) return;
+    setPending(true);
+    try { if (await onUpdate(comment.commentId, draft.trim())) setEditing(false); }
+    finally { setPending(false); }
   };
-
-  const cancelEdit = () => {
-    setDraftText(comment.text); 
-    setEditMode(false);
+  const remove = async () => {
+    if (pending || !onDelete) return;
+    setPending(true);
+    try { await onDelete(comment.commentId); } finally { setPending(false); }
   };
-
-  return (
-    <div className={className}>
-      <div className="w-full h-30 bg-gray-400 flex items-center">
-        <div className="h-full aspect-square bg-gray-200 p-2" />
-
-        <div className="w-full h-full bg-gray-500 p-2 flex-col gap-2">
-          <div className="w-full h-4/6 bg-gray-600 p-2">
-            {!isEditMode ? (
-              <p>{comment.text}</p>
-            ) : (
-              <textarea
-                className="w-full h-full resize-none border-2 border-black"
-                value={draftText}
-                onChange={(e) => setDraftText(e.target.value)}
-              />
-            )}
-          </div>
-
-          {comment.isOwner && (
-            <div className="w-full h-2/6 bg-gray-800 p-2 flex justify-end gap-2">
-              {!isEditMode ? (
-                <>
-                  <button
-                    onClick={() => setEditMode(true)}
-                    className="w-30 bg-lime-900 hover:bg-lime-600"
-                  >
-                    EDIT
-                  </button>
-                  <button
-                    onClick={() => onDelete?.(comment.commentId)}
-                    className="w-30 bg-red-900 hover:bg-red-600"
-                  >
-                    DELETE
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={cancelEdit}
-                    className="w-30 bg-red-900 hover:bg-red-600"
-                  >
-                    CANCEL
-                  </button>
-                  <button
-                    onClick={saveEdit}
-                    className="w-30 bg-lime-900 hover:bg-lime-600"
-                  >
-                    SAVE
-                  </button>
-                </>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
+  return <article className={"comment-card " + (className ?? "")}>
+    <div className="comment-avatar">
+      {comment.avatarUrl ? <img src={/^https?:\/\//.test(comment.avatarUrl) ? comment.avatarUrl : Config.API_URL + comment.avatarUrl} alt={comment.author} /> : <span>{comment.author?.slice(0, 2).toUpperCase() || "?"}</span>}
     </div>
-  );
+    <div className="comment-content">
+      <header className="comment-meta"><strong>{comment.author}</strong><time dateTime={comment.createdAt}>{new Date(comment.createdAt).toLocaleDateString()}</time></header>
+      {editing ? <textarea aria-label="Edit comment" value={draft} disabled={pending} onChange={(e) => setDraft(e.target.value)} /> : <p className="comment-text">{comment.text}</p>}
+      {comment.isOwner && <div className="comment-actions">
+        {editing ? <>
+          <Button style="bar" tone="red" width="90px" height="32px" disabled={pending || disabled} onClick={cancel}>Cancel</Button>
+          <Button style="bar" tone="green" width="90px" height="32px" disabled={pending || disabled || !draft.trim()} onClick={() => void save()}>Save</Button>
+        </> : <>
+          <Button style="bar" tone="purple" width="90px" height="32px" disabled={pending || disabled} onClick={() => { setDraft(comment.text); setEditing(true); }}>Edit</Button>
+          <Button style="bar" tone="red" width="90px" height="32px" disabled={pending || disabled} onClick={() => void remove()}>Delete</Button>
+        </>}
+      </div>}
+    </div>
+  </article>;
 }

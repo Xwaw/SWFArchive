@@ -1,3 +1,4 @@
+import LoadingIndicator from "../../components/LoadingIndicator";
 import AboutMeSection from "../../features/profile/components/sections/AboutMeSection";
 import Banner from "../../features/profile/components/Banner";
 import UserStatusSection from "../../features/profile/components/sections/UserStatusSection";
@@ -16,7 +17,7 @@ export default function ProfileView() {
   const { profile, isLoading, error } = useProfile(userId ?? "");
 
   if (isLoading) { // same here
-    return <div className="text-white">Loading...</div>;
+    return <div className="text-white"><LoadingIndicator /></div>;
   }
 
   if (error) { // test if it works, then need to create a separate component

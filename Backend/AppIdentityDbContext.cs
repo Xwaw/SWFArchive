@@ -26,6 +26,8 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
     public DbSet<FriendRequest> FriendRequests { get; set; }
     public DbSet<SessionRoom> SessionRooms { get; set; }
     
+    public DbSet<GameRate> GameRates { get; set; }
+    
     public DbSet<Badge> Badges { get; set; }
     
     public DbSet<UserBadge> UserBadges { get; set; }
@@ -86,6 +88,22 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
         
         builder.Entity<UserBadge>()
             .HasIndex(x => new { x.UserId, x.BadgeId })
+            .IsUnique();
+        
+        builder.Entity<GameRate>()
+            .HasOne(r => r.Game)
+            .WithMany(g => g.Ratings)
+            .HasForeignKey(r => r.GameId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<GameRate>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(r => r.RaterId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<GameRate>()
+            .HasIndex(r => new { r.GameId, r.RaterId })
             .IsUnique();
     }
 }

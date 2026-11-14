@@ -12,7 +12,12 @@ public class GameArchive
     public string Title { get; set; }
 
     [Required]
-    public string AuthorName { get; set; }
+    public string AuthorName { get; set; } = null!;
+
+    [Required]
+    public string PublisherId { get; set; } = null!;
+
+    public User.User Publisher { get; set; } = null!;
 
     public string? Description { get; set; }
 
@@ -30,11 +35,11 @@ public class GameArchive
     
     public DateTime CreatedAt { get; set; }
     
-    public required string OwnerId { get; set; }
-    
     public ICollection<GameTag> GameTags { get; set; } = new HashSet<GameTag>();
     
     public ICollection<UserGame> UserGames { get; set; } = new List<UserGame>();
     
     public ICollection<BadgeEntity.Badge> Badges { get; set; } = new List<BadgeEntity.Badge>();
+    
+    public ICollection<GameRate> Ratings { get; set; } = new List<GameRate>();
 }

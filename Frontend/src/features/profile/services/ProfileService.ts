@@ -1,6 +1,6 @@
 import axios from "axios";
 import { http, httpForm } from "../../../http";
-import type { ProfileDto } from "../types/models";
+import type { ProfileDto, ProfileSummaryDto } from "../types/models";
 
 export class ProfileService {
   async getMyProfile(): Promise<ProfileDto | undefined>{
@@ -24,6 +24,26 @@ export class ProfileService {
         if(error.response?.status === 500)
           console.log("server error");
       }
+    }
+  }
+
+  async getProfileSummary(userId: string): Promise<ProfileSummaryDto | null> {
+    const response = await http.get<ProfileSummaryDto | null>(`profile/${userId}`);
+    return response.data;
+  }
+
+  async getProfileSummaryByUserName(userName: string): Promise<ProfileSummaryDto | null> {
+    try {
+      const response = await http.get<ProfileSummaryDto>(
+        `profile/by-username/${encodeURIComponent(userName)}`,
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        return null;
+      }
+
+      throw error;
     }
   }
 

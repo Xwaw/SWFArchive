@@ -133,7 +133,7 @@ public class ArchiveService
             UpdatedAt = DateTime.UtcNow,
             CreatedAt = dto.CreatedAt,
             AuthorName = dto.Author,
-            OwnerId = user.Id
+            PublisherId = user.Id
         };
 
         await _archiveRepository.AddArchiveAsync(game);
@@ -160,29 +160,71 @@ public class ArchiveService
         }
     }
 
-    public async Task<GameInfoDto?> GetGameInfo(Guid gameGuid, ClaimsPrincipal principal)
-    {
-        var gameArchive = await _archiveRepository.GetArchiveGame(gameGuid);
-        if (gameArchive == null)
-            return null;
-        
-        var tags = await _archiveRepository.GetGameTags(gameGuid);
-        var thumbnail = _archiveRepository.GetGameThumbnail(gameGuid);
-
-        bool isOwner;
-        bool isInLibrary;
-        
+    
+    public async Task RateGame(ClaimsPrincipal principal, GameRateDto dto){
         var user = await _userManager.GetUserAsync(principal);
         if (user == null)
+            throw new UnauthorizedAccessException("User not found.");
+        
+        var rating = await _context.GameRates.SingleOrDefaultAsync(
+            g => g.GameId == dto.GameId
+                 && g.RaterId == user.Id);
+
+        if (rating is null)
         {
-            isOwner = false;
-            isInLibrary = false;
+            _context.GameRates.Add(new GameRate
+            {
+                Rate = dto.Rating,
+                RaterId = user.Id,
+                GameId = dto.GameId
+            });
         }
         else
         {
-            isOwner = gameArchive.OwnerId == user.Id;
-            isInLibrary = gameArchive.UserGames.Any(g => g.UserId == user.Id);
+            rating.Rate = dto.Rating;
         }
+
+        await _context.SaveChangesAsync();
+    }
+    
+    public async Task<GameInfoDto?> GetGameInfo(
+        Guid gameGuid,
+        ClaimsPrincipal principal)
+    {
+        var gameArchive = await _archiveRepository.GetArchiveGame(gameGuid);
+
+        if (gameArchive == null)
+            return null;
+
+        var tags = await _archiveRepository.GetGameTags(gameGuid);
+        var thumbnail = _archiveRepository.GetGameThumbnail(gameGuid);
+
+        var user = await _userManager.GetUserAsync(principal);
+
+        bool isOwner = user != null &&
+                       gameArchive.PublisherId == user.Id;
+
+        bool isInLibrary = false;
+        int? userRating = null;
+
+        if (user != null)
+        {
+            isInLibrary = await _context.Set<UserGame>()
+                .AnyAsync(g =>
+                    g.GameId == gameGuid &&
+                    g.UserId == user.Id);
+
+            userRating = await _context.GameRates
+                .Where(g =>
+                    g.GameId == gameGuid &&
+                    g.RaterId == user.Id)
+                .Select(g => (int?)g.Rate)
+                .SingleOrDefaultAsync();
+        }
+
+        var ratingAverage = await _context.GameRates
+            .Where(g => g.GameId == gameGuid)
+            .AverageAsync(g => (float?)g.Rate) ?? 0;
 
         return new GameInfoDto
         {
@@ -190,13 +232,109 @@ public class ArchiveService
             AuthorName = gameArchive.AuthorName,
             Description = gameArchive.Description,
             ThumbnailUrl = thumbnail,
-            StarsRated = gameArchive.RatingAverage,
+            StarsRated = ratingAverage,
+            UserRating = userRating,
             PlaysCount = gameArchive.PlaysCount,
-            Uploaded = gameArchive.CreatedAt,
+            Uploaded = gameArchive.UploadedAt,
             Modified = gameArchive.UpdatedAt,
             Tags = tags,
+            PublisherId = gameArchive.PublisherId,
             IsOwner = isOwner,
             IsInLibrary = isInLibrary
         };
+    }
+
+    public async Task<string?> GetGameFileUrl(Guid gameGuid)
+    {
+        return await _context.ArchiveGames
+            .Where(game => game.Id == gameGuid)
+            .Join(
+                _context.Files,
+                game => game.Id,
+                file => file.OwnerId,
+                (_, file) => file)
+            .Where(file =>
+                file.OwnerType == FileOwnerType.Archive &&
+                file.UsageType == FileUsageType.FlashFile)
+            .Select(file => file.Url)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<List<ArchiveGameCardDto>> GetRandomGames(int value)
+    {
+        var games = await _context.ArchiveGames
+            .OrderBy(g => EF.Functions.Random())
+            .Take(value)
+            .ToListAsync();
+
+        var result = await Task.WhenAll(
+            games.Select(async g => new ArchiveGameCardDto
+            {
+                Id = g.Id,
+                AuthorName = g.AuthorName,
+                PlaysCount = g.PlaysCount,
+                RatingAverage = g.RatingAverage,
+                ThumbnailUrl = await _fileRepository.GetFileUrlAsync(
+                    g.Id,
+                    FileOwnerType.Archive,
+                    FileUsageType.Thumbnail
+                ),
+                Title = g.Title,
+                Uploaded = g.UploadedAt
+            })
+        );
+
+        return result.ToList();
+    }
+    public async Task<List<ArchiveGameCardDto>> GetTopGames(string type)
+    {
+        var now = DateTime.UtcNow;
+        var today = now.Date;
+
+        var query = _context.ArchiveGames.AsNoTracking();
+
+        query = type.ToLowerInvariant() switch
+        {
+            "today" => query.Where(g =>
+                g.UploadedAt >= today &&
+                g.UploadedAt < today.AddDays(1)),
+
+            "month" => query.Where(g =>
+                g.UploadedAt >= new DateTime(now.Year, now.Month, 1) &&
+                g.UploadedAt < new DateTime(now.Year, now.Month, 1).AddMonths(1)),
+
+            "year" => query.Where(g =>
+                g.UploadedAt >= new DateTime(now.Year, 1, 1) &&
+                g.UploadedAt < new DateTime(now.Year + 1, 1, 1)),
+
+            "overall" => query,
+
+            _ => throw new ArgumentException("Invalid ranking type")
+        };
+
+        var games = await query
+            .OrderByDescending(g => g.RatingAverage)
+            .ThenByDescending(g => g.PlaysCount)
+            .Take(10)
+            .ToListAsync();
+
+        var result = await Task.WhenAll(
+            games.Select(async g => new ArchiveGameCardDto
+            {
+                Id = g.Id,
+                AuthorName = g.AuthorName,
+                PlaysCount = g.PlaysCount,
+                RatingAverage = g.RatingAverage,
+                ThumbnailUrl = await _fileRepository.GetFileUrlAsync(
+                    g.Id,
+                    FileOwnerType.Archive,
+                    FileUsageType.Thumbnail
+                ),
+                Title = g.Title,
+                Uploaded = g.UploadedAt
+            })
+        );
+
+        return result.ToList();
     }
 }

@@ -18,13 +18,25 @@ export interface GameView {
   id: string;
   title: string;
   authorName: string;
+  publisherId: string;
   thumbnailUrl: string;
   description: string;
   starsRated: number;
+  userRating?: number | null;
   playsCount: number;
   uploaded: string;
   modified: string;
   tags: string[];
   isOwner: boolean,
   isInLibrary: boolean
+}
+
+export interface ArchiveGameDto{
+  id: string,
+  title: string,
+  authorName: string,
+  thumbnailUrl?: string,
+  ratingAverage: number,
+  playsCount: number,
+  uploaded: string
 }

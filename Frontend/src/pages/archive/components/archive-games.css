@@ -1,0 +1,98 @@
+.archive-games {
+  min-height: 320px;
+  border: 2px solid;
+  border-color: #701719 #f47777 #f47777 #701719;
+  border-radius: 0;
+  background: #bc292c;
+  box-shadow:
+    inset 5px 5px 12px rgb(55 5 7 / 55%),
+    inset -2px -2px 6px rgb(255 151 151 / 22%);
+}
+
+.archive-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 0 0 8px;
+  color: #fff0e5;
+  font-family: Verdana, sans-serif;
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 1px 2px 2px #701719;
+}
+
+.archive-search-summary {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .archive-section-title > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .archive-title-label,
+  .archive-search-summary {
+    background: linear-gradient(to bottom, #ffffff 0%, #000000 42%, rgb(255, 0, 0) 72%, rgb(255, 0, 0) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-stroke: 0.5px rgb(255 255 255 / 95%);
+    paint-order: stroke fill;
+    text-shadow: none;
+  }
+
+  .archive-title-label {
+    display: block;
+  }
+
+  .archive-search-summary {
+    display: block;
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    margin: 6px auto 0;
+    background-image: linear-gradient(to bottom, #3a3a3a 0%, rgb(255, 0, 0) 100%);
+    -webkit-text-stroke: 1px #000000;
+    text-decoration: none;
+    font-size: 0.58em;
+    font-weight: 600;
+    letter-spacing: normal;
+  }
+
+  .archive-search-summary::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    height: 3px;
+    box-sizing: border-box;
+    border: 1px solid #000000;
+    background: rgb(255, 0, 0);
+  }
+}
+
+.archive-section-title::before,
+.archive-section-title::after {
+  content: "";
+  flex: 1;
+  max-width: 160px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #f79292);
+}
+
+.archive-section-title::after {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 1023px) {
+  .archive-games-list > div {
+    container-type: inline-size;
+    --game-card-author-size: clamp(18px, 6cqi, 28px);
+    --game-card-title-size: clamp(16px, 5cqi, 22px);
+  }
+}

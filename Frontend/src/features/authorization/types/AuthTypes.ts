@@ -11,10 +11,24 @@ export type AccountResult<T> = {
 };
 
 export type UserDto = {
-  Id: string;
-  UserName: string;
-  Email: string;
+  id: string;
+  userName: string;
+  email: string;
+  emailConfirmed: boolean;
+  profile: ProfileDto | null;
 };
+
+export type ProfileDto = {
+  profileUserId: string,
+  profileTitle: string,
+  avatarUrl?: string,
+  bannerUrl?: string,
+  backgroundUrl?: string,
+  description?: string,
+  profileStatus: string,
+  badgeViewUrl: string,
+  createdAt: string
+}
 
 export interface AuthFormProps {
   OnSuccess: () => void;

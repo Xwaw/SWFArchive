@@ -11,8 +11,10 @@ export function useComments(targetId: string, targetType: number){
             setError(null);
 
             await commentService.add(text, targetType, targetId);
+            return true;
         }catch(error){
-            setError("Failed to add comment.")
+            setError("Failed to add comment.");
+            return false;
         }finally{
             setIsSending(false);
         }
@@ -24,8 +26,10 @@ export function useComments(targetId: string, targetType: number){
             setError(null);
 
             await commentService.edit(text, commentId);
+            return true;
         }catch(error){
-            setError("Failed to edit comment.")
+            setError("Failed to edit comment.");
+            return false;
         }finally{
             setIsSending(false);
         }
@@ -37,8 +41,10 @@ export function useComments(targetId: string, targetType: number){
             setError(null);
 
             await commentService.delete(commentId);
+            return true;
         }catch(error){
-            setError("Failed to delete comment.")
+            setError("Failed to delete comment.");
+            return false;
         }finally{
             setIsSending(false);
         }

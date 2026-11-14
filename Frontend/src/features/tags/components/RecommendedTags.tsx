@@ -1,3 +1,4 @@
+import LoadingIndicator from "../../../components/LoadingIndicator";
 import useRecommendedTags from "../hooks/UseRecommendedTag";
 import type { RecommendedTagsProps } from "../types/props";
 
@@ -7,7 +8,7 @@ export default function RecommendedTags({ query, onSelectTag }: RecommendedTagsP
   if (!query.trim()) return null;
 
   if (isLoading) {
-    return <div>Searching...</div>;
+    return <div><LoadingIndicator /></div>;
   }
 
   if (error) {
